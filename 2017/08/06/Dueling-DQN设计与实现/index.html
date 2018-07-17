@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Dueling DQN设计与实现 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="RL,TensorFlow,Python">
+    <meta name="description" content="本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dueling DQN设计与实现">
+<meta property="og:url" content="http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-2.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-3.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-4.png">
+<meta property="og:updated_time" content="2017-08-06T03:18:09.328Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dueling DQN设计与实现">
+<meta name="twitter:description" content="本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Dueling DQN设计与实现</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Dueling DQN设计与实现</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-06T02:34:09.000Z" itemprop="datePublished" class="page-time">
+  2017-08-06
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-Dueling-DQN设计与实现"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Dueling DQN设计与实现</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年08月06日 10:34" datetime="2017-08-06T02:34:09.000Z"  itemprop="datePublished">2017-08-06</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：<br><a id="more"></a><br>Dueling DQN将DQN中神经网络的中间层拆分成两个网络，一个为<code>Value</code>，一个为<code>Advantage</code>，然后将两个网络的值相加得到最终的网络的输出。<br>网络结构如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-6-1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>在Dueling DQN中，神经网络的输出由下面的公式确定：<br>$$<br>Q(s,a;\theta,\alpha,\beta) = V(s;\theta,\beta)+A(s,a;\theta,\alpha)<br>$$</p>
+<p>下面介绍Dueling DQN的具体实现过程：</p>
+<p>用到的库如下：<br>Python：3.5.3<br>TensorFlow：1.0.1<br>gym：0.8.1</p>
+<p>本文依旧用到<code>gym</code>中的<code>CartPole-v0</code>来完成算法。</p>
+<p>代码大部分与DQN的代码相似，只是建立网络模型的部分不同，神将网络结构设计的代码部分如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_build_net</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build_layers</span><span class="params">(s, c_names, n_l1, w_initializer, b_initializer)</span>:</span></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'l1'</span>):</div><div class="line">            w1 = tf.get_variable(<span class="string">'w1'</span>, [self.n_features, n_l1], initializer=w_initializer, collections=c_names)</div><div class="line">            b1 = tf.get_variable(<span class="string">'b1'</span>, [<span class="number">1</span>, n_l1], initializer=b_initializer, collections=c_names)</div><div class="line">            l1 = tf.nn.relu(tf.matmul(s, w1) + b1)</div><div class="line"></div><div class="line">        <span class="comment"># Dueling DQN</span></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'Value'</span>):</div><div class="line">            w2 = tf.get_variable(<span class="string">'w2'</span>, [n_l1, <span class="number">1</span>], initializer=w_initializer, collections=c_names)</div><div class="line">            b2 = tf.get_variable(<span class="string">'b2'</span>, [<span class="number">1</span>, <span class="number">1</span>], initializer=b_initializer, collections=c_names)</div><div class="line">            self.V = tf.matmul(l1, w2) + b2</div><div class="line"></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'Advantage'</span>):</div><div class="line">            w2 = tf.get_variable(<span class="string">'w2'</span>, [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)</div><div class="line">            b2 = tf.get_variable(<span class="string">'b2'</span>, [<span class="number">1</span>, self.n_actions], initializer=b_initializer, collections=c_names)</div><div class="line">            self.A = tf.matmul(l1, w2) + b2</div><div class="line"></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'Q'</span>):</div><div class="line">            out = self.V + (self.A - tf.reduce_mean(self.A, axis=<span class="number">1</span>, keep_dims=<span class="keyword">True</span>))</div><div class="line">            <span class="comment"># Q = V(s) + A(s,a)</span></div><div class="line"></div><div class="line">        <span class="keyword">return</span> out</div></pre></td></tr></table></figure></p>
+<p>其他部分的代码与DQN中的代码基本相似。</p>
+<p>最终运行程序可以得到如下的损失函数：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-6-2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>Dueling DQN的网络结构如下图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-6-3.png" alt="Dueling DQN网络结构" title="">
+                </div>
+                <div class="image-caption">Dueling DQN网络结构</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-6-4.png" alt="DQN网络结构" title="">
+                </div>
+                <div class="image-caption">DQN网络结构</div>
+            </figure>
+<p>从结构图中可以看到，Dueling DQN中将DQN中的<code>l2</code>节点改变成了<code>Advantage</code>,<code>Value</code>和<code>Q</code>三个结构。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-7-dueling-DQN/" target="_blank" rel="external">Dueling DQN (Tensorflow)</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-08-06T03:18:09.328Z" itemprop="dateUpdated">2017年8月6日 11:18</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/08/06/Dueling-DQN设计与实现/" target="_blank" rel="external">http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RL/">RL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/&title=《Dueling DQN设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/&title=《Dueling DQN设计与实现》 — 背着翅膀流浪&source=本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Dueling DQN设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/13/MathJax的基本用法/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">MathJax的基本用法</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/07/22/Double-DQN设计与实现/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Double DQN设计与实现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<div class="comments" id="comments">
+    <div class="ds-thread" data-thread-key="Dueling-DQN设计与实现" data-title="Dueling DQN设计与实现" data-url="http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/"></div>
+</div>
+<script>
+lazyScripts.push('//cdn.bootcss.com/marked/0.3.6/marked.min.js');
+
+var duoshuoQuery = {short_name:'ysblog', theme: 'none'};
+lazyScripts.push('//unpkg.com/hexo-theme-material-indigo@1.5.2/js/embed.min.js');
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/&title=《Dueling DQN设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/&title=《Dueling DQN设计与实现》 — 背着翅膀流浪&source=本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Dueling DQN设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

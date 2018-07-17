@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Policy Gradients设计与实现 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="RL,TensorFlow,Python">
+    <meta name="description" content="本文主要介绍强化学习中Policy Gradients算法的设计与实现过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Policy Gradients设计与实现">
+<meta property="og:url" content="http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="本文主要介绍强化学习中Policy Gradients算法的设计与实现过程。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-6-29-1.png">
+<meta property="og:updated_time" content="2017-06-29T13:01:09.776Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Policy Gradients设计与实现">
+<meta name="twitter:description" content="本文主要介绍强化学习中Policy Gradients算法的设计与实现过程。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-6-29-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Policy Gradients设计与实现</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Policy Gradients设计与实现</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-29T12:12:11.000Z" itemprop="datePublished" class="page-time">
+  2017-06-29
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-Policy-Gradients设计与实现"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Policy Gradients设计与实现</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年06月29日 20:12" datetime="2017-06-29T12:12:11.000Z"  itemprop="datePublished">2017-06-29</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>本文主要介绍强化学习中Policy Gradients算法的设计与实现过程。<br><a id="more"></a><br>跟上一篇介绍DQN的文章类似，本文也是基于gym环境和TensorFlow来实现来实现Policy Gradients算法，用到的环境也是CartPole-v0的立杆子的环境。具体Policy Gradients的算法过程可以参考之前的文章，今天主要介绍算法的实现过程。</p>
+<p>代码同样分为两部分，首先是建立Policy Gradients更新过程，然后建立CartPole-v0环境并对模型进行训练。</p>
+<p>涉及的主要模块版本号：<br>Python：3.5.3<br>TensorFlow：1.0.1<br>gym：0.8.1</p>
+<p>首先建立Policy Gradients模型。<br>导入模块和一些初始设置：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line"><span class="comment"># reproducible</span></div><div class="line">np.random.seed(<span class="number">1</span>)</div><div class="line">tf.set_random_seed(<span class="number">1</span>)</div></pre></td></tr></table></figure></p>
+<p>然后定义PolicyGradient类：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PolicyGradient</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(</span></span></div><div class="line">            self,</div><div class="line">            n_actions,</div><div class="line">            n_features,</div><div class="line">            learning_rate=<span class="number">0.01</span>,</div><div class="line">            reward_decay=<span class="number">0.95</span>,</div><div class="line">            output_graph=False,</div><div class="line">    ):</div><div class="line">        self.n_actions = n_actions</div><div class="line">        self.n_features = n_features</div><div class="line">        self.lr = learning_rate</div><div class="line">        self.gamma = reward_decay</div><div class="line"></div><div class="line">        self.ep_obs, self.ep_as, self.ep_rs = [], [], []</div><div class="line"></div><div class="line">        self._build_net()</div><div class="line"></div><div class="line">        self.sess = tf.Session()</div><div class="line"></div><div class="line">        <span class="keyword">if</span> output_graph:</div><div class="line">            <span class="comment"># $ tensorboard --logdir=logs</span></div><div class="line">            <span class="comment"># http://0.0.0.0:6006/</span></div><div class="line">            <span class="comment"># tf.train.SummaryWriter soon be deprecated, use following</span></div><div class="line">            tf.summary.FileWriter(<span class="string">"logs/"</span>, self.sess.graph)</div><div class="line"></div><div class="line">        self.sess.run(tf.global_variables_initializer())</div></pre></td></tr></table></figure></p>
+<p>然后建立网络模型，与DQN的模型类似，在输入和输出之间添加了一个10个隐藏节点的隐藏层。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_build_net</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">with</span> tf.name_scope(<span class="string">'inputs'</span>):</div><div class="line">        self.tf_obs = tf.placeholder(tf.float32, [<span class="keyword">None</span>, self.n_features], name=<span class="string">"observations"</span>)</div><div class="line">        self.tf_acts = tf.placeholder(tf.int32, [<span class="keyword">None</span>, ], name=<span class="string">"actions_num"</span>)</div><div class="line">        self.tf_vt = tf.placeholder(tf.float32, [<span class="keyword">None</span>, ], name=<span class="string">"actions_value"</span>)</div><div class="line">    <span class="comment"># fc1</span></div><div class="line">    layer = tf.layers.dense(</div><div class="line">        inputs=self.tf_obs,</div><div class="line">        units=<span class="number">10</span>,</div><div class="line">        activation=tf.nn.tanh,  <span class="comment"># tanh activation</span></div><div class="line">        kernel_initializer=tf.random_normal_initializer(mean=<span class="number">0</span>, stddev=<span class="number">0.3</span>),</div><div class="line">        bias_initializer=tf.constant_initializer(<span class="number">0.1</span>),</div><div class="line">        name=<span class="string">'fc1'</span></div><div class="line">    )</div><div class="line">    <span class="comment"># fc2</span></div><div class="line">    all_act = tf.layers.dense(</div><div class="line">        inputs=layer,</div><div class="line">        units=self.n_actions,</div><div class="line">        activation=<span class="keyword">None</span>,</div><div class="line">        kernel_initializer=tf.random_normal_initializer(mean=<span class="number">0</span>, stddev=<span class="number">0.3</span>),</div><div class="line">        bias_initializer=tf.constant_initializer(<span class="number">0.1</span>),</div><div class="line">        name=<span class="string">'fc2'</span></div><div class="line">    )</div><div class="line"></div><div class="line">    self.all_act_prob = tf.nn.softmax(all_act, name=<span class="string">'act_prob'</span>)  <span class="comment"># use softmax to convert to probability</span></div><div class="line"></div><div class="line">    <span class="keyword">with</span> tf.name_scope(<span class="string">'loss'</span>):</div><div class="line">        <span class="comment"># to maximize total reward (log_p * R) is to minimize -(log_p * R), and the tf only have minimize(loss)</span></div><div class="line">        neg_log_prob = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=all_act, labels=self.tf_acts)   <span class="comment"># this is negative log of chosen action</span></div><div class="line">        <span class="comment"># or in this way:</span></div><div class="line">        <span class="comment"># neg_log_prob = tf.reduce_sum(-tf.log(self.all_act_prob)*tf.one_hot(self.tf_acts, self.n_actions), axis=1)</span></div><div class="line">        loss = tf.reduce_mean(neg_log_prob * self.tf_vt)  <span class="comment"># reward guided loss</span></div><div class="line"></div><div class="line">    <span class="keyword">with</span> tf.name_scope(<span class="string">'train'</span>):</div><div class="line">        self.train_op = tf.train.AdamOptimizer(self.lr).minimize(loss)</div></pre></td></tr></table></figure></p>
+<p>然后建立动作选择函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, observation)</span>:</span></div><div class="line">    prob_weights = self.sess.run(self.all_act_prob, feed_dict=&#123;self.tf_obs: observation[np.newaxis, :]&#125;)</div><div class="line">    action = np.random.choice(range(prob_weights.shape[<span class="number">1</span>]), p=prob_weights.ravel())  <span class="comment"># select action w.r.t the actions prob</span></div><div class="line">    <span class="keyword">return</span> action</div></pre></td></tr></table></figure></p>
+<p>代码中，在运行网络模型得到动作的权重之前，需要注意一点，就是要将状态值<code>observation</code>添加一个维度再传递给TensorFlow的网络模型中。<code>np.random.choice</code>可以根据<code>p</code>参数给出的概率来选择动作。</p>
+<p>然后建立状态存储函数，用来存储状态值，动作值，和奖励值：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">store_transition</span><span class="params">(self, s, a, r)</span>:</span></div><div class="line">    self.ep_obs.append(s)</div><div class="line">    self.ep_as.append(a)</div><div class="line">    self.ep_rs.append(r)</div></pre></td></tr></table></figure></p>
+<p>Policy Gradients不需要存储动作的下一个状态值是因为算法在更新的时候直接使用一组完整的状态动作值对，每次学习时前后的状态本身就是有联系的，并不像DQN中采用随机采样的方法来实现。</p>
+<p>然后建立学习函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="comment"># discount and normalize episode reward</span></div><div class="line">    discounted_ep_rs_norm = self._discount_and_norm_rewards()</div><div class="line"></div><div class="line">    <span class="comment"># train on episode</span></div><div class="line">    self.sess.run(self.train_op, feed_dict=&#123;</div><div class="line">            self.tf_obs: np.vstack(self.ep_obs),  <span class="comment"># shape=[None, n_obs]</span></div><div class="line">            self.tf_acts: np.array(self.ep_as),  <span class="comment"># shape=[None, ]</span></div><div class="line">            self.tf_vt: discounted_ep_rs_norm,  <span class="comment"># shape=[None, ]</span></div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    self.ep_obs, self.ep_as, self.ep_rs = [], [], []    <span class="comment"># empty episode data</span></div><div class="line">    <span class="keyword">return</span> discounted_ep_rs_norm</div></pre></td></tr></table></figure></p>
+<p>每次学习完成之后需要清空存储空间一边下一次训练时从新保存新的状态动作值。<br>在学习之前需要将奖励值正则化，因此还需要建立奖励值正则化的函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_discount_and_norm_rewards</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="comment"># discount episode rewards</span></div><div class="line">    discounted_ep_rs = np.zeros_like(self.ep_rs)</div><div class="line">    running_add = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> reversed(range(<span class="number">0</span>, len(self.ep_rs))):</div><div class="line">        running_add = running_add * self.gamma + self.ep_rs[t]</div><div class="line">        discounted_ep_rs[t] = running_add</div><div class="line"></div><div class="line">    <span class="comment"># normalize episode rewards</span></div><div class="line">    discounted_ep_rs -= np.mean(discounted_ep_rs)</div><div class="line">    discounted_ep_rs /= np.std(discounted_ep_rs)</div><div class="line">    <span class="keyword">return</span> discounted_ep_rs</div></pre></td></tr></table></figure></p>
+<p>到此，Policy Gradients的模型已经建立完成。下面就需要导入gym环境对模型进行训练。</p>
+<p>同样也需要导入涉及的模块<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> gym</div><div class="line"><span class="keyword">from</span> PolicyGradients <span class="keyword">import</span> PolicyGradient</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div></pre></td></tr></table></figure></p>
+<p>然后设置一些基本的参数并导入CartPole-v0环境<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">DISPLAY_REWARD_THRESHOLD = <span class="number">400</span>  <span class="comment"># renders environment if total episode reward is greater then this threshold</span></div><div class="line">RENDER = <span class="keyword">False</span>  <span class="comment"># rendering wastes time</span></div><div class="line"></div><div class="line">env = gym.make(<span class="string">'CartPole-v0'</span>)</div><div class="line">env.seed(<span class="number">1</span>)     <span class="comment"># reproducible, general Policy gradient has high variance</span></div><div class="line">env = env.unwrapped</div></pre></td></tr></table></figure></p>
+<p><code>DISPLAY_REWARD_THRESHOLD</code>设置了一个奖励门限，当奖励值大于门限的时候开始显示图形界面，因为奖励值小的时候说明训练效果还不是太好，所以为了节省时间就忽略的界面显示。</p>
+<p>然后实例化PolicyGradient：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">RL = PolicyGradient(</div><div class="line">    n_actions=env.action_space.n,</div><div class="line">    n_features=env.observation_space.shape[<span class="number">0</span>],</div><div class="line">    learning_rate=<span class="number">0.02</span>,</div><div class="line">    reward_decay=<span class="number">0.99</span>,</div><div class="line">    <span class="comment"># output_graph=True,</span></div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>最后就是对模型进行训练：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(<span class="number">3000</span>):</div><div class="line"></div><div class="line">    observation = env.reset()</div><div class="line"></div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="keyword">if</span> RENDER: env.render()</div><div class="line"></div><div class="line">        action = RL.choose_action(observation)</div><div class="line"></div><div class="line">        observation_, reward, done, info = env.step(action)</div><div class="line"></div><div class="line">        RL.store_transition(observation, action, reward)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> done:</div><div class="line">            ep_rs_sum = sum(RL.ep_rs)</div><div class="line"></div><div class="line">            <span class="keyword">if</span> <span class="string">'running_reward'</span> <span class="keyword">not</span> <span class="keyword">in</span> globals():</div><div class="line">                running_reward = ep_rs_sum</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                running_reward = running_reward * <span class="number">0.99</span> + ep_rs_sum * <span class="number">0.01</span></div><div class="line">            <span class="keyword">if</span> running_reward &gt; DISPLAY_REWARD_THRESHOLD: RENDER = <span class="keyword">True</span>     <span class="comment"># rendering</span></div><div class="line">            print(<span class="string">"episode:"</span>, i_episode, <span class="string">"  reward:"</span>, int(running_reward))</div><div class="line"></div><div class="line">            vt = RL.learn()</div><div class="line"></div><div class="line">            <span class="keyword">if</span> i_episode == <span class="number">0</span>:</div><div class="line">                plt.plot(vt)    <span class="comment"># plot the episode vt</span></div><div class="line">                plt.xlabel(<span class="string">'episode steps'</span>)</div><div class="line">                plt.ylabel(<span class="string">'normalized state-action value'</span>)</div><div class="line">                plt.show()</div><div class="line">            <span class="keyword">break</span></div><div class="line"></div><div class="line">        observation = observation_</div></pre></td></tr></table></figure></p>
+<p>运行程序可疑看到，当训练迭代到87步左后的时候模型已经达到比较好的效果。</p>
+<p>设置PolicyGradient类中的参数<code>output_graph=True</code>，可疑在TensorBoard中看到PolicyGradient网络模型的结构：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-6-29-1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/5-1-policy-gradient-softmax1/" target="_blank" rel="external">Policy Gradients 算法更新 </a></li>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/5-2-policy-gradient-softmax2/" target="_blank" rel="external">Policy Gradients 思维决策 </a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-29T13:01:09.776Z" itemprop="dateUpdated">2017年6月29日 21:01</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/06/29/Policy-Gradients设计与实现/" target="_blank" rel="external">http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RL/">RL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/&title=《Policy Gradients设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/&title=《Policy Gradients设计与实现》 — 背着翅膀流浪&source=本文主要介绍强化学习中Policy Gradients算法的设计与实现过程。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Policy Gradients设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/07/22/Double-DQN设计与实现/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Double DQN设计与实现</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/06/28/Deep-Q-Network设计与实现/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Deep Q Network设计与实现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/&title=《Policy Gradients设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/&title=《Policy Gradients设计与实现》 — 背着翅膀流浪&source=本文主要介绍强化学习中Policy Gradients算法的设计与实现过程。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Policy Gradients设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/06/29/Policy-Gradients设计与实现/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

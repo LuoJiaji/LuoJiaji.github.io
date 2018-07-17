@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>基于TensorFlow的Softmax Regression单层神经网络 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="TensorFlow,Python,ML">
+    <meta name="description" content="今天来挖个新坑，来用Google出的深度学习框架TensorFlow来搭建一个SoftMax Regression模型,来识别手写数字。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于TensorFlow的Softmax Regression单层神经网络">
+<meta property="og:url" content="http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="今天来挖个新坑，来用Google出的深度学习框架TensorFlow来搭建一个SoftMax Regression模型,来识别手写数字。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-26-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-26-2.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-26-3.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-26-4.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-26-5.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-26-6.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-26-7.png">
+<meta property="og:updated_time" content="2017-06-28T12:43:43.814Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于TensorFlow的Softmax Regression单层神经网络">
+<meta name="twitter:description" content="今天来挖个新坑，来用Google出的深度学习框架TensorFlow来搭建一个SoftMax Regression模型,来识别手写数字。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-26-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于TensorFlow的Softmax Regression单层神经网络</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于TensorFlow的Softmax Regression单层神经网络</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-04-26T12:18:29.000Z" itemprop="datePublished" class="page-time">
+  2017-04-26
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-基于TensorFlow的Softmax Regression单层神经网络"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于TensorFlow的Softmax Regression单层神经网络</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年04月26日 20:18" datetime="2017-04-26T12:18:29.000Z"  itemprop="datePublished">2017-04-26</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>今天来挖个新坑，来用Google出的深度学习框架TensorFlow来搭建一个SoftMax Regression模型,来识别手写数字。<br><a id="more"></a><br>MNIST(Mixed National Institute of Standards and Technology database)是一个机器学习视觉数据集，由像素为28*28的手写数字构成，这些图片只包含灰度值信息，因此每一张图片就是一个28*28*1的矩阵，需要做的就是对这些手写数字图片进行分类，转成0~9共10类。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-26-1.png" alt="MNIST手写数字图片示例" title="">
+                </div>
+                <div class="image-caption">MNIST手写数字图片示例</div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-26-2.png" alt="MNIST灰度信息示例" title="">
+                </div>
+                <div class="image-caption">MNIST灰度信息示例</div>
+            </figure><br>首先需要做的就是对MNIST数据进行加载，TensorFlow已经为我们封装这些功能，直接调用就可实现数据的加载。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</div><div class="line">mnist = input_data.read_data_sets(<span class="string">"MNIST_data/"</span>， one_hot=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<p>MNIST包含训练集和测试集，每一个样本都有对应的标注信息(label)，训练集用来训练设计好的模型，测试集则用来对训练后的模型进行测试。<br>我们可以通过print()函数打印出MNIST的数据信息<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">print(mnist.train.images.shape， mnist.train.labels.shape)</div><div class="line">print(mnist.test.images.shape， mnist.test.labels.shape)</div></pre></td></tr></table></figure></p>
+<p>可以看出训练集有55000个样本，测试集有5000个样本，每个样本的维数为784，也就是将每个图像的28*28个点展开成1维的结果(28*28=784)，本模型中输入就是这个1维向量，其实这样会失去空间结构的信息，也算是对模型的简化。<br>因此，模型的输入为55000x784的Tensor，同时Labels为55000x10的tensor。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-26-3.png" alt="MNIST训练数据" title="">
+                </div>
+                <div class="image-caption">MNIST训练数据</div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-26-4.png" alt="MNIST训练数据的Label" title="">
+                </div>
+                <div class="image-caption">MNIST训练数据的Label</div>
+            </figure></p>
+<p>Softmax Regression的工作原理比较简单，将可以判断为某一类的特征相加，然后将这些特征转化为判定是这一类的概率。上述特征可以通过一些简单的方法得到，比如对所有像素求一个加权和，而权重是模型根据数据西东学习，训练出来的。比如某个像素的灰度值大代表很可能是数字n时，这个像素的权重就大;反之，如果某个像素的灰度大代表不太可能是数字n时，这个像素的权重就比较小，甚至可能是负值。下图为一些这样的特征，其中，明亮的区域代表负的权重，灰暗的区域代表正的权重。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-26-5.png" alt="不同数字对应的特征权重" title="">
+                </div>
+                <div class="image-caption">不同数字对应的特征权重</div>
+            </figure></p>
+<p>接下来我们将这些特征公式化$i$代表第$i$类，$j$代表一张图片的第$j$个像素。<br>$$feature_i = \sum_1^n W_{i,j} x_j + b_i$$<br>接下来对所有特征计算softmax<br>$$ softmax(x) = normalize(exp(x)) $$<br>其中第i类的的概率就可以有下面的公式得到:<br>$$ softmax(x)_i  = {exp(x_i) \over \sum_j exp(x_j)}  $$</p>
+<p>先对各类特征求$\exp$函数，然后对他们标准化，使得和为1，特征是越大的类，最后输出的概率也越大;反之，特征的值越小，输出的概率也就越小.</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-26-6.png" alt="Softmax Regression 流程" title="">
+                </div>
+                <div class="image-caption">Softmax Regression 流程</div>
+            </figure>
+<p>然后就是通过TensorFlow来实现Softmax Regression模型。<br>首先导入TensorFlow库<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div></pre></td></tr></table></figure></p>
+<p>然后设置输入和输出，并初始化Weights和Bias<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">x = tf.placeholder(tf.float32, [<span class="keyword">None</span>, <span class="number">784</span>])</div><div class="line">y_ = tf.placeholder(tf.float32, [<span class="keyword">None</span>, <span class="number">10</span>])</div><div class="line">W = tf.Variable(tf.zeros([<span class="number">784</span>, <span class="number">10</span>]))</div><div class="line">b = tf.Variable(tf.zeros([<span class="number">10</span>]))</div></pre></td></tr></table></figure></p>
+<p>接下来实现Softmax Regression 算法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">y = tf.nn.softmax(tf.matmul(x, W) + b)))</div></pre></td></tr></table></figure></p>
+<p>恩，一行就搞定!</p>
+<p>然后用cross-entropy作为loss function.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[<span class="number">1</span>]))</div></pre></td></tr></table></figure></p>
+<p>接下来再定义一个优化方式，直接调用tf.train.GradientDescentOptimizer，并将学习速率设置为0.5，优化目标设置为cross-entropy<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">train_step = tf.train.GradientDescentOptimizer(<span class="number">0.5</span>).minimize(cross_entropy)</div></pre></td></tr></table></figure></p>
+<p>下一步就是初始化并执行模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tf.global_variables_initializer().run()</div></pre></td></tr></table></figure>
+<p>加下来就是进行迭代来训练并优化模型。设置迭代次数为1000次，并且每迭代100次用测试数据来测试一下模型的识别正确率，并打印出来<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</div><div class="line">    batch_xs, batch_ys = mnist.train.next_batch(<span class="number">100</span>)</div><div class="line">    train_step.run(&#123;x: batch_xs, y_: batch_ys&#125;)</div><div class="line">    <span class="keyword">if</span> (i+<span class="number">1</span>)%<span class="number">100</span> == <span class="number">0</span>:</div><div class="line">        correct_prediction = tf.equal(tf.argmax(y, <span class="number">1</span>), tf.argmax(y_, <span class="number">1</span>))</div><div class="line">        accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))</div><div class="line">        print(int((i+<span class="number">1</span>)/<span class="number">100</span>),<span class="string">':'</span>,accuracy.eval(&#123;x: mnist.test.images, y_: mnist.test.labels&#125;))</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-26-7.png" alt="Softmax Regression 模型识别正确率" title="">
+                </div>
+                <div class="image-caption">Softmax Regression 模型识别正确率</div>
+            </figure>
+<p>最后在打印出的结果中可以看到，最后Softmax Regression的准确率为92%左右。</p>
+<p>参考资料:</p>
+<ul>
+<li><a href="https://www.tensorflow.org/get_started/mnist/beginners" target="_blank" rel="external">MNIST For ML Beginners</a></li>
+<li>《TensorFlow 实战》</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-28T12:43:43.814Z" itemprop="dateUpdated">2017年6月28日 20:43</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/" target="_blank" rel="external">http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/">ML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/&title=《基于TensorFlow的Softmax Regression单层神经网络》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/&title=《基于TensorFlow的Softmax Regression单层神经网络》 — 背着翅膀流浪&source=今天来挖个新坑，来用Google出的深度学习框架TensorFlow来搭建一个SoftMax Regression模型,来识别手写数字。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的Softmax Regression单层神经网络》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/04/30/基于TensorFlow的交通标志识别/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">基于TensorFlow的交通标志识别</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/04/22/爬虫抓取唐诗三百首/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">爬虫抓取唐诗三百首</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/&title=《基于TensorFlow的Softmax Regression单层神经网络》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/&title=《基于TensorFlow的Softmax Regression单层神经网络》 — 背着翅膀流浪&source=今天来挖个新坑，来用Google出的深度学习框架TensorFlow来搭建一个SoftMax Regression模型,来识别手写数字。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的Softmax Regression单层神经网络》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

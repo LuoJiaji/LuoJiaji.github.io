@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>基于TensorFlow的交通标志识别 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="TensorFlow,Python,ML">
+    <meta name="description" content="趁五一假期，再写一篇用Tensorflow实现交通标志识别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于TensorFlow的交通标志识别">
+<meta property="og:url" content="http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="趁五一假期，再写一篇用Tensorflow实现交通标志识别。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-30-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-30-2.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-30-3.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-30-4.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-30-5.png">
+<meta property="og:updated_time" content="2017-06-28T12:44:20.689Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于TensorFlow的交通标志识别">
+<meta name="twitter:description" content="趁五一假期，再写一篇用Tensorflow实现交通标志识别。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-04-30-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于TensorFlow的交通标志识别</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于TensorFlow的交通标志识别</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-04-30T05:01:51.000Z" itemprop="datePublished" class="page-time">
+  2017-04-30
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-基于TensorFlow的交通标志识别"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于TensorFlow的交通标志识别</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年04月30日 13:01" datetime="2017-04-30T05:01:51.000Z"  itemprop="datePublished">2017-04-30</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>趁五一假期，再写一篇用Tensorflow实现交通标志识别。<br><a id="more"></a></p>
+<p>今天的任务是通过Tensorflow搭建一个机器学习模型，通过训练来实现识别交通标志。</p>
+<p>Python版本：3.5.3<br>Tensorflow版本：1.0.1<br>其中还用到了一些其他的库<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> random</div><div class="line"><span class="keyword">import</span> skimage.data</div><div class="line"><span class="keyword">import</span> skimage.transform</div><div class="line"><span class="keyword">import</span> matplotlib</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div></pre></td></tr></table></figure></p>
+<p>模型训练和测试用到的数据集来自<a href="http://btsd.ethz.ch/shareddata/?spm=5176.100239.blogcont67167.12.HoNrtM" target="_blank" rel="external">比利时的交通标志数据集</a>，下载BelgiumTS for Classification (cropped images)中的BelgiumTSC_Training (171.3MBytes) 和 BelgiumTSC_Testing(76.5MBytes)，training的数据集用来训练模型，Testing的数据集用来测试模型。<br>训练集和测试集各包含62个子目录，目录名字是从00000到00061，这些目录代表的是相应交通标志的标签，而每个目录下的图片就是该标签的样本。</p>
+<p>首先我们要加载训练数据<br>数据集中的图片数据是用.ppm格式存储的，可以通过Scikit Image库来读取图片数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(data_dir)</span>:</span></div><div class="line">    <span class="string">"""Loads a data set and returns two lists:</span></div><div class="line"></div><div class="line">    images: a list of Numpy arrays, each representing an image.</div><div class="line">    labels: a list of numbers that represent the images labels.</div><div class="line">    """</div><div class="line">    <span class="comment"># Get all subdirectories of data_dir. Each represents a label.</span></div><div class="line">    directories = [d <span class="keyword">for</span> d <span class="keyword">in</span> os.listdir(data_dir)</div><div class="line">                   <span class="keyword">if</span> os.path.isdir(os.path.join(data_dir, d))]</div><div class="line">    <span class="comment"># print(directories)</span></div><div class="line">    <span class="comment"># Loop through the label directories and collect the data in</span></div><div class="line">    <span class="comment"># two lists, labels and images.</span></div><div class="line">    labels = []</div><div class="line">    images = []</div><div class="line">    <span class="keyword">for</span> d <span class="keyword">in</span> directories:</div><div class="line">        label_dir = os.path.join(data_dir, d)</div><div class="line">        file_names = [os.path.join(label_dir, f)</div><div class="line">                      <span class="keyword">for</span> f <span class="keyword">in</span> os.listdir(label_dir) <span class="keyword">if</span> f.endswith(<span class="string">".ppm"</span>)]</div><div class="line">        <span class="comment"># For each label, load it's images and add them to the images list.</span></div><div class="line">        <span class="comment"># And add the label number (i.e. directory name) to the labels list.</span></div><div class="line">        <span class="keyword">for</span> f <span class="keyword">in</span> file_names:</div><div class="line">            images.append(skimage.data.imread(f))</div><div class="line">            labels.append(int(d))</div><div class="line">    <span class="keyword">return</span> images, labels</div></pre></td></tr></table></figure></p>
+<p>加载数据之后返回两个列表，images列表包含图像信息，每个图像信息为numpy数字；labels列表包含列表信息，数值为0到61的整数</p>
+<p>然后我们可以看一下一共有多少图像和标签<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">images, labels = load_data(train_data_dir)</div><div class="line">print(<span class="string">"Unique Labels: &#123;0&#125;\n Total Images: &#123;1&#125;"</span>.format(len(set(labels)), len(images)))</div></pre></td></tr></table></figure></p>
+<p>从打印出的结果可以看到，一共有62个标签，4575个训练数据</p>
+<p>我们可以显示一下每一组标签的第一幅图像<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">display_images_and_labels</span><span class="params">(images, labels)</span>:</span></div><div class="line">    <span class="string">"""Display the first image of each label."""</span></div><div class="line">    unique_labels = set(labels)</div><div class="line">    plt.figure(figsize=(<span class="number">10</span>, <span class="number">10</span>),dpi=<span class="number">50</span>)</div><div class="line">    i = <span class="number">1</span></div><div class="line">    <span class="keyword">for</span> label <span class="keyword">in</span> unique_labels:</div><div class="line">        <span class="comment"># Pick the first image for each label.</span></div><div class="line">        image = images[labels.index(label)]</div><div class="line">        <span class="comment"># print(labels.index(label))</span></div><div class="line">        plt.subplot(<span class="number">8</span>, <span class="number">8</span>, i)  <span class="comment"># A grid of 8 rows x 8 columns</span></div><div class="line">        plt.axis(<span class="string">'off'</span>)</div><div class="line">        plt.title(<span class="string">"Label &#123;0&#125; (&#123;1&#125;)"</span>.format(label, labels.count(label)))</div><div class="line">        i += <span class="number">1</span></div><div class="line">        _ = plt.imshow(image)</div><div class="line">    plt.show()</div><div class="line">display_images_and_labels(images, labels)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-30-1.png" alt="标签和图像信息" title="">
+                </div>
+                <div class="image-caption">标签和图像信息</div>
+            </figure>
+<p>同样，我们也可以显示每一个标签中的图片数据，来看一下第42号标签的数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">display_label_images</span><span class="params">(images, label)</span>:</span></div><div class="line">    <span class="string">"""Display images of a specific label."""</span></div><div class="line">    limit = <span class="number">24</span>  <span class="comment"># show a max of 24 images</span></div><div class="line">    plt.figure(figsize=(<span class="number">15</span>, <span class="number">5</span>))</div><div class="line">    i = <span class="number">1</span></div><div class="line"></div><div class="line">    start = labels.index(label)</div><div class="line">    end = start + labels.count(label)</div><div class="line">    <span class="keyword">for</span> image <span class="keyword">in</span> images[start:end][:limit]:    <span class="comment"># 这句话写的还是很巧妙的，防止过界，超出图片的种类的索引范围</span></div><div class="line">    <span class="comment"># for image in images[start:start+limit]:  # 这么写的话如果某种图片的数量没有24张的话会直接显示到下一种的图片</span></div><div class="line">        plt.subplot(<span class="number">3</span>, <span class="number">8</span>, i)  <span class="comment"># 3 rows, 8 per row</span></div><div class="line">        plt.axis(<span class="string">'off'</span>)</div><div class="line">        i += <span class="number">1</span></div><div class="line">        plt.imshow(image)</div><div class="line">    plt.show()</div><div class="line"></div><div class="line">display_label_images(images, <span class="number">42</span>)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-30-2.png" alt="42号标签的图像数据" title="">
+                </div>
+                <div class="image-caption">42号标签的图像数据</div>
+            </figure>
+<p>通过上面的图像显示，我们会发现，这些图片的大小是不一样的。但是大多数的机器学习模型需要输入数据的维数是固定的，因此需要对图像数据进行处理，保证相同的输入数据格式。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">images32 = [skimage.transform.resize(image, (<span class="number">32</span>, <span class="number">32</span>)) <span class="keyword">for</span> image <span class="keyword">in</span> images]</div></pre></td></tr></table></figure></p>
+<p>这样就可以将图片数据转换成32*32*3的图片。</p>
+<p>接下来的工作就是搭建神经网络模型<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Placeholders for inputs and labels.</span></div><div class="line">images_ph = tf.placeholder(tf.float32, [<span class="keyword">None</span>, <span class="number">32</span>, <span class="number">32</span>, <span class="number">3</span>])</div><div class="line">labels_ph = tf.placeholder(tf.int32, [<span class="keyword">None</span>])</div><div class="line"></div><div class="line"><span class="comment"># Flatten input from: [None, height, width, channels]</span></div><div class="line"><span class="comment"># To: [None, height * width * channels] == [None, 3072]</span></div><div class="line">images_flat = tf.contrib.layers.flatten(images_ph)</div><div class="line"></div><div class="line"><span class="comment"># hidden = tf.contrib.layers.fully_connected(images_flat,500,tf.nn.relu)</span></div><div class="line"></div><div class="line"><span class="comment"># Fully connected layer.</span></div><div class="line"><span class="comment"># Generates logits of size [None, 62]</span></div><div class="line">logits = tf.contrib.layers.fully_connected(images_flat, <span class="number">62</span>, tf.nn.relu)</div><div class="line"></div><div class="line"><span class="comment"># Convert logits to label indexes (int).</span></div><div class="line"><span class="comment"># Shape [None], which is a 1D vector of length == batch_size.</span></div><div class="line">predicted_labels = tf.argmax(logits, <span class="number">1</span>)</div><div class="line"></div><div class="line"><span class="comment"># Define the loss function.</span></div><div class="line"><span class="comment"># Cross-entropy is a good choice for classification.</span></div><div class="line">loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=labels_ph))</div><div class="line"></div><div class="line"><span class="comment"># Create training op.</span></div><div class="line">train = tf.train.AdamOptimizer(learning_rate=<span class="number">0.001</span>).minimize(loss)</div><div class="line"></div><div class="line"><span class="comment"># And, finally, an initialization op to execute before training.</span></div><div class="line"></div><div class="line">init = tf.global_variables_initializer()</div></pre></td></tr></table></figure></p>
+<p>在模型当中，首先改变一下输入数据的维数，将32*32*3的数据展开成一维的数据(1*3072)，然后建立一个3072-62的全连接网络，使用ReLU作为激活函数。用交叉熵作为损失函数，使用ADAM优化器来优化参数，最后初始化模型。</p>
+<p>模型搭建好之后，就可以通过训练数据来对模型进行训练，设置训练次数为201次，每训练数次输出一下损失函数的的值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">session = tf.Session()</div><div class="line"><span class="comment"># First step is always to initialize all variables.</span></div><div class="line"><span class="comment"># We don't care about the return value, though. It's None.</span></div><div class="line">_ = session.run([init])</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">201</span>):</div><div class="line">    _, loss_value = session.run([train, loss],</div><div class="line">                                feed_dict=&#123;images_ph: images_a, labels_ph: labels_a&#125;)</div><div class="line">    <span class="keyword">if</span> i % <span class="number">10</span> == <span class="number">0</span>:</div><div class="line">        print(i/<span class="number">10</span>,<span class="string">"Loss: "</span>, loss_value)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-30-3.png" alt="损失函数值" title="">
+                </div>
+                <div class="image-caption">损失函数值</div>
+            </figure>
+<p>模型训练好之后，既可以用测试数据来见一下模型的性能。<br>随机抽取测试数据中的10张图片，然后打印出对应的实际标签和识别标签。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">sample_indexes = random.sample(range(len(images32)), <span class="number">10</span>)</div><div class="line">sample_images = [images32[i] <span class="keyword">for</span> i <span class="keyword">in</span> sample_indexes]</div><div class="line">sample_labels = [labels[i] <span class="keyword">for</span> i <span class="keyword">in</span> sample_indexes]</div><div class="line"></div><div class="line"><span class="comment"># Run the "predicted_labels" op.</span></div><div class="line">predicted = session.run([predicted_labels],</div><div class="line">                        feed_dict=&#123;images_ph: sample_images&#125;)[<span class="number">0</span>]</div><div class="line">print(sample_labels)</div><div class="line">print(predicted)</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Display the predictions and the ground truth visually.</span></div><div class="line">fig = plt.figure(figsize=(<span class="number">10</span>, <span class="number">10</span>))</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(sample_images)):</div><div class="line">    truth = sample_labels[i]</div><div class="line">    prediction = predicted[i]</div><div class="line">    plt.subplot(<span class="number">5</span>, <span class="number">2</span>,<span class="number">1</span>+i)</div><div class="line">    plt.axis(<span class="string">'off'</span>)</div><div class="line">    color=<span class="string">'green'</span> <span class="keyword">if</span> truth == prediction <span class="keyword">else</span> <span class="string">'red'</span></div><div class="line">    plt.text(<span class="number">40</span>, <span class="number">10</span>, <span class="string">"Truth:        &#123;0&#125;\nPrediction: &#123;1&#125;"</span>.format(truth, prediction),</div><div class="line">             fontsize=<span class="number">12</span>, color=color)</div><div class="line">    plt.imshow(sample_images[i])</div><div class="line"><span class="comment"># plt.ion()</span></div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-30-4.png" alt="测试样本" title="">
+                </div>
+                <div class="image-caption">测试样本</div>
+            </figure>
+<p>从中可以看到，在10个测试数据中，有7个可以正确识别。</p>
+<p>最后，加载所有的测试数据，计算并打印模型的识别正确率。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">test_images, test_labels = load_data(test_data_dir)</div><div class="line"></div><div class="line"><span class="comment"># Transform the images, just like we did with the training set.</span></div><div class="line">test_images32 = [skimage.transform.resize(image, (<span class="number">32</span>, <span class="number">32</span>))</div><div class="line">                 <span class="keyword">for</span> image <span class="keyword">in</span> test_images]</div><div class="line"><span class="comment"># display_images_and_labels(test_images32, test_labels)</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Run predictions against the full test set.</span></div><div class="line">predicted = session.run([predicted_labels],</div><div class="line">                        feed_dict=&#123;images_ph: test_images32&#125;)[<span class="number">0</span>]</div><div class="line"><span class="comment"># Calculate how many matches we got.</span></div><div class="line">match_count = sum([int(y == y_) <span class="keyword">for</span> y, y_ <span class="keyword">in</span> zip(test_labels, predicted)])</div><div class="line">accuracy = match_count / len(test_labels)</div><div class="line">print(<span class="string">"Accuracy: &#123;:.3f&#125;"</span>.format(accuracy))</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-04-30-5.png" alt="模型识别正确率" title="">
+                </div>
+                <div class="image-caption">模型识别正确率</div>
+            </figure>
+<p>可以看出，模型的正确率在70%左右。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://github.com/waleedka/traffic-signs-tensorflow/blob/master/notebook1.ipynb" target="_blank" rel="external">https://github.com/waleedka/traffic-signs-tensorflow/blob/master/notebook1.ipynb</a></li>
+<li><a href="https://yq.aliyun.com/articles/67167" target="_blank" rel="external">https://yq.aliyun.com/articles/67167</a></li>
+<li><a href="http://www.jianshu.com/p/d8feaddc7bdf" target="_blank" rel="external">http://www.jianshu.com/p/d8feaddc7bdf</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-28T12:44:20.689Z" itemprop="dateUpdated">2017年6月28日 20:44</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/04/30/基于TensorFlow的交通标志识别/" target="_blank" rel="external">http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/">ML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/&title=《基于TensorFlow的交通标志识别》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/&title=《基于TensorFlow的交通标志识别》 — 背着翅膀流浪&source=趁五一假期，再写一篇用Tensorflow实现交通标志识别。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的交通标志识别》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/05/02/新的狂想/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">新的狂想</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/04/26/基于TensorFlow的Softmax Regression单层神经网络/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于TensorFlow的Softmax Regression单层神经网络</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/&title=《基于TensorFlow的交通标志识别》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/&title=《基于TensorFlow的交通标志识别》 — 背着翅膀流浪&source=趁五一假期，再写一篇用Tensorflow实现交通标志识别。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的交通标志识别》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/04/30/基于TensorFlow的交通标志识别/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

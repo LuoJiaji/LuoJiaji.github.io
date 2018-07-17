@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Actor Critic算法设计与实现 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="RL,TensorFlow,Python">
+    <meta name="description" content="今天介绍强化学习中的一种新的算法，叫做Actor Critic。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Actor Critic算法设计与实现">
+<meta property="og:url" content="http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="今天介绍强化学习中的一种新的算法，叫做Actor Critic。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-25-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-25-2.png">
+<meta property="og:updated_time" content="2017-08-25T12:19:17.169Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Actor Critic算法设计与实现">
+<meta name="twitter:description" content="今天介绍强化学习中的一种新的算法，叫做Actor Critic。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-25-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Actor Critic算法设计与实现</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Actor Critic算法设计与实现</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-25T12:14:53.000Z" itemprop="datePublished" class="page-time">
+  2017-08-25
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码实现</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Actor-Critic算法设计与实现"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Actor Critic算法设计与实现</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年08月25日 20:14" datetime="2017-08-25T12:14:53.000Z"  itemprop="datePublished">2017-08-25</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>今天介绍强化学习中的一种新的算法，叫做Actor Critic。<br><a id="more"></a></p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Actor Critic将Policy Gradient（Actor部分）和Function Approximation（Critic部分）相结合，<code>Actor</code>根据当前状态对应行为的概率选择行为，<code>Critic</code>通过当前状态，奖励值以及下一个状态进行学习同时返回<code>Actor</code>当前行为评分，<code>Actor</code>根据<code>Critic</code>给出的评分对行为概率进行修正。</p>
+<p>Actor Critic的优缺点：</p>
+<ul>
+<li><strong>优点</strong>：Actor Critic不用想DQN或者Policy Gradient那样需要对探索的状态，动作和奖励信息进行存储。而是可以进行单步学习和更新，这样学习效率要比DQN和Policy Gradient快。</li>
+<li><strong>缺点</strong>：由于单步更新参照的信息有限，而且<code>Actor</code>和<code>Critic</code>要同时学习，因此学习比较难以收敛。</li>
+</ul>
+<p><img src="http://onaxllwtn.bkt.clouddn.com/2017-8-25-1.png" alt=""></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>下面介绍Actor Critic的具体实现过程。<br>用到的Python库：<br>Python：3.5.3<br>TensorFlow：1.0.1<br>gym：0.8.1</p>
+<p>试验环境依然使用<code>gym</code>中的<code>CartPole-v0</code>。</p>
+<p>首先介绍Actor部分的代码。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Actor</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, sess, n_features, n_actions, lr=<span class="number">0.001</span>)</span>:</span></div><div class="line">        self.sess = sess</div><div class="line"></div><div class="line">        self.s = tf.placeholder(tf.float32, [<span class="number">1</span>, n_features], <span class="string">"state"</span>)</div><div class="line">        self.a = tf.placeholder(tf.int32, <span class="keyword">None</span>, <span class="string">"act"</span>)</div><div class="line">        self.td_error = tf.placeholder(tf.float32, <span class="keyword">None</span>, <span class="string">"td_error"</span>)  <span class="comment"># TD_error</span></div><div class="line"></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'Actor'</span>):</div><div class="line">            l1 = tf.layers.dense(</div><div class="line">                inputs=self.s,</div><div class="line">                units=<span class="number">20</span>,    <span class="comment"># number of hidden units</span></div><div class="line">                activation=tf.nn.relu,</div><div class="line">                kernel_initializer=tf.random_normal_initializer(<span class="number">0.</span>, <span class="number">.1</span>),    <span class="comment"># weights</span></div><div class="line">                bias_initializer=tf.constant_initializer(<span class="number">0.1</span>),  <span class="comment"># biases</span></div><div class="line">                name=<span class="string">'l1'</span></div><div class="line">            )</div><div class="line"></div><div class="line">            self.acts_prob = tf.layers.dense(</div><div class="line">                inputs=l1,</div><div class="line">                units=n_actions,    <span class="comment"># output units</span></div><div class="line">                activation=tf.nn.softmax,   <span class="comment"># get action probabilities</span></div><div class="line">                kernel_initializer=tf.random_normal_initializer(<span class="number">0.</span>, <span class="number">.1</span>),  <span class="comment"># weights</span></div><div class="line">                bias_initializer=tf.constant_initializer(<span class="number">0.1</span>),  <span class="comment"># biases</span></div><div class="line">                name=<span class="string">'acts_prob'</span></div><div class="line">            )</div><div class="line"></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'exp_v'</span>):</div><div class="line">            log_prob = tf.log(self.acts_prob[<span class="number">0</span>, self.a])</div><div class="line">            self.exp_v = tf.reduce_mean(log_prob * self.td_error)  <span class="comment"># advantage (TD_error) guided loss</span></div><div class="line"></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'train'</span>):</div><div class="line">            self.train_op = tf.train.AdamOptimizer(lr).minimize(-self.exp_v)  <span class="comment"># minimize(-exp_v) = maximize(exp_v)</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self, s, a, td)</span>:</span></div><div class="line">        s = s[np.newaxis, :]</div><div class="line">        feed_dict = &#123;self.s: s, self.a: a, self.td_error: td&#125;</div><div class="line">        _, exp_v = self.sess.run([self.train_op, self.exp_v], feed_dict)</div><div class="line">        <span class="keyword">return</span> exp_v</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></div><div class="line">        s = s[np.newaxis, :]</div><div class="line">        probs = self.sess.run(self.acts_prob, &#123;self.s: s&#125;)   <span class="comment"># get probabilities for all actions</span></div><div class="line">        <span class="keyword">return</span> np.random.choice(np.arange(probs.shape[<span class="number">1</span>]), p=probs.ravel())   <span class="comment"># return a int</span></div></pre></td></tr></table></figure></p>
+<p>代码中首先传递环境的状态数量<code>n_features</code>，动作数量<code>n_actions</code>和学习效率<code>lr</code>。然后构建用于<code>Actor</code>学习的神经网络，网络包含一个含有20个节点的隐藏层。<br><code>Actor.learn()</code>通过当前状态<code>s</code>，动作<code>a</code>和<code>Critic</code>给出的时间差分误差<code>td</code>进行学习。<br><code>Actor.Choose_action()</code>通过当前状态<code>s</code>计算出每个动作的概率，然后根据相应的概率来选择动作。</p>
+<p>下面是<code>Critic</code>部分的代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Critic</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, sess, n_features, lr=<span class="number">0.01</span>)</span>:</span></div><div class="line">        self.sess = sess</div><div class="line"></div><div class="line">        self.s = tf.placeholder(tf.float32, [<span class="number">1</span>, n_features], <span class="string">"state"</span>)</div><div class="line">        self.v_ = tf.placeholder(tf.float32, [<span class="number">1</span>, <span class="number">1</span>], <span class="string">"v_next"</span>)</div><div class="line">        self.r = tf.placeholder(tf.float32, <span class="keyword">None</span>, <span class="string">'r'</span>)</div><div class="line"></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'Critic'</span>):</div><div class="line">            l1 = tf.layers.dense(</div><div class="line">                inputs=self.s,</div><div class="line">                units=<span class="number">20</span>,  <span class="comment"># number of hidden units</span></div><div class="line">                activation=tf.nn.relu,  <span class="comment"># None</span></div><div class="line">                <span class="comment"># have to be linear to make sure the convergence of actor.</span></div><div class="line">                <span class="comment"># But linear approximator seems hardly learns the correct Q.</span></div><div class="line">                kernel_initializer=tf.random_normal_initializer(<span class="number">0.</span>, <span class="number">.1</span>),  <span class="comment"># weights</span></div><div class="line">                bias_initializer=tf.constant_initializer(<span class="number">0.1</span>),  <span class="comment"># biases</span></div><div class="line">                name=<span class="string">'l1'</span></div><div class="line">            )</div><div class="line"></div><div class="line">            self.v = tf.layers.dense(</div><div class="line">                inputs=l1,</div><div class="line">                units=<span class="number">1</span>,  <span class="comment"># output units</span></div><div class="line">                activation=<span class="keyword">None</span>,</div><div class="line">                kernel_initializer=tf.random_normal_initializer(<span class="number">0.</span>, <span class="number">.1</span>),  <span class="comment"># weights</span></div><div class="line">                bias_initializer=tf.constant_initializer(<span class="number">0.1</span>),  <span class="comment"># biases</span></div><div class="line">                name=<span class="string">'V'</span></div><div class="line">            )</div><div class="line"></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'squared_TD_error'</span>):</div><div class="line">            self.td_error = self.r + GAMMA * self.v_ - self.v</div><div class="line">            self.loss = tf.square(self.td_error)    <span class="comment"># TD_error = (r+gamma*V_next) - V_eval</span></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'train'</span>):</div><div class="line">            self.train_op = tf.train.AdamOptimizer(lr).minimize(self.loss)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self, s, r, s_)</span>:</span></div><div class="line">        s, s_ = s[np.newaxis, :], s_[np.newaxis, :]</div><div class="line"></div><div class="line">        v_ = self.sess.run(self.v, &#123;self.s: s_&#125;)</div><div class="line">        td_error, _ = self.sess.run([self.td_error, self.train_op],</div><div class="line">                                          &#123;self.s: s, self.v_: v_, self.r: r&#125;)</div><div class="line">        <span class="keyword">return</span> td_error</div></pre></td></tr></table></figure></p>
+<p>代码中建立一个输入层节点为<code>s</code>,隐藏层节点为20，输出层节点为1的神经网络。<br><code>Critic.learn()</code>根据当前状态<code>s</code>,奖励值<code>r</code>和下一步的状态<code>s_</code>进行学习，并返回时间差分误差<code>td</code>给<code>actor.learn()</code></p>
+<p>然后是完整的训练过程：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> gym</div><div class="line"><span class="keyword">from</span> ActorCritic <span class="keyword">import</span> *</div><div class="line"></div><div class="line">np.random.seed(<span class="number">2</span>)</div><div class="line">tf.set_random_seed(<span class="number">2</span>)  <span class="comment"># reproducible</span></div><div class="line"></div><div class="line"><span class="comment"># Superparameters</span></div><div class="line"></div><div class="line">OUTPUT_GRAPH = <span class="keyword">False</span></div><div class="line">MAX_EPISODE = <span class="number">3000</span></div><div class="line">DISPLAY_REWARD_THRESHOLD = <span class="number">100</span>  <span class="comment"># renders environment if total episode reward is greater then this threshold</span></div><div class="line">MAX_EP_STEPS = <span class="number">1000</span>   <span class="comment"># maximum time step in one episode</span></div><div class="line">RENDER = <span class="keyword">False</span>  <span class="comment"># rendering wastes time</span></div><div class="line">GAMMA = <span class="number">0.9</span>     <span class="comment"># reward discount in TD error</span></div><div class="line">LR_A = <span class="number">0.001</span>    <span class="comment"># learning rate for actor</span></div><div class="line">LR_C = <span class="number">0.01</span>     <span class="comment"># learning rate for critic</span></div><div class="line"></div><div class="line">env = gym.make(<span class="string">'CartPole-v0'</span>)</div><div class="line">env.seed(<span class="number">1</span>)  <span class="comment"># reproducible</span></div><div class="line"></div><div class="line">N_F = env.observation_space.shape[<span class="number">0</span>]</div><div class="line">N_A = env.action_space.n</div><div class="line"></div><div class="line">sess = tf.Session()</div><div class="line"></div><div class="line">actor = Actor(sess, n_features=N_F, n_actions=N_A, lr=LR_A)</div><div class="line">critic = Critic(sess, n_features=N_F, lr=LR_C)     <span class="comment"># we need a good teacher, so the teacher should learn faster than the actor</span></div><div class="line"></div><div class="line">sess.run(tf.global_variables_initializer())</div><div class="line"></div><div class="line"><span class="keyword">if</span> OUTPUT_GRAPH:</div><div class="line">    tf.summary.FileWriter(<span class="string">"logs/"</span>, sess.graph)</div><div class="line"></div><div class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(MAX_EPISODE):</div><div class="line">    s = env.reset()</div><div class="line">    t = <span class="number">0</span></div><div class="line">    track_r = []</div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="keyword">if</span> RENDER: env.render()</div><div class="line"></div><div class="line">        a = actor.choose_action(s)</div><div class="line"></div><div class="line">        s_, r, done, info = env.step(a)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> done: r = <span class="number">-20</span></div><div class="line"></div><div class="line">        track_r.append(r)</div><div class="line"></div><div class="line">        td_error = critic.learn(s, r, s_)  <span class="comment"># gradient = grad[r + gamma * V(s_) - V(s)]</span></div><div class="line">        actor.learn(s, a, td_error)     <span class="comment"># true_gradient = grad[logPi(s,a) * td_error]</span></div><div class="line"></div><div class="line">        s = s_</div><div class="line">        t += <span class="number">1</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> done <span class="keyword">or</span> t &gt;= MAX_EP_STEPS:</div><div class="line">            ep_rs_sum = sum(track_r)</div><div class="line"></div><div class="line">            <span class="keyword">if</span> <span class="string">'running_reward'</span> <span class="keyword">not</span> <span class="keyword">in</span> globals():</div><div class="line">                running_reward = ep_rs_sum</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                running_reward = running_reward * <span class="number">0.95</span> + ep_rs_sum * <span class="number">0.05</span></div><div class="line">            <span class="keyword">if</span> running_reward &gt; DISPLAY_REWARD_THRESHOLD: RENDER = <span class="keyword">True</span>  <span class="comment"># rendering</span></div><div class="line">            print(<span class="string">"episode:"</span>, i_episode, <span class="string">"  reward:"</span>, int(running_reward))</div><div class="line">            <span class="keyword">break</span></div></pre></td></tr></table></figure></p>
+<p>通过训练发下，通过3000次迭代，Actor Critic算法的收敛性确实不是太理想，没有DQN和Policy Gradient的效果好。</p>
+<p>通过TensorBoard可以查看网络的结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Tensorboard --logdir logs</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-25-2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/6-1-actor-critic/" target="_blank" rel="external">Actor Critic (Tensorflow)</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-08-25T12:19:17.169Z" itemprop="dateUpdated">2017年8月25日 20:19</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/08/25/Actor-Critic算法设计与实现/" target="_blank" rel="external">http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RL/">RL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/&title=《Actor Critic算法设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/&title=《Actor Critic算法设计与实现》 — 背着翅膀流浪&source=今天介绍强化学习中的一种新的算法，叫做Actor Critic。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Actor Critic算法设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/09/09/通过DQN来玩FlappyBird/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">通过DQN来玩FlappyBird</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/08/13/MathJax的基本用法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">MathJax的基本用法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<div class="comments" id="comments">
+    <div class="ds-thread" data-thread-key="Actor-Critic算法设计与实现" data-title="Actor Critic算法设计与实现" data-url="http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/"></div>
+</div>
+<script>
+lazyScripts.push('//cdn.bootcss.com/marked/0.3.6/marked.min.js');
+
+var duoshuoQuery = {short_name:'ysblog', theme: 'none'};
+lazyScripts.push('//unpkg.com/hexo-theme-material-indigo@1.5.2/js/embed.min.js');
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/&title=《Actor Critic算法设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/&title=《Actor Critic算法设计与实现》 — 背着翅膀流浪&source=今天介绍强化学习中的一种新的算法，叫做Actor Critic。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Actor Critic算法设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/08/25/Actor-Critic算法设计与实现/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

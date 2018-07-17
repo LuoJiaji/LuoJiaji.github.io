@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Deep Q Network设计与实现 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="RL,TensorFlow,Python">
+    <meta name="description" content="之前写了关于DQN（Deep Q Network）的算法分析，今天用Python以及相关的库来设计并实现一个DQN。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deep Q Network设计与实现">
+<meta property="og:url" content="http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="之前写了关于DQN（Deep Q Network）的算法分析，今天用Python以及相关的库来设计并实现一个DQN。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-6-28-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-6-28-2.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-6-28-3.png">
+<meta property="og:updated_time" content="2017-06-29T13:07:51.827Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Deep Q Network设计与实现">
+<meta name="twitter:description" content="之前写了关于DQN（Deep Q Network）的算法分析，今天用Python以及相关的库来设计并实现一个DQN。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-6-28-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Deep Q Network设计与实现</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Deep Q Network设计与实现</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-28T02:06:51.000Z" itemprop="datePublished" class="page-time">
+  2017-06-28
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-Deep-Q-Network设计与实现"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Deep Q Network设计与实现</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年06月28日 10:06" datetime="2017-06-28T02:06:51.000Z"  itemprop="datePublished">2017-06-28</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>之前写了关于DQN（Deep Q Network）的算法分析，今天用Python以及相关的库来设计并实现一个DQN。<br><a id="more"></a></p>
+<p>本文主要基于OpenAI的开源库gym中的环境再结合TensorFlow来设计与实现DQN。用到了gym中CartPole-v0的立杆子的环境。将每一步得到的状态和奖励值传递给TensorFlow中建立好的QDN网络，并对收集到的状态奖励值进行训练。算法的具体流程参考之前介绍DQN的那篇文章。今天主要介绍代码的实现。</p>
+<p>代码主要分为两个部分，首先是建立DQN网络模型，然后导入CartPole-v0环境通过其中返回的状态值和奖励值训练DQN网络。最终实现杆子尽可能长时间地保持不倒。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-6-28-1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>涉及的主要模块版本号：<br>Python：3.5.3<br>TensorFlow：1.0.1<br>gym：0.8.1</p>
+<p>新建DQN.py来建立网络模型以及相关的操作。<br>首先导入模块以及一些初始设置：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line">np.random.seed(<span class="number">1</span>)</div><div class="line">tf.set_random_seed(<span class="number">1</span>)</div></pre></td></tr></table></figure></p>
+<p>然后建立建立DQN模型的类以及一些全局变量：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Deep Q Network off-policy</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DeepQNetwork</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(</span></span></div><div class="line">            self,</div><div class="line">            n_actions,</div><div class="line">            n_features,</div><div class="line">            learning_rate=<span class="number">0.01</span>,</div><div class="line">            reward_decay=<span class="number">0.9</span>,</div><div class="line">            e_greedy=<span class="number">0.9</span>,</div><div class="line">            replace_target_iter=<span class="number">300</span>,</div><div class="line">            memory_size=<span class="number">500</span>,</div><div class="line">            batch_size=<span class="number">32</span>,</div><div class="line">            e_greedy_increment=None,</div><div class="line">            output_graph=False,</div><div class="line">    ):</div><div class="line">        self.n_actions = n_actions</div><div class="line">        self.n_features = n_features</div><div class="line">        self.lr = learning_rate</div><div class="line">        self.gamma = reward_decay</div><div class="line">        self.epsilon_max = e_greedy</div><div class="line">        self.replace_target_iter = replace_target_iter</div><div class="line">        self.memory_size = memory_size</div><div class="line">        self.batch_size = batch_size</div><div class="line">        self.epsilon_increment = e_greedy_increment</div><div class="line">        self.epsilon = <span class="number">0</span> <span class="keyword">if</span> e_greedy_increment <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">else</span> self.epsilon_max</div><div class="line"></div><div class="line">        <span class="comment"># total learning step</span></div><div class="line">        self.learn_step_counter = <span class="number">0</span></div><div class="line">        self.cost = <span class="number">0</span></div><div class="line"></div><div class="line">        <span class="comment"># initialize zero memory [s, a, r, s_]</span></div><div class="line">        self.memory = np.zeros((self.memory_size, n_features * <span class="number">2</span> + <span class="number">2</span>))</div><div class="line"></div><div class="line">        <span class="comment"># consist of [target_net, evaluate_net]</span></div><div class="line">        self._build_net()</div><div class="line"></div><div class="line">        self.sess = tf.Session()</div><div class="line"></div><div class="line">        <span class="keyword">if</span> output_graph:</div><div class="line">            <span class="comment"># $ tensorboard --logdir=logs</span></div><div class="line">            <span class="comment"># tf.train.SummaryWriter soon be deprecated, use following</span></div><div class="line">            tf.summary.FileWriter(<span class="string">"logs/"</span>, self.sess.graph)</div><div class="line"></div><div class="line">        self.sess.run(tf.global_variables_initializer())</div><div class="line">        self.cost_his = []</div></pre></td></tr></table></figure></p>
+<p><code>self.memory</code>建立一个全0的矩阵用来存储状态和奖励值。大小为500x10（self.memory = 500 ; n_feature*2+2 = 10）。每一行保存当前状态，奖励值，动作，和采取动作之后的下一个状态。<code>self.epsilon</code>表示动作选择时的贪婪值。</p>
+<p>然后建立DQN网络，一共需要建立两个网络，一个是目标网络，一个是估计网络，网络的输入为模型中的状态值，输出为动作值，其中包含一个隐藏节点为10的隐藏层。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_build_net</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="comment"># ------------------ build evaluate_net ------------------</span></div><div class="line">    self.s = tf.placeholder(tf.float32, [<span class="keyword">None</span>, self.n_features], name=<span class="string">'s'</span>)  <span class="comment"># input</span></div><div class="line">    self.q_target = tf.placeholder(tf.float32, [<span class="keyword">None</span>, self.n_actions], name=<span class="string">'Q_target'</span>)  <span class="comment"># for calculating loss</span></div><div class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'eval_net'</span>):</div><div class="line">        <span class="comment"># c_names(collections_names) are the collections to store variables</span></div><div class="line">        c_names, n_l1, w_initializer, b_initializer = \</div><div class="line">            [<span class="string">'eval_net_params'</span>, tf.GraphKeys.GLOBAL_VARIABLES], <span class="number">10</span>, \</div><div class="line">            tf.random_normal_initializer(<span class="number">0.</span>, <span class="number">0.3</span>), tf.constant_initializer(<span class="number">0.1</span>)  <span class="comment"># config of layers</span></div><div class="line"></div><div class="line">        <span class="comment"># first layer. collections is used later when assign to target net</span></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'l1'</span>):</div><div class="line">            w1 = tf.get_variable(<span class="string">'w1'</span>, [self.n_features, n_l1], initializer=w_initializer, collections=c_names)</div><div class="line">            b1 = tf.get_variable(<span class="string">'b1'</span>, [<span class="number">1</span>, n_l1], initializer=b_initializer, collections=c_names)</div><div class="line">            l1 = tf.nn.relu(tf.matmul(self.s, w1) + b1)</div><div class="line"></div><div class="line">        <span class="comment"># second layer. collections is used later when assign to target net</span></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'l2'</span>):</div><div class="line">            w2 = tf.get_variable(<span class="string">'w2'</span>, [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)</div><div class="line">            b2 = tf.get_variable(<span class="string">'b2'</span>, [<span class="number">1</span>, self.n_actions], initializer=b_initializer, collections=c_names)</div><div class="line">            self.q_eval = tf.matmul(l1, w2) + b2</div><div class="line"></div><div class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'loss'</span>):</div><div class="line">        self.loss = tf.reduce_mean(tf.squared_difference(self.q_target, self.q_eval))</div><div class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'train'</span>):</div><div class="line">        self._train_op = tf.train.RMSPropOptimizer(self.lr).minimize(self.loss)</div><div class="line"></div><div class="line">    <span class="comment"># ------------------ build target_net ------------------</span></div><div class="line">    self.s_ = tf.placeholder(tf.float32, [<span class="keyword">None</span>, self.n_features], name=<span class="string">'s_'</span>)    <span class="comment"># input</span></div><div class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'target_net'</span>):</div><div class="line">        <span class="comment"># c_names(collections_names) are the collections to store variables</span></div><div class="line">        c_names = [<span class="string">'target_net_params'</span>, tf.GraphKeys.GLOBAL_VARIABLES]</div><div class="line"></div><div class="line">        <span class="comment"># first layer. collections is used later when assign to target net</span></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'l1'</span>):</div><div class="line">            w1 = tf.get_variable(<span class="string">'w1'</span>, [self.n_features, n_l1], initializer=w_initializer, collections=c_names)</div><div class="line">            b1 = tf.get_variable(<span class="string">'b1'</span>, [<span class="number">1</span>, n_l1], initializer=b_initializer, collections=c_names)</div><div class="line">            l1 = tf.nn.relu(tf.matmul(self.s_, w1) + b1)</div><div class="line"></div><div class="line">        <span class="comment"># second layer. collections is used later when assign to target net</span></div><div class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'l2'</span>):</div><div class="line">            w2 = tf.get_variable(<span class="string">'w2'</span>, [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)</div><div class="line">            b2 = tf.get_variable(<span class="string">'b2'</span>, [<span class="number">1</span>, self.n_actions], initializer=b_initializer, collections=c_names)</div><div class="line">            self.q_next = tf.matmul(l1, w2) + b2</div></pre></td></tr></table></figure></p>
+<p>然后创建函数用来保存转移信息（当前状态，动作，奖励，下一个状态）：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">store_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> hasattr(self, <span class="string">'memory_counter'</span>):</div><div class="line">        self.memory_counter = <span class="number">0</span></div><div class="line"></div><div class="line">    transition = np.hstack((s, [a, r], s_))</div><div class="line"></div><div class="line">    <span class="comment"># replace the old memory with new memory</span></div><div class="line">    index = self.memory_counter % self.memory_size</div><div class="line">    self.memory[index, :] = transition</div><div class="line">    self.memory_counter += <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>下面建立状态选择函数，函数需要传入当前的状态值用来作为网络的输入，并调用评估网络得到对应的动作：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, observation)</span>:</span></div><div class="line">    <span class="comment"># to have batch dimension when feed into tf placeholder</span></div><div class="line">    observation = observation[np.newaxis, :]</div><div class="line"></div><div class="line">    <span class="keyword">if</span> np.random.uniform() &lt; self.epsilon:</div><div class="line">        <span class="comment"># forward feed the observation and get q value for every actions</span></div><div class="line">        actions_value = self.sess.run(self.q_eval, feed_dict=&#123;self.s: observation&#125;)</div><div class="line">        action = np.argmax(actions_value)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        action = np.random.randint(<span class="number">0</span>, self.n_actions)</div><div class="line">    <span class="keyword">return</span> action</div></pre></td></tr></table></figure></p>
+<p>DQN的动作选择采用贪婪策略，$\epsilon$的概率选择动作值函数的最大值，$1-\epsilon$的概率随机选择动作值，这样可以使模型对未知的状态进行探索。</p>
+<p>然后建立网络替换函数，当达到一定步数的时候（<code>replace_target_iter =300</code>）需要将估计网络的参数赋给目标网络：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_replace_target_params</span><span class="params">(self)</span>:</span></div><div class="line">    t_params = tf.get_collection(<span class="string">'target_net_params'</span>)</div><div class="line">    e_params = tf.get_collection(<span class="string">'eval_net_params'</span>)</div><div class="line">    self.sess.run([tf.assign(t, e) <span class="keyword">for</span> t, e <span class="keyword">in</span> zip(t_params, e_params)])</div></pre></td></tr></table></figure></p>
+<p>然后建立学习函数，用来对模型参数进行学习：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="comment"># check to replace target parameters</span></div><div class="line">    <span class="keyword">if</span> self.learn_step_counter % self.replace_target_iter == <span class="number">0</span>:</div><div class="line">        self._replace_target_params()</div><div class="line">        <span class="comment"># print('\ntarget_params_replaced\n')</span></div><div class="line"></div><div class="line">    <span class="comment"># sample batch memory from all memory</span></div><div class="line">    <span class="keyword">if</span> self.memory_counter &gt; self.memory_size:</div><div class="line">        sample_index = np.random.choice(self.memory_size, size=self.batch_size)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        sample_index = np.random.choice(self.memory_counter, size=self.batch_size)</div><div class="line">    batch_memory = self.memory[sample_index, :]</div><div class="line"></div><div class="line">    q_next, q_eval = self.sess.run(</div><div class="line">        [self.q_next, self.q_eval],</div><div class="line">        feed_dict=&#123;</div><div class="line">            self.s_: batch_memory[:, -self.n_features:],  <span class="comment"># fixed params</span></div><div class="line">            self.s: batch_memory[:, :self.n_features],  <span class="comment"># newest params</span></div><div class="line">        &#125;)</div><div class="line"></div><div class="line">    <span class="comment"># change q_target w.r.t q_eval's action</span></div><div class="line">    q_target = q_eval.copy()</div><div class="line"></div><div class="line">    batch_index = np.arange(self.batch_size, dtype=np.int32)</div><div class="line">    eval_act_index = batch_memory[:, self.n_features].astype(int)</div><div class="line">    reward = batch_memory[:, self.n_features + <span class="number">1</span>]</div><div class="line"></div><div class="line">    q_target[batch_index, eval_act_index] = reward + self.gamma * np.max(q_next, axis=<span class="number">1</span>)</div><div class="line"></div><div class="line">    <span class="comment"># train eval network</span></div><div class="line">    _, self.cost = self.sess.run([self._train_op, self.loss],</div><div class="line">                                    feed_dict=&#123;self.s: batch_memory[:, :self.n_features],</div><div class="line">                                            self.q_target: q_target&#125;)</div><div class="line">    self.cost_his.append(self.cost)</div><div class="line"></div><div class="line">    <span class="comment"># increasing epsilon</span></div><div class="line">    self.epsilon = self.epsilon + self.epsilon_increment <span class="keyword">if</span> self.epsilon &lt; self.epsilon_max <span class="keyword">else</span> self.epsilon_max</div><div class="line">    self.learn_step_counter += <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>代码中，当达到参数替换的迭代数之后（<code>replace_target_iter</code>）需要替换目标网络的参数。然后在状态的存储空间中随机选择训练数据（<code>self.batch_size = 32</code>）。然后调用目标网络和估计网络分别计算当前状态的Q值和下一状态的Q值。在下一状态的Q值中选择最大值并乘以衰减系数$\gamma$加上奖励值就得到新的的当前状态的Q值，两个=当前状态的Q值的差作为误差函数来对DQN网络进行训练。</p>
+<p>为了将每一步训练的损失值话出来，需要建立一个损失函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_cost</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line">    plt.plot(np.arange(len(self.cost_his)), self.cost_his)</div><div class="line">    plt.ylabel(<span class="string">'Cost'</span>)</div><div class="line">    plt.xlabel(<span class="string">'training steps'</span>)</div><div class="line">    plt.show()</div></pre></td></tr></table></figure></p>
+<p>到这里未知，DQN的模型以及需要的函数就建立完成了。下面进入第二步，导入CartPole-v0的立杆子的环境并对DQN网络模型进行训练。</p>
+<p>首先在新建的Python文件中导入gym模块以及建立好的DQN模型，并且导入CartPole-v0：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> gym</div><div class="line"><span class="keyword">from</span> DQN <span class="keyword">import</span> DeepQNetwork</div><div class="line"></div><div class="line">env = gym.make(<span class="string">'CartPole-v0'</span>)</div><div class="line">env = env.unwrapped</div><div class="line"></div><div class="line">print(env.action_space)</div><div class="line">print(env.observation_space)</div></pre></td></tr></table></figure></p>
+<p>代码中<code>env = env.unwrapped</code>用来解除环境的一些默认限制。打印函数可以看到该环境有两个离散的动作值和四个状态值。</p>
+<p>然后实例化建立好的DQN模型：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">RL = DeepQNetwork(n_actions=env.action_space.n,</div><div class="line">                  n_features=env.observation_space.shape[<span class="number">0</span>],</div><div class="line">                  learning_rate=<span class="number">0.01</span>, e_greedy=<span class="number">0.9</span>,</div><div class="line">                  replace_target_iter=<span class="number">100</span>, memory_size=<span class="number">2000</span>,</div><div class="line">                  e_greedy_increment=<span class="number">0.001</span>,</div><div class="line">                  output_graph=<span class="keyword">False</span>)</div></pre></td></tr></table></figure></p>
+<p>最后就是迭代过程：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">total_steps = <span class="number">0</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(<span class="number">100</span>):</div><div class="line">    observation = env.reset()</div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        env.render()</div><div class="line"></div><div class="line">        action = RL.choose_action(observation)</div><div class="line"></div><div class="line">        observation_, reward, done, info = env.step(action)</div><div class="line"></div><div class="line">        x, x_dot, theta, theta_dot = observation_</div><div class="line"></div><div class="line">        <span class="comment"># the smaller theta and closer to center the better</span></div><div class="line"></div><div class="line">        r1 = (env.x_threshold - abs(x))/env.x_threshold - <span class="number">0.8</span></div><div class="line">        r2 = (env.theta_threshold_radians - abs(theta))/env.theta_threshold_radians - <span class="number">0.5</span></div><div class="line">        reward = r1 + r2</div><div class="line"></div><div class="line">        RL.store_transition(observation, action, reward, observation_)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> total_steps &gt; <span class="number">1000</span>:</div><div class="line">            RL.learn()</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">if</span> done:</div><div class="line">            print(<span class="string">'episode: '</span>, i_episode,</div><div class="line">                  <span class="string">'cost: '</span>, round(RL.cost, <span class="number">4</span>),</div><div class="line">                  <span class="string">' epsilon: '</span>, round(RL.epsilon, <span class="number">2</span>))</div><div class="line">            <span class="keyword">break</span></div><div class="line"></div><div class="line">        observation = observation_</div><div class="line">        total_steps += <span class="number">1</span></div><div class="line"></div><div class="line">RL.plot_cost()</div></pre></td></tr></table></figure></p>
+<p>代码中将状态值作为奖励值，（默认的将离职返回为-1，不适合作为DQN的奖励值。），每一步都要保存状态信息，当总步数大于1000步的时候开始对DQN模型进行训练，前面的步用来收集用于学习的状态信息。<br>每一次迭代结束之后打印迭代数，损失值，和贪婪值。最后完成100次迭代之后，画出损失值的图。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-6-28-2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>将DeepQNetwork类中的参数<code>output_graph=True</code>，可以在TensorBoard中看到DQN网络的结构图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-6-28-3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://openai.com/" target="_blank" rel="external">OpenAI</a></li>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-2-DQN2/" target="_blank" rel="external">DQN 神经网络 (Tensorflow)</a></li>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-4-gym/" target="_blank" rel="external">OpenAI gym 环境库 (Tensorflow)</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-29T13:07:51.827Z" itemprop="dateUpdated">2017年6月29日 21:07</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/06/28/Deep-Q-Network设计与实现/" target="_blank" rel="external">http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RL/">RL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/&title=《Deep Q Network设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/&title=《Deep Q Network设计与实现》 — 背着翅膀流浪&source=之前写了关于DQN（Deep Q Network）的算法分析，今天用Python以及相关的库来设计并实现一个DQN。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Deep Q Network设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/06/29/Policy-Gradients设计与实现/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Policy Gradients设计与实现</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/06/12/Python数据处理教程/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Python数据处理教程</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/&title=《Deep Q Network设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/&title=《Deep Q Network设计与实现》 — 背着翅膀流浪&source=之前写了关于DQN（Deep Q Network）的算法分析，今天用Python以及相关的库来设计并实现一个DQN。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Deep Q Network设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/06/28/Deep-Q-Network设计与实现/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

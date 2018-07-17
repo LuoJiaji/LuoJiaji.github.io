@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Python数据处理教程 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python">
+    <meta name="description" content="本文主要介绍Python在数据处理中用到的库和方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python数据处理教程">
+<meta property="og:url" content="http://luojiaji.github.io/2017/06/12/Python数据处理教程/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="本文主要介绍Python在数据处理中用到的库和方法。">
+<meta property="og:image" content="http://cs231n.github.io/assets/cat.jpg">
+<meta property="og:image" content="http://cs231n.github.io/assets/cat_tinted.jpg">
+<meta property="og:image" content="http://cs231n.github.io/assets/sine.png">
+<meta property="og:image" content="http://cs231n.github.io/assets/sine_cosine.png">
+<meta property="og:image" content="http://cs231n.github.io/assets/sine_cosine_subplot.png">
+<meta property="og:image" content="http://cs231n.github.io/assets/cat_tinted_imshow.png">
+<meta property="og:updated_time" content="2017-06-28T02:49:25.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python数据处理教程">
+<meta name="twitter:description" content="本文主要介绍Python在数据处理中用到的库和方法。">
+<meta name="twitter:image" content="http://cs231n.github.io/assets/cat.jpg">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Python数据处理教程</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Python数据处理教程</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-12T07:22:58.000Z" itemprop="datePublished" class="page-time">
+  2017-06-12
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Python"><span class="post-toc-number">1.</span> <span class="post-toc-text">Python</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python版本"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Python版本</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基本数据类型"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">基本数据类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#容器"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#列表"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字典"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">字典</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#集合"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">集合</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#元组"><span class="post-toc-number">1.3.4.</span> <span class="post-toc-text">元组</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#函数"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">类</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Numpy"><span class="post-toc-number">2.</span> <span class="post-toc-text">Numpy</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数组"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">数组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数组索引"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">数组索引</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据类型"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">数据类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据计算"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">数据计算</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#广播"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">广播</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#SciPy"><span class="post-toc-number">3.</span> <span class="post-toc-text">SciPy</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#图像操作"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">图像操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Matlab文件"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Matlab文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#两点间距离"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">两点间距离</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Matplotlib"><span class="post-toc-number">4.</span> <span class="post-toc-text">Matplotlib</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#绘图"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">绘图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#子图"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">子图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#图像"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">图像</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Python数据处理教程"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Python数据处理教程</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年06月12日 15:22" datetime="2017-06-12T07:22:58.000Z"  itemprop="datePublished">2017-06-12</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>本文主要介绍Python在数据处理中用到的库和方法。<br><a id="more"></a><br>这篇文章本质上是一篇翻译文，原文是<a href="http://cs231n.github.io/python-numpy-tutorial/" target="_blank" rel="external">Python Numpy Tutorial</a>。</p>
+<p>Python是一门优秀的通用编程语言，再结合一些流行的库（numpy，scipy，matplotlib）它会成为强大的科学计算环境。</p>
+<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><p>python是一门高级的动态类型的多模式编程语言。Python代码经常被说成是伪代码，因为它可以让你用可读性很强的几行代码来实现一些有力的想法。下面是一个用Python实现的经典的快速排序算法。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">quicksort</span><span class="params">(arr)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(arr) &lt;= <span class="number">1</span>:</div><div class="line">        <span class="keyword">return</span> arr</div><div class="line">    pivot = arr[len(arr) // <span class="number">2</span>]</div><div class="line">    left = [x <span class="keyword">for</span> x <span class="keyword">in</span> arr <span class="keyword">if</span> x &lt; pivot]</div><div class="line">    middle = [x <span class="keyword">for</span> x <span class="keyword">in</span> arr <span class="keyword">if</span> x == pivot]</div><div class="line">    right = [x <span class="keyword">for</span> x <span class="keyword">in</span> arr <span class="keyword">if</span> x &gt; pivot]</div><div class="line">    <span class="keyword">return</span> quicksort(left) + middle + quicksort(right)</div><div class="line"></div><div class="line">print(quicksort([<span class="number">3</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>]))</div><div class="line"><span class="comment"># Prints "[1, 1, 2, 3, 6, 8, 10]"</span></div></pre></td></tr></table></figure></p>
+<h2 id="Python版本"><a href="#Python版本" class="headerlink" title="Python版本"></a>Python版本</h2><p>目前，Python有两个不同的受支持版本2.7和3.5。令人困惑的是Python3.0引入了许多向后不兼容的改变，因此2.7版本下的代码在3.5中不一定有效，反之亦然。本教程的代码使用的是Python3.5。<br>可以通过命令行运行<code>Python --version</code>来检查你的Python版本。</p>
+<h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>像大多数编程语言一样，Python有许多基本的数据类型，包括整型、浮点型、布尔型和字符串。这些数据类型的操作方式和其他编程语言类似。<br><strong>数字：</strong>整型和浮点型的工作方式和其他编程语言类似：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">x = <span class="number">3</span></div><div class="line">print(type(x)) <span class="comment"># Prints "&lt;class 'int'&gt;"</span></div><div class="line">print(x)       <span class="comment"># Prints "3"</span></div><div class="line">print(x + <span class="number">1</span>)   <span class="comment"># Addition; prints "4"</span></div><div class="line">print(x - <span class="number">1</span>)   <span class="comment"># Subtraction; prints "2"</span></div><div class="line">print(x * <span class="number">2</span>)   <span class="comment"># Multiplication; prints "6"</span></div><div class="line">print(x ** <span class="number">2</span>)  <span class="comment"># Exponentiation; prints "9"</span></div><div class="line">x += <span class="number">1</span></div><div class="line">print(x)  <span class="comment"># Prints "4"</span></div><div class="line">x *= <span class="number">2</span></div><div class="line">print(x)  <span class="comment"># Prints "8"</span></div><div class="line">y = <span class="number">2.5</span></div><div class="line">print(type(y)) <span class="comment"># Prints "&lt;class 'float'&gt;"</span></div><div class="line">print(y, y + <span class="number">1</span>, y * <span class="number">2</span>, y ** <span class="number">2</span>) <span class="comment"># Prints "2.5 3.5 5.0 6.25"</span></div></pre></td></tr></table></figure></p>
+<p>注意：与其他编程语言不同，Python没有自加(<code>x++</code>)和自减(<code>x--</code>)操作。<br>Python也有内建的复数类型，具体内容可以参考<a href="https://docs.python.org/3.5/library/stdtypes.html#numeric-types-int-float-complex" target="_blank" rel="external">官方文档</a><br><strong>布尔值：</strong>Python可以通过英文单词来实现常用的布尔逻辑操作，而不是使用符号(<code>&amp;&amp;</code>,<code>||</code>,等):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">t = <span class="keyword">True</span></div><div class="line">f = <span class="keyword">False</span></div><div class="line">print(type(t)) <span class="comment"># Prints "&lt;class 'bool'&gt;"</span></div><div class="line">print(t <span class="keyword">and</span> f) <span class="comment"># Logical AND; prints "False"</span></div><div class="line">print(t <span class="keyword">or</span> f)  <span class="comment"># Logical OR; prints "True"</span></div><div class="line">print(<span class="keyword">not</span> t)   <span class="comment"># Logical NOT; prints "False"</span></div><div class="line">print(t != f)  <span class="comment"># Logical XOR; prints "True"</span></div></pre></td></tr></table></figure></p>
+<p><strong>字符串：</strong>Python可以很好地支持字符串操作：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">hello = <span class="string">'hello'</span>    <span class="comment"># String literals can use single quotes</span></div><div class="line">world = <span class="string">"world"</span>    <span class="comment"># or double quotes; it does not matter.</span></div><div class="line">print(hello)       <span class="comment"># Prints "hello"</span></div><div class="line">print(len(hello))  <span class="comment"># String length; prints "5"</span></div><div class="line">hw = hello + <span class="string">' '</span> + world  <span class="comment"># String concatenation</span></div><div class="line">print(hw)  <span class="comment"># prints "hello world"</span></div><div class="line">hw12 = <span class="string">'%s %s %d'</span> % (hello, world, <span class="number">12</span>)  <span class="comment"># sprintf style string formatting</span></div><div class="line">print(hw12)  <span class="comment"># prints "hello world 12"</span></div></pre></td></tr></table></figure></p>
+<p>字符串对象有许多非常有用的方法，比如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">s = <span class="string">"hello"</span></div><div class="line">print(s.capitalize())  <span class="comment"># Capitalize a string; prints "Hello"</span></div><div class="line">print(s.upper())       <span class="comment"># Convert a string to uppercase; prints "HELLO"</span></div><div class="line">print(s.rjust(<span class="number">7</span>))      <span class="comment"># Right-justify a string, padding with spaces; prints "  hello"</span></div><div class="line">print(s.center(<span class="number">7</span>))     <span class="comment"># Center a string, padding with spaces; prints " hello "</span></div><div class="line">print(s.replace(<span class="string">'l'</span>, <span class="string">'(ell)'</span>))  <span class="comment"># Replace all instances of one substring with another;</span></div><div class="line">                                <span class="comment"># prints "he(ell)(ell)o"</span></div><div class="line">print(<span class="string">'  world '</span>.strip())  <span class="comment"># Strip leading and trailing whitespace; prints "world"</span></div></pre></td></tr></table></figure></p>
+<p>你可以通过<a href="https://docs.python.org/3.5/library/stdtypes.html#string-methods" target="_blank" rel="external">官方文档</a>来查找所有的字符串方法。</p>
+<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><p>Python包含几个内建的容器类型：列表、字典、集合和元组。</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>Python中列表等效于数组，并且可以调整大小以及包含其他类型的元素：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">xs = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>]    <span class="comment"># Create a list</span></div><div class="line">print(xs, xs[<span class="number">2</span>])  <span class="comment"># Prints "[3, 1, 2] 2"</span></div><div class="line">print(xs[<span class="number">-1</span>])     <span class="comment"># Negative indices count from the end of the list; prints "2"</span></div><div class="line">xs[<span class="number">2</span>] = <span class="string">'foo'</span>     <span class="comment"># Lists can contain elements of different types</span></div><div class="line">print(xs)         <span class="comment"># Prints "[3, 1, 'foo']"</span></div><div class="line">xs.append(<span class="string">'bar'</span>)  <span class="comment"># Add a new element to the end of the list</span></div><div class="line">print(xs)         <span class="comment"># Prints "[3, 1, 'foo', 'bar']"</span></div><div class="line">x = xs.pop()      <span class="comment"># Remove and return the last element of the list</span></div><div class="line">print(x, xs)      <span class="comment"># Prints "bar [3, 1, 'foo']"</span></div></pre></td></tr></table></figure></p>
+<p>你也可以在<a href="https://docs.python.org/3.5/tutorial/datastructures.html#more-on-lists" target="_blank" rel="external">官方文档</a>中查找列表的详细资料。<br><strong>切片：</strong>除了每次可以获取列表中的元素之外，Python还提供了简明的语法来获取子列表。这就是所谓的切片：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">nums = list(range(<span class="number">5</span>))     <span class="comment"># range is a built-in function that creates a list of integers</span></div><div class="line">print(nums)               <span class="comment"># Prints "[0, 1, 2, 3, 4]"</span></div><div class="line">print(nums[<span class="number">2</span>:<span class="number">4</span>])          <span class="comment"># Get a slice from index 2 to 4 (exclusive); prints "[2, 3]"</span></div><div class="line">print(nums[<span class="number">2</span>:])           <span class="comment"># Get a slice from index 2 to the end; prints "[2, 3, 4]"</span></div><div class="line">print(nums[:<span class="number">2</span>])           <span class="comment"># Get a slice from the start to index 2 (exclusive); prints "[0, 1]"</span></div><div class="line">print(nums[:])            <span class="comment"># Get a slice of the whole list; prints "[0, 1, 2, 3, 4]"</span></div><div class="line">print(nums[:<span class="number">-1</span>])          <span class="comment"># Slice indices can be negative; prints "[0, 1, 2, 3]"</span></div><div class="line">nums[<span class="number">2</span>:<span class="number">4</span>] = [<span class="number">8</span>, <span class="number">9</span>]        <span class="comment"># Assign a new sublist to a slice</span></div><div class="line">print(nums)               <span class="comment"># Prints "[0, 1, 8, 9, 4]"</span></div></pre></td></tr></table></figure></p>
+<p>我们还将会在numpy的数部分作中遇到切片操作。<br><strong>循环：</strong>你可以像下面的例子一样通过列表中的元素来实现循环：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">animals = [<span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'monkey'</span>]</div><div class="line"><span class="keyword">for</span> animal <span class="keyword">in</span> animals:</div><div class="line">    print(animal)</div><div class="line"><span class="comment"># Prints "cat", "dog", "monkey", each on its own line.</span></div></pre></td></tr></table></figure></p>
+<p>如果想要得到每一个元素在循环体中的索引，可以使用内建函数<code>enumerate()</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">animals = [<span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'monkey'</span>]</div><div class="line"><span class="keyword">for</span> idx, animal <span class="keyword">in</span> enumerate(animals):</div><div class="line">    print(<span class="string">'#%d: %s'</span> % (idx + <span class="number">1</span>, animal))</div><div class="line"><span class="comment"># Prints "#1: cat", "#2: dog", "#3: monkey", each on its own line</span></div></pre></td></tr></table></figure></p>
+<p><strong>列表解析：</strong>在编程过程中，通常我们会将一种类型的数据转换为其他类型，考虑下面计算平方数的例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">nums = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</div><div class="line">squares = []</div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> nums:</div><div class="line">    squares.append(x ** <span class="number">2</span>)</div><div class="line">print(squares)   <span class="comment"># Prints [0, 1, 4, 9, 16]</span></div></pre></td></tr></table></figure></p>
+<p>你可以利用简单地利用列表解析来实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nums = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</div><div class="line">squares = [x ** <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> nums]</div><div class="line">print(squares)   <span class="comment"># Prints [0, 1, 4, 9, 16]</span></div></pre></td></tr></table></figure></p>
+<p>列表解析可以包含条件：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nums = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</div><div class="line">even_squares = [x ** <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> nums <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span>]</div><div class="line">print(even_squares)  <span class="comment"># Prints "[0, 4, 16]"</span></div></pre></td></tr></table></figure></p>
+<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><p>字典存储键值对(关键词，数值)，类似于Java中的<code>Map</code>和JavaScript中的对象。可以通过下面的例子来使用字典：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">d = &#123;<span class="string">'cat'</span>: <span class="string">'cute'</span>, <span class="string">'dog'</span>: <span class="string">'furry'</span>&#125;  <span class="comment"># Create a new dictionary with some data</span></div><div class="line">print(d[<span class="string">'cat'</span>])       <span class="comment"># Get an entry from a dictionary; prints "cute"</span></div><div class="line">print(<span class="string">'cat'</span> <span class="keyword">in</span> d)     <span class="comment"># Check if a dictionary has a given key; prints "True"</span></div><div class="line">d[<span class="string">'fish'</span>] = <span class="string">'wet'</span>     <span class="comment"># Set an entry in a dictionary</span></div><div class="line">print(d[<span class="string">'fish'</span>])      <span class="comment"># Prints "wet"</span></div><div class="line"><span class="comment"># print(d['monkey'])  # KeyError: 'monkey' not a key of d</span></div><div class="line">print(d.get(<span class="string">'monkey'</span>, <span class="string">'N/A'</span>))  <span class="comment"># Get an element with a default; prints "N/A"</span></div><div class="line">print(d.get(<span class="string">'fish'</span>, <span class="string">'N/A'</span>))    <span class="comment"># Get an element with a default; prints "wet"</span></div><div class="line"><span class="keyword">del</span> d[<span class="string">'fish'</span>]         <span class="comment"># Remove an element from a dictionary</span></div><div class="line">print(d.get(<span class="string">'fish'</span>, <span class="string">'N/A'</span>)) <span class="comment"># "fish" is no longer a key; prints "N/A"</span></div></pre></td></tr></table></figure></p>
+<p>可以在<a href="https://docs.python.org/3.5/library/stdtypes.html#dict" target="_blank" rel="external">官方文档</a>中查找需要的有关字典的信息。<br><strong>循环：</strong>可以简单地通过字典中的关键字来进行迭代：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">d = &#123;<span class="string">'person'</span>: <span class="number">2</span>, <span class="string">'cat'</span>: <span class="number">4</span>, <span class="string">'spider'</span>: <span class="number">8</span>&#125;</div><div class="line"><span class="keyword">for</span> animal <span class="keyword">in</span> d:</div><div class="line">    legs = d[animal]</div><div class="line">    print(<span class="string">'A %s has %d legs'</span> % (animal, legs))</div><div class="line"><span class="comment"># Prints "A person has 2 legs", "A cat has 4 legs", "A spider has 8 legs"</span></div></pre></td></tr></table></figure></p>
+<p>如果想要得到字典中的关键字和相对应的数值，可以使用<code>items</code>方法来实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">d = &#123;<span class="string">'person'</span>: <span class="number">2</span>, <span class="string">'cat'</span>: <span class="number">4</span>, <span class="string">'spider'</span>: <span class="number">8</span>&#125;</div><div class="line"><span class="keyword">for</span> animal, legs <span class="keyword">in</span> d.items():</div><div class="line">    print(<span class="string">'A %s has %d legs'</span> % (animal, legs))</div><div class="line"><span class="comment"># Prints "A person has 2 legs", "A cat has 4 legs", "A spider has 8 legs"</span></div></pre></td></tr></table></figure></p>
+<p><strong>字典解析：</strong>与列表解析类似，可以方便地构造字典。例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nums = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</div><div class="line">even_num_to_square = &#123;x: x ** <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> nums <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span>&#125;</div><div class="line">print(even_num_to_square)  <span class="comment"># Prints "&#123;0: 0, 2: 4, 4: 16&#125;"</span></div></pre></td></tr></table></figure></p>
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><p>集合是不同元素的无序集合。思考下面的例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">animals = &#123;<span class="string">'cat'</span>, <span class="string">'dog'</span>&#125;</div><div class="line">print(<span class="string">'cat'</span> <span class="keyword">in</span> animals)   <span class="comment"># Check if an element is in a set; prints "True"</span></div><div class="line">print(<span class="string">'fish'</span> <span class="keyword">in</span> animals)  <span class="comment"># prints "False"</span></div><div class="line">animals.add(<span class="string">'fish'</span>)       <span class="comment"># Add an element to a set</span></div><div class="line">print(<span class="string">'fish'</span> <span class="keyword">in</span> animals)  <span class="comment"># Prints "True"</span></div><div class="line">print(len(animals))       <span class="comment"># Number of elements in a set; prints "3"</span></div><div class="line">animals.add(<span class="string">'cat'</span>)        <span class="comment"># Adding an element that is already in the set does nothing</span></div><div class="line">print(len(animals))       <span class="comment"># Prints "3"</span></div><div class="line">animals.remove(<span class="string">'cat'</span>)     <span class="comment"># Remove an element from a set</span></div><div class="line">print(len(animals))       <span class="comment"># Prints "2"</span></div></pre></td></tr></table></figure></p>
+<p>同样可以在<a href="https://docs.python.org/3.5/library/stdtypes.html#set" target="_blank" rel="external">官方文档</a>中查找更详细的信息。<br><strong>循环：</strong>通过集合迭代和通过列表迭代有相同的语法。但是由于集合是无序的，因此不能假设所访问的集合中元素的顺序：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">animals = &#123;<span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'fish'</span>&#125;</div><div class="line"><span class="keyword">for</span> idx, animal <span class="keyword">in</span> enumerate(animals):</div><div class="line">    print(<span class="string">'#%d: %s'</span> % (idx + <span class="number">1</span>, animal))</div><div class="line"><span class="comment"># Prints "#1: fish", "#2: dog", "#3: cat"</span></div></pre></td></tr></table></figure></p>
+<p><strong>集合解析：</strong>与列表解析和字典解析类似，我们可以使用集合解析快速地构造集合：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt</div><div class="line">nums = &#123;int(sqrt(x)) <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">30</span>)&#125;</div><div class="line">print(nums)  <span class="comment"># Prints "&#123;0, 1, 2, 3, 4, 5&#125;"</span></div></pre></td></tr></table></figure></p>
+<h3 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h3><p>元组是(不可改变的)有序的值列表，元组在许多方面和列表类似，最重要的一点不同是元组可以作为字典中的关键字和集合中的元素，而列表不行。下面是一些小例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">d = &#123;(x, x + <span class="number">1</span>): x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)&#125;  <span class="comment"># Create a dictionary with tuple keys</span></div><div class="line">t = (<span class="number">5</span>, <span class="number">6</span>)        <span class="comment"># Create a tuple</span></div><div class="line">print(type(t))    <span class="comment"># Prints "&lt;class 'tuple'&gt;"</span></div><div class="line">print(d[t])       <span class="comment"># Prints "5"</span></div><div class="line">print(d[(<span class="number">1</span>, <span class="number">2</span>)])  <span class="comment"># Prints "1"</span></div></pre></td></tr></table></figure></p>
+<p>关于元组的<a href="https://docs.python.org/3.5/tutorial/datastructures.html#tuples-and-sequences" target="_blank" rel="external">官方文档</a></p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>Python中的函数通过关键字<code>def</code>来定义。例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sign</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="keyword">if</span> x &gt; <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">'positive'</span></div><div class="line">    <span class="keyword">elif</span> x &lt; <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">'negative'</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">'zero'</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>]:</div><div class="line">    print(sign(x))</div><div class="line"><span class="comment"># Prints "negative", "zero", "positive"</span></div></pre></td></tr></table></figure></p>
+<p>通常会采用可选关键字参数来定义函数，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(name, loud=False)</span>:</span></div><div class="line">    <span class="keyword">if</span> loud:</div><div class="line">        print(<span class="string">'HELLO, %s!'</span> % name.upper())</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        print(<span class="string">'Hello, %s'</span> % name)</div><div class="line"></div><div class="line">hello(<span class="string">'Bob'</span>) <span class="comment"># Prints "Hello, Bob"</span></div><div class="line">hello(<span class="string">'Fred'</span>, loud=<span class="keyword">True</span>)  <span class="comment"># Prints "HELLO, FRED!"</span></div></pre></td></tr></table></figure></p>
+<p>有关Python函数的更多信息可以参考<a href="https://docs.python.org/3.5/tutorial/controlflow.html#defining-functions" target="_blank" rel="external">官方文档</a></p>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>Python中定义类的语法非常简洁：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Greeter</span><span class="params">(object)</span>:</span></div><div class="line"></div><div class="line">    <span class="comment"># Constructor</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self.name = name  <span class="comment"># Create an instance variable</span></div><div class="line"></div><div class="line">    <span class="comment"># Instance method</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">greet</span><span class="params">(self, loud=False)</span>:</span></div><div class="line">        <span class="keyword">if</span> loud:</div><div class="line">            print(<span class="string">'HELLO, %s!'</span> % self.name.upper())</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            print(<span class="string">'Hello, %s'</span> % self.name)</div><div class="line"></div><div class="line">g = Greeter(<span class="string">'Fred'</span>)  <span class="comment"># Construct an instance of the Greeter class</span></div><div class="line">g.greet()            <span class="comment"># Call an instance method; prints "Hello, Fred"</span></div><div class="line">g.greet(loud=<span class="keyword">True</span>)   <span class="comment"># Call an instance method; prints "HELLO, FRED!"</span></div></pre></td></tr></table></figure></p>
+<p>Python中类的<a href="https://docs.python.org/3.5/tutorial/classes.html" target="_blank" rel="external">官方文档</a></p>
+<h1 id="Numpy"><a href="#Numpy" class="headerlink" title="Numpy"></a>Numpy</h1><p><a href="http://www.numpy.org/" target="_blank" rel="external">Numpy</a>是Python科学计算的核心库。它提供可高性能的多维数组对象以及处理多维数组的工具。如果你已经熟悉MATLAB，你会发现<a href="http://scipy.github.io/old-wiki/pages/NumPy_for_Matlab_Users" target="_blank" rel="external">教程</a>对你入门Numpy非常有用。</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>Numpy中的数组是类型相同，由非负整数构成的元组索引的值的网格。维数是数组的秩(<em>rank</em>)，矩阵的形状(<em>shape</em>)是一个整数元组，表示每一个维度的大小。<br>可以通过嵌套Python列表的方式来初始化numpy数组，可以通过方括号来获取数组中的元素：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])   <span class="comment"># Create a rank 1 array</span></div><div class="line">print(type(a))            <span class="comment"># Prints "&lt;class 'numpy.ndarray'&gt;"</span></div><div class="line">print(a.shape)            <span class="comment"># Prints "(3,)"</span></div><div class="line">print(a[<span class="number">0</span>], a[<span class="number">1</span>], a[<span class="number">2</span>])   <span class="comment"># Prints "1 2 3"</span></div><div class="line">a[<span class="number">0</span>] = <span class="number">5</span>                  <span class="comment"># Change an element of the array</span></div><div class="line">print(a)                  <span class="comment"># Prints "[5, 2, 3]"</span></div><div class="line"></div><div class="line">b = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]])    <span class="comment"># Create a rank 2 array</span></div><div class="line">print(b.shape)                     <span class="comment"># Prints "(2, 3)"</span></div><div class="line">print(b[<span class="number">0</span>, <span class="number">0</span>], b[<span class="number">0</span>, <span class="number">1</span>], b[<span class="number">1</span>, <span class="number">0</span>])   <span class="comment"># Prints "1 2 4"</span></div></pre></td></tr></table></figure></p>
+<p>Numpy也提供了很多函数用来创建数组：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">a = np.zeros((<span class="number">2</span>,<span class="number">2</span>))   <span class="comment"># Create an array of all zeros</span></div><div class="line">print(a)              <span class="comment"># Prints "[[ 0.  0.]</span></div><div class="line">                      <span class="comment">#          [ 0.  0.]]"</span></div><div class="line"></div><div class="line">b = np.ones((<span class="number">1</span>,<span class="number">2</span>))    <span class="comment"># Create an array of all ones</span></div><div class="line">print(b)              <span class="comment"># Prints "[[ 1.  1.]]"</span></div><div class="line"></div><div class="line">c = np.full((<span class="number">2</span>,<span class="number">2</span>), <span class="number">7</span>)  <span class="comment"># Create a constant array</span></div><div class="line">print(c)               <span class="comment"># Prints "[[ 7.  7.]</span></div><div class="line">                       <span class="comment">#          [ 7.  7.]]"</span></div><div class="line"></div><div class="line">d = np.eye(<span class="number">2</span>)         <span class="comment"># Create a 2x2 identity matrix</span></div><div class="line">print(d)              <span class="comment"># Prints "[[ 1.  0.]</span></div><div class="line">                      <span class="comment">#          [ 0.  1.]]"</span></div><div class="line"></div><div class="line">e = np.random.random((<span class="number">2</span>,<span class="number">2</span>))  <span class="comment"># Create an array filled with random values</span></div><div class="line">print(e)                     <span class="comment"># Might print "[[ 0.91940167  0.08143941]</span></div><div class="line">                             <span class="comment">#               [ 0.68744134  0.87236687]]"</span></div></pre></td></tr></table></figure></p>
+<p>可以通过<a href="https://docs.scipy.org/doc/numpy/user/basics.creation.html#arrays-creation" target="_blank" rel="external">官方文档</a>来查找更多数组创建的方法。</p>
+<h2 id="数组索引"><a href="#数组索引" class="headerlink" title="数组索引"></a>数组索引</h2><p>Numpy提供了几种数组索引的方法。<br><strong>切片：</strong>类似于Python中的列表，numpy中的数组也可以切片。由于数组有时候是多维的，所以一定要明确数组中每一维度上的切片：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="comment"># Create the following rank 2 array with shape (3, 4)</span></div><div class="line"><span class="comment"># [[ 1  2  3  4]</span></div><div class="line"><span class="comment">#  [ 5  6  7  8]</span></div><div class="line"><span class="comment">#  [ 9 10 11 12]]</span></div><div class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>], [<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>], [<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>]])</div><div class="line"></div><div class="line"><span class="comment"># Use slicing to pull out the subarray consisting of the first 2 rows</span></div><div class="line"><span class="comment"># and columns 1 and 2; b is the following array of shape (2, 2):</span></div><div class="line"><span class="comment"># [[2 3]</span></div><div class="line"><span class="comment">#  [6 7]]</span></div><div class="line">b = a[:<span class="number">2</span>, <span class="number">1</span>:<span class="number">3</span>]</div><div class="line"></div><div class="line"><span class="comment"># A slice of an array is a view into the same data, so modifying it</span></div><div class="line"><span class="comment"># will modify the original array.</span></div><div class="line">print(a[<span class="number">0</span>, <span class="number">1</span>])   <span class="comment"># Prints "2"</span></div><div class="line">b[<span class="number">0</span>, <span class="number">0</span>] = <span class="number">77</span>     <span class="comment"># b[0, 0] is the same piece of data as a[0, 1]</span></div><div class="line">print(a[<span class="number">0</span>, <span class="number">1</span>])   <span class="comment"># Prints "77"</span></div></pre></td></tr></table></figure></p>
+<p>可以混合使用整数索引和切片索引。然而，这样做需要数组的秩要低于原始数组。注意，这和MATLAB中数组切片的操作不同：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="comment"># Create the following rank 2 array with shape (3, 4)</span></div><div class="line"><span class="comment"># [[ 1  2  3  4]</span></div><div class="line"><span class="comment">#  [ 5  6  7  8]</span></div><div class="line"><span class="comment">#  [ 9 10 11 12]]</span></div><div class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>], [<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>], [<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>]])</div><div class="line"></div><div class="line"><span class="comment"># Two ways of accessing the data in the middle row of the array.</span></div><div class="line"><span class="comment"># Mixing integer indexing with slices yields an array of lower rank,</span></div><div class="line"><span class="comment"># while using only slices yields an array of the same rank as the</span></div><div class="line"><span class="comment"># original array:</span></div><div class="line">row_r1 = a[<span class="number">1</span>, :]    <span class="comment"># Rank 1 view of the second row of a</span></div><div class="line">row_r2 = a[<span class="number">1</span>:<span class="number">2</span>, :]  <span class="comment"># Rank 2 view of the second row of a</span></div><div class="line">print(row_r1, row_r1.shape)  <span class="comment"># Prints "[5 6 7 8] (4,)"</span></div><div class="line">print(row_r2, row_r2.shape)  <span class="comment"># Prints "[[5 6 7 8]] (1, 4)"</span></div><div class="line"></div><div class="line"><span class="comment"># We can make the same distinction when accessing columns of an array:</span></div><div class="line">col_r1 = a[:, <span class="number">1</span>]</div><div class="line">col_r2 = a[:, <span class="number">1</span>:<span class="number">2</span>]</div><div class="line">print(col_r1, col_r1.shape)  <span class="comment"># Prints "[ 2  6 10] (3,)"</span></div><div class="line">print(col_r2, col_r2.shape)  <span class="comment"># Prints "[[ 2]</span></div><div class="line">                             <span class="comment">#          [ 6]</span></div><div class="line">                             <span class="comment">#          [10]] (3, 1)"</span></div></pre></td></tr></table></figure></p>
+<p><strong>整数数组索引：</strong>当使用切片来索引numpy的数组时，结果被视为是原始阵列的一个子阵列。相反，整数数组索引可以利用其它数组中的数据来构造任意的数组。例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>]])</div><div class="line"></div><div class="line"><span class="comment"># An example of integer array indexing.</span></div><div class="line"><span class="comment"># The returned array will have shape (3,) and</span></div><div class="line">print(a[[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>]])  <span class="comment"># Prints "[1 4 5]"</span></div><div class="line"></div><div class="line"><span class="comment"># The above example of integer array indexing is equivalent to this:</span></div><div class="line">print(np.array([a[<span class="number">0</span>, <span class="number">0</span>], a[<span class="number">1</span>, <span class="number">1</span>], a[<span class="number">2</span>, <span class="number">0</span>]]))  <span class="comment"># Prints "[1 4 5]"</span></div><div class="line"></div><div class="line"><span class="comment"># When using integer array indexing, you can reuse the same</span></div><div class="line"><span class="comment"># element from the source array:</span></div><div class="line">print(a[[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]])  <span class="comment"># Prints "[2 2]"</span></div><div class="line"></div><div class="line"><span class="comment"># Equivalent to the previous integer array indexing example</span></div><div class="line">print(np.array([a[<span class="number">0</span>, <span class="number">1</span>], a[<span class="number">0</span>, <span class="number">1</span>]]))  <span class="comment"># Prints "[2 2]"</span></div></pre></td></tr></table></figure></p>
+<p>整数数组索引的一个有用的技巧是用用来选择或改变矩阵中每一列的元素<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="comment"># Create a new array from which we will select elements</span></div><div class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>], [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]])</div><div class="line"></div><div class="line">print(a)  <span class="comment"># prints "array([[ 1,  2,  3],</span></div><div class="line">          <span class="comment">#                [ 4,  5,  6],</span></div><div class="line">          <span class="comment">#                [ 7,  8,  9],</span></div><div class="line">          <span class="comment">#                [10, 11, 12]])"</span></div><div class="line"></div><div class="line"><span class="comment"># Create an array of indices</span></div><div class="line">b = np.array([<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>])</div><div class="line"></div><div class="line"><span class="comment"># Select one element from each row of a using the indices in b</span></div><div class="line">print(a[np.arange(<span class="number">4</span>), b])  <span class="comment"># Prints "[ 1  6  7 11]"</span></div><div class="line"></div><div class="line"><span class="comment"># Mutate one element from each row of a using the indices in b</span></div><div class="line">a[np.arange(<span class="number">4</span>), b] += <span class="number">10</span></div><div class="line"></div><div class="line">print(a)  <span class="comment"># prints "array([[11,  2,  3],</span></div><div class="line">          <span class="comment">#                [ 4,  5, 16],</span></div><div class="line">          <span class="comment">#                [17,  8,  9],</span></div><div class="line">          <span class="comment">#                [10, 21, 12]])</span></div></pre></td></tr></table></figure></p>
+<p><strong>布尔数组索引：</strong>布尔数组索引可以挑出数组中的任意元素。通常这用索引用来选择数组中满足一定条件的数组。例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>]])</div><div class="line"></div><div class="line">bool_idx = (a &gt; <span class="number">2</span>)   <span class="comment"># Find the elements of a that are bigger than 2;</span></div><div class="line">                     <span class="comment"># this returns a numpy array of Booleans of the same</span></div><div class="line">                     <span class="comment"># shape as a, where each slot of bool_idx tells</span></div><div class="line">                     <span class="comment"># whether that element of a is &gt; 2.</span></div><div class="line"></div><div class="line">print(bool_idx)      <span class="comment"># Prints "[[False False]</span></div><div class="line">                     <span class="comment">#          [ True  True]</span></div><div class="line">                     <span class="comment">#          [ True  True]]"</span></div><div class="line"></div><div class="line"><span class="comment"># We use boolean array indexing to construct a rank 1 array</span></div><div class="line"><span class="comment"># consisting of the elements of a corresponding to the True values</span></div><div class="line"><span class="comment"># of bool_idx</span></div><div class="line">print(a[bool_idx])  <span class="comment"># Prints "[3 4 5 6]"</span></div><div class="line"></div><div class="line"><span class="comment"># We can do all of the above in a single concise statement:</span></div><div class="line">print(a[a &gt; <span class="number">2</span>])     <span class="comment"># Prints "[3 4 5 6]"</span></div></pre></td></tr></table></figure></p>
+<p>想要了解更多关于numpy数组索引的信息，可以阅读<a href="https://docs.scipy.org/doc/numpy/reference/arrays.indexing.html" target="_blank" rel="external">官方文档</a></p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>每一个numpy数组是一个有相同类型元素的网格。Numpy提供了许多用来构造数组的数据类型。当你在创建数组的时候Numpy会尝试猜测数组的类型，但是构造数组通常包括一个可选参数来明确数组的数据类型。例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">x = np.array([<span class="number">1</span>, <span class="number">2</span>])   <span class="comment"># Let numpy choose the datatype</span></div><div class="line">print(x.dtype)         <span class="comment"># Prints "int64"</span></div><div class="line"></div><div class="line">x = np.array([<span class="number">1.0</span>, <span class="number">2.0</span>])   <span class="comment"># Let numpy choose the datatype</span></div><div class="line">print(x.dtype)             <span class="comment"># Prints "float64"</span></div><div class="line"></div><div class="line">x = np.array([<span class="number">1</span>, <span class="number">2</span>], dtype=np.int64)   <span class="comment"># Force a particular datatype</span></div><div class="line">print(x.dtype)                         <span class="comment"># Prints "int64"</span></div></pre></td></tr></table></figure></p>
+<p>更多关于numpy的数据类型请参考<a href="https://docs.scipy.org/doc/numpy/reference/arrays.dtypes.html" target="_blank" rel="external">官方文档</a></p>
+<h2 id="数据计算"><a href="#数据计算" class="headerlink" title="数据计算"></a>数据计算</h2><p>在Numpy模块中基本的针对数组元素的数学公式操作可以通过运算符重载或函数来实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>]], dtype=np.float64)</div><div class="line">y = np.array([[<span class="number">5</span>,<span class="number">6</span>],[<span class="number">7</span>,<span class="number">8</span>]], dtype=np.float64)</div><div class="line"></div><div class="line"><span class="comment"># Elementwise sum; both produce the array</span></div><div class="line"><span class="comment"># [[ 6.0  8.0]</span></div><div class="line"><span class="comment">#  [10.0 12.0]]</span></div><div class="line">print(x + y)</div><div class="line">print(np.add(x, y))</div><div class="line"></div><div class="line"><span class="comment"># Elementwise difference; both produce the array</span></div><div class="line"><span class="comment"># [[-4.0 -4.0]</span></div><div class="line"><span class="comment">#  [-4.0 -4.0]]</span></div><div class="line">print(x - y)</div><div class="line">print(np.subtract(x, y))</div><div class="line"></div><div class="line"><span class="comment"># Elementwise product; both produce the array</span></div><div class="line"><span class="comment"># [[ 5.0 12.0]</span></div><div class="line"><span class="comment">#  [21.0 32.0]]</span></div><div class="line">print(x * y)</div><div class="line">print(np.multiply(x, y))</div><div class="line"></div><div class="line"><span class="comment"># Elementwise division; both produce the array</span></div><div class="line"><span class="comment"># [[ 0.2         0.33333333]</span></div><div class="line"><span class="comment">#  [ 0.42857143  0.5       ]]</span></div><div class="line">print(x / y)</div><div class="line">print(np.divide(x, y))</div><div class="line"></div><div class="line"><span class="comment"># Elementwise square root; produces the array</span></div><div class="line"><span class="comment"># [[ 1.          1.41421356]</span></div><div class="line"><span class="comment">#  [ 1.73205081  2.        ]]</span></div><div class="line">print(np.sqrt(x))</div></pre></td></tr></table></figure></p>
+<p>注意，不像在MATLAB中，<code>*</code>是元素间相乘，而不是矩阵相乘。我们使用<code>dot</code>函数来计算向量的内积，来实现矩阵乘法。<code>dot</code>可以通过模块函数或者数组对象的方法来实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>]])</div><div class="line">y = np.array([[<span class="number">5</span>,<span class="number">6</span>],[<span class="number">7</span>,<span class="number">8</span>]])</div><div class="line"></div><div class="line">v = np.array([<span class="number">9</span>,<span class="number">10</span>])</div><div class="line">w = np.array([<span class="number">11</span>, <span class="number">12</span>])</div><div class="line"></div><div class="line"><span class="comment"># Inner product of vectors; both produce 219</span></div><div class="line">print(v.dot(w))</div><div class="line">print(np.dot(v, w))</div><div class="line"></div><div class="line"><span class="comment"># Matrix / vector product; both produce the rank 1 array [29 67]</span></div><div class="line">print(x.dot(v))</div><div class="line">print(np.dot(x, v))</div><div class="line"></div><div class="line"><span class="comment"># Matrix / matrix product; both produce the rank 2 array</span></div><div class="line"><span class="comment"># [[19 22]</span></div><div class="line"><span class="comment">#  [43 50]]</span></div><div class="line">print(x.dot(y))</div><div class="line">print(np.dot(x, y))</div></pre></td></tr></table></figure></p>
+<p>Numpy在矩阵运算中提供了许多有用的函数，最常用的函数之一是<code>sum</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>]])</div><div class="line"></div><div class="line">print(np.sum(x))  <span class="comment"># Compute sum of all elements; prints "10"</span></div><div class="line">print(np.sum(x, axis=<span class="number">0</span>))  <span class="comment"># Compute sum of each column; prints "[4 6]"</span></div><div class="line">print(np.sum(x, axis=<span class="number">1</span>))  <span class="comment"># Compute sum of each row; prints "[3 7]"</span></div></pre></td></tr></table></figure></p>
+<p>可以在<a href="https://docs.scipy.org/doc/numpy/reference/routines.math.html" target="_blank" rel="external">官方文档</a>中查看完整的数学函数列表。<br>除了使用数组来计算数学函数之外，通常需要改变数组形状或者其他队数组中数据的操作，最简单的例子是矩阵的转置操作；通过数组对象的<code>T</code>转置可以简单地实现矩阵的转置。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>,<span class="number">4</span>]])</div><div class="line">print(x)    <span class="comment"># Prints "[[1 2]</span></div><div class="line">            <span class="comment">#          [3 4]]"</span></div><div class="line">print(x.T)  <span class="comment"># Prints "[[1 3]</span></div><div class="line">            <span class="comment">#          [2 4]]"</span></div><div class="line"></div><div class="line"><span class="comment"># Note that taking the transpose of a rank 1 array does nothing:</span></div><div class="line">v = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</div><div class="line">print(v)    <span class="comment"># Prints "[1 2 3]"</span></div><div class="line">print(v.T)  <span class="comment"># Prints "[1 2 3]"</span></div></pre></td></tr></table></figure></p>
+<p>Numpy提供了许多函数来对数组进行操作，完整的函数列表请参考<a href="https://docs.scipy.org/doc/numpy/reference/routines.array-manipulation.html" target="_blank" rel="external">官方文档</a></p>
+<h2 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h2><p>广播是一种非常强大的机制，可以允许numpy中不同形状的数组执行算术运算。通常情况下当有一个小数组和一个大数组时，想要用小数组在大数组上多次执行某些操作。<br>比如，想给矩阵的每一行加上常数向量。方法如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="comment"># We will add the vector v to each row of the matrix x,</span></div><div class="line"><span class="comment"># storing the result in the matrix y</span></div><div class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>], [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]])</div><div class="line">v = np.array([<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</div><div class="line">y = np.empty_like(x)   <span class="comment"># Create an empty matrix with the same shape as x</span></div><div class="line"></div><div class="line"><span class="comment"># Add the vector v to each row of the matrix x with an explicit loop</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</div><div class="line">    y[i, :] = x[i, :] + v</div><div class="line"></div><div class="line"><span class="comment"># Now y is the following</span></div><div class="line"><span class="comment"># [[ 2  2  4]</span></div><div class="line"><span class="comment">#  [ 5  5  7]</span></div><div class="line"><span class="comment">#  [ 8  8 10]</span></div><div class="line"><span class="comment">#  [11 11 13]]</span></div><div class="line">print(y)</div></pre></td></tr></table></figure></p>
+<p>然而当矩阵<code>x</code>非常大的时候，Python中计算循环会变得很慢。注意到在矩阵<code>x</code>的每一行加上向量<code>v</code>等效于通过垂直复制<code>v</code>来构造矩阵<code>vv</code>，然后对<code>x</code>和<code>vv</code>执行元素间求和。实现方法如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="comment"># We will add the vector v to each row of the matrix x,</span></div><div class="line"><span class="comment"># storing the result in the matrix y</span></div><div class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>], [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]])</div><div class="line">v = np.array([<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</div><div class="line">vv = np.tile(v, (<span class="number">4</span>, <span class="number">1</span>))   <span class="comment"># Stack 4 copies of v on top of each other</span></div><div class="line">print(vv)                 <span class="comment"># Prints "[[1 0 1]</span></div><div class="line">                          <span class="comment">#          [1 0 1]</span></div><div class="line">                          <span class="comment">#          [1 0 1]</span></div><div class="line">                          <span class="comment">#          [1 0 1]]"</span></div><div class="line">y = x + vv  <span class="comment"># Add x and vv elementwise</span></div><div class="line">print(y)  <span class="comment"># Prints "[[ 2  2  4</span></div><div class="line">          <span class="comment">#          [ 5  5  7]</span></div><div class="line">          <span class="comment">#          [ 8  8 10]</span></div><div class="line">          <span class="comment">#          [11 11 13]]"</span></div></pre></td></tr></table></figure></p>
+<p>Numpy广播允许执行这样的操作而不必创造多重复制的<code>v</code>，使用广播来实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="comment"># We will add the vector v to each row of the matrix x,</span></div><div class="line"><span class="comment"># storing the result in the matrix y</span></div><div class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>], [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]])</div><div class="line">v = np.array([<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>])</div><div class="line">y = x + v  <span class="comment"># Add v to each row of x using broadcasting</span></div><div class="line">print(y)  <span class="comment"># Prints "[[ 2  2  4]</span></div><div class="line">          <span class="comment">#          [ 5  5  7]</span></div><div class="line">          <span class="comment">#          [ 8  8 10]</span></div><div class="line">          <span class="comment">#          [11 11 13]]"</span></div></pre></td></tr></table></figure></p>
+<p>即使<code>x</code>的形状是<code>(4,3)</code>而且<code>v</code>的形状是<code>(3,)</code>，但现行方程<code>y = x + v</code>由于广播机制同样有效。这个线性方程仿佛<code>v</code>的形状实际上是<code>(4,3)</code>，其中每一行都是<code>v</code>的复制，然后在执行元素间求和。<br>两个矩阵执行广播需要遵循以下规则：</p>
+<ol>
+<li>如果数组具有不同的秩，用1来填充秩较低的数组的形状，直到数组具有相同的长度。</li>
+<li>数组在这一维度中被称为兼容的，如果两个数组在某一维度中的大小的是相同的，或者其中一个数组的在某一维度中的大小是1。</li>
+<li>如果数组在所有维度上都是兼容的，则数组可以执行广播操作合并在一起。</li>
+<li>广播操作之后，数组的形状等于两个输入数组形状元素的最大值。</li>
+<li>在任何维度中，如果一个数组的形状为1并且另一个数组的形状大于1，第一个数组沿这个维度进行复制操作。</li>
+</ol>
+<p>如果以上解释不明白的话，请参考<a href="https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html" target="_blank" rel="external">官方文档</a>的解释或者<a href="http://scipy.github.io/old-wiki/pages/EricsBroadcastingDoc" target="_blank" rel="external">其他解释</a><br>支持广播功能被称作通用功能，可以在<a href="https://docs.scipy.org/doc/numpy/reference/ufuncs.html#available-ufuncs" target="_blank" rel="external">官方文档</a>中查看所有通用功能。<br>下面是一些广播功能的应用：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line"><span class="comment"># Compute outer product of vectors</span></div><div class="line">v = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])  <span class="comment"># v has shape (3,)</span></div><div class="line">w = np.array([<span class="number">4</span>,<span class="number">5</span>])    <span class="comment"># w has shape (2,)</span></div><div class="line"><span class="comment"># To compute an outer product, we first reshape v to be a column</span></div><div class="line"><span class="comment"># vector of shape (3, 1); we can then broadcast it against w to yield</span></div><div class="line"><span class="comment"># an output of shape (3, 2), which is the outer product of v and w:</span></div><div class="line"><span class="comment"># [[ 4  5]</span></div><div class="line"><span class="comment">#  [ 8 10]</span></div><div class="line"><span class="comment">#  [12 15]]</span></div><div class="line">print(np.reshape(v, (<span class="number">3</span>, <span class="number">1</span>)) * w)</div><div class="line"></div><div class="line"><span class="comment"># Add a vector to each row of a matrix</span></div><div class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]])</div><div class="line"><span class="comment"># x has shape (2, 3) and v has shape (3,) so they broadcast to (2, 3),</span></div><div class="line"><span class="comment"># giving the following matrix:</span></div><div class="line"><span class="comment"># [[2 4 6]</span></div><div class="line"><span class="comment">#  [5 7 9]]</span></div><div class="line">print(x + v)</div><div class="line"></div><div class="line"><span class="comment"># Add a vector to each column of a matrix</span></div><div class="line"><span class="comment"># x has shape (2, 3) and w has shape (2,).</span></div><div class="line"><span class="comment"># If we transpose x then it has shape (3, 2) and can be broadcast</span></div><div class="line"><span class="comment"># against w to yield a result of shape (3, 2); transposing this result</span></div><div class="line"><span class="comment"># yields the final result of shape (2, 3) which is the matrix x with</span></div><div class="line"><span class="comment"># the vector w added to each column. Gives the following matrix:</span></div><div class="line"><span class="comment"># [[ 5  6  7]</span></div><div class="line"><span class="comment">#  [ 9 10 11]]</span></div><div class="line">print((x.T + w).T)</div><div class="line"><span class="comment"># Another solution is to reshape w to be a column vector of shape (2, 1);</span></div><div class="line"><span class="comment"># we can then broadcast it directly against x to produce the same</span></div><div class="line"><span class="comment"># output.</span></div><div class="line">print(x + np.reshape(w, (<span class="number">2</span>, <span class="number">1</span>)))</div><div class="line"></div><div class="line"><span class="comment"># Multiply a matrix by a constant:</span></div><div class="line"><span class="comment"># x has shape (2, 3). Numpy treats scalars as arrays of shape ();</span></div><div class="line"><span class="comment"># these can be broadcast together to shape (2, 3), producing the</span></div><div class="line"><span class="comment"># following array:</span></div><div class="line"><span class="comment"># [[ 2  4  6]</span></div><div class="line"><span class="comment">#  [ 8 10 12]]</span></div><div class="line">print(x * <span class="number">2</span>)</div></pre></td></tr></table></figure></p>
+<p>广播功能可以使代码更加简洁和高效，因此可以尽可能地使用这用方法。</p>
+<p>以上是Numpy中重要内容的简明概述，但实际远不止如此。可以在<a href="https://docs.scipy.org/doc/numpy/reference/" target="_blank" rel="external">numpy参考</a>中查看更多关于numpy的资料。</p>
+<h1 id="SciPy"><a href="#SciPy" class="headerlink" title="SciPy"></a>SciPy</h1><p>Numpy提供了高性能的多维数组的基本计算和操作工具，<a href="https://docs.scipy.org/doc/scipy/reference/" target="_blank" rel="external">Scipy</a>在这基础上，提供了大量用来操作numpy数组的函数，在不同的科学和工程领域都十分有用。<br>最有效的了解SciPy的方法是阅读<a href="https://docs.scipy.org/doc/scipy/reference/index.html" target="_blank" rel="external">官方文档</a>，这里会重点介绍SciPy中常用的部分。</p>
+<h2 id="图像操作"><a href="#图像操作" class="headerlink" title="图像操作"></a>图像操作</h2><p>SciPy提供可一些图像操作的基本功能。例如，将磁盘中的图片读取到numpy数组中，将数组中的图像写入到磁盘中，以及改变图片的大小。下面是一些用来展示以上功能的小例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> scipy.misc <span class="keyword">import</span> imread, imsave, imresize</div><div class="line"></div><div class="line"><span class="comment"># Read an JPEG image into a numpy array</span></div><div class="line">img = imread(<span class="string">'assets/cat.jpg'</span>)</div><div class="line">print(img.dtype, img.shape)  <span class="comment"># Prints "uint8 (400, 248, 3)"</span></div><div class="line"></div><div class="line"><span class="comment"># We can tint the image by scaling each of the color channels</span></div><div class="line"><span class="comment"># by a different scalar constant. The image has shape (400, 248, 3);</span></div><div class="line"><span class="comment"># we multiply it by the array [1, 0.95, 0.9] of shape (3,);</span></div><div class="line"><span class="comment"># numpy broadcasting means that this leaves the red channel unchanged,</span></div><div class="line"><span class="comment"># and multiplies the green and blue channels by 0.95 and 0.9</span></div><div class="line"><span class="comment"># respectively.</span></div><div class="line">img_tinted = img * [<span class="number">1</span>, <span class="number">0.95</span>, <span class="number">0.9</span>]</div><div class="line"></div><div class="line"><span class="comment"># Resize the tinted image to be 300 by 300 pixels.</span></div><div class="line">img_tinted = imresize(img_tinted, (<span class="number">300</span>, <span class="number">300</span>))</div><div class="line"></div><div class="line"><span class="comment"># Write the tinted image back to disk</span></div><div class="line">imsave(<span class="string">'assets/cat_tinted.jpg'</span>, img_tinted)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://cs231n.github.io/assets/cat.jpg" alt="原始图片" title="">
+                </div>
+                <div class="image-caption">原始图片</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://cs231n.github.io/assets/cat_tinted.jpg" alt="修改颜色和大小之后的图片" title="">
+                </div>
+                <div class="image-caption">修改颜色和大小之后的图片</div>
+            </figure>
+<h2 id="Matlab文件"><a href="#Matlab文件" class="headerlink" title="Matlab文件"></a>Matlab文件</h2><p>函数<code>scipy.io.loadmat</code>和<code>scipy.io.savemat</code>可以对MATLAB文件进行读写，详细说明请参考<a href="https://docs.scipy.org/doc/scipy/reference/io.html" target="_blank" rel="external">官方文档</a></p>
+<h2 id="两点间距离"><a href="#两点间距离" class="headerlink" title="两点间距离"></a>两点间距离</h2><p>Scipy定义了许多函数用来计算集合中坐标点之间的距离<br>函数<code>scipy.spatial.distance.pdist</code>可以计算集合中所有点之间的距离：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> scipy.spatial.distance <span class="keyword">import</span> pdist, squareform</div><div class="line"></div><div class="line"><span class="comment"># Create the following array where each row is a point in 2D space:</span></div><div class="line"><span class="comment"># [[0 1]</span></div><div class="line"><span class="comment">#  [1 0]</span></div><div class="line"><span class="comment">#  [2 0]]</span></div><div class="line">x = np.array([[<span class="number">0</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">0</span>], [<span class="number">2</span>, <span class="number">0</span>]])</div><div class="line">print(x)</div><div class="line"></div><div class="line"><span class="comment"># Compute the Euclidean distance between all rows of x.</span></div><div class="line"><span class="comment"># d[i, j] is the Euclidean distance between x[i, :] and x[j, :],</span></div><div class="line"><span class="comment"># and d is the following array:</span></div><div class="line"><span class="comment"># [[ 0.          1.41421356  2.23606798]</span></div><div class="line"><span class="comment">#  [ 1.41421356  0.          1.        ]</span></div><div class="line"><span class="comment">#  [ 2.23606798  1.          0.        ]]</span></div><div class="line">d = squareform(pdist(x, <span class="string">'euclidean'</span>))</div><div class="line">print(d)</div></pre></td></tr></table></figure></p>
+<p>关于这个函数的详细资料可以阅读<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html" target="_blank" rel="external">官方文档</a></p>
+<h1 id="Matplotlib"><a href="#Matplotlib" class="headerlink" title="Matplotlib"></a>Matplotlib</h1><p><a href="http://matplotlib.org/" target="_blank" rel="external">Matplotlib</a>是一个绘图库，本节内容将简明介绍<code>matplotlib.pyplot</code>模块，该模块提供了与MATLAB类似的绘图系统。<br>类似的函数(<code>scipy.spatial.distance.cdist</code>)计算两个集合之间点的距离。<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html" target="_blank" rel="external">官方文档</a></p>
+<h2 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h2><p>matplotlib中最重要的函数是<code>plot</code>，该函数可以绘制2D数据，例如“<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="comment"># Compute the x and y coordinates for points on a sine curve</span></div><div class="line">x = np.arange(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">0.1</span>)</div><div class="line">y = np.sin(x)</div><div class="line"></div><div class="line"><span class="comment"># Plot the points using matplotlib</span></div><div class="line">plt.plot(x, y)</div><div class="line">plt.show()  <span class="comment"># You must call plt.show() to make graphics appear.</span></div></pre></td></tr></table></figure></p>
+<p>运行上面的代码可以得到下面的图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://cs231n.github.io/assets/sine.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>仅仅需要少量的额外工作就可以简单地绘制多条曲线，并且添加标题，图例和坐标轴<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="comment"># Compute the x and y coordinates for points on sine and cosine curves</span></div><div class="line">x = np.arange(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">0.1</span>)</div><div class="line">y_sin = np.sin(x)</div><div class="line">y_cos = np.cos(x)</div><div class="line"></div><div class="line"><span class="comment"># Plot the points using matplotlib</span></div><div class="line">plt.plot(x, y_sin)</div><div class="line">plt.plot(x, y_cos)</div><div class="line">plt.xlabel(<span class="string">'x axis label'</span>)</div><div class="line">plt.ylabel(<span class="string">'y axis label'</span>)</div><div class="line">plt.title(<span class="string">'Sine and Cosine'</span>)</div><div class="line">plt.legend([<span class="string">'Sine'</span>, <span class="string">'Cosine'</span>])</div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://cs231n.github.io/assets/sine_cosine.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>可以在<a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.plot" target="_blank" rel="external">官方文档</a>中阅读关于<code>plot</code>的更多资料。</p>
+<h2 id="子图"><a href="#子图" class="headerlink" title="子图"></a>子图</h2><p>使用<code>subplot</code>函数可以在一张图片上显示不同事物。例子如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="comment"># Compute the x and y coordinates for points on sine and cosine curves</span></div><div class="line">x = np.arange(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">0.1</span>)</div><div class="line">y_sin = np.sin(x)</div><div class="line">y_cos = np.cos(x)</div><div class="line"></div><div class="line"><span class="comment"># Set up a subplot grid that has height 2 and width 1,</span></div><div class="line"><span class="comment"># and set the first such subplot as active.</span></div><div class="line">plt.subplot(<span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>)</div><div class="line"></div><div class="line"><span class="comment"># Make the first plot</span></div><div class="line">plt.plot(x, y_sin)</div><div class="line">plt.title(<span class="string">'Sine'</span>)</div><div class="line"></div><div class="line"><span class="comment"># Set the second subplot as active, and make the second plot.</span></div><div class="line">plt.subplot(<span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>)</div><div class="line">plt.plot(x, y_cos)</div><div class="line">plt.title(<span class="string">'Cosine'</span>)</div><div class="line"></div><div class="line"><span class="comment"># Show the figure.</span></div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://cs231n.github.io/assets/sine_cosine_subplot.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>有关<code>subplot</code>的更多信息请参考<a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.subplot" target="_blank" rel="external">官方文档</a></p>
+<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p>可以使用<code>imshow</code>函数来显示图像，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> scipy.misc <span class="keyword">import</span> imread, imresize</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line">img = imread(<span class="string">'assets/cat.jpg'</span>)</div><div class="line">img_tinted = img * [<span class="number">1</span>, <span class="number">0.95</span>, <span class="number">0.9</span>]</div><div class="line"></div><div class="line"><span class="comment"># Show the original image</span></div><div class="line">plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>)</div><div class="line">plt.imshow(img)</div><div class="line"></div><div class="line"><span class="comment"># Show the tinted image</span></div><div class="line">plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>)</div><div class="line"></div><div class="line"><span class="comment"># A slight gotcha with imshow is that it might give strange results</span></div><div class="line"><span class="comment"># if presented with data that is not uint8. To work around this, we</span></div><div class="line"><span class="comment"># explicitly cast the image to uint8 before displaying it.</span></div><div class="line">plt.imshow(np.uint8(img_tinted))</div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://cs231n.github.io/assets/cat_tinted_imshow.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-28T02:49:25.842Z" itemprop="dateUpdated">2017年6月28日 10:49</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/06/12/Python数据处理教程/" target="_blank" rel="external">http://luojiaji.github.io/2017/06/12/Python数据处理教程/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/06/12/Python数据处理教程/&title=《Python数据处理教程》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/06/12/Python数据处理教程/&title=《Python数据处理教程》 — 背着翅膀流浪&source=本文主要介绍Python在数据处理中用到的库和方法。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/06/12/Python数据处理教程/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python数据处理教程》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/06/12/Python数据处理教程/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/06/12/Python数据处理教程/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/06/28/Deep-Q-Network设计与实现/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Deep Q Network设计与实现</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/06/08/基于TensorFlow的循环神经网络设计/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于TensorFlow的循环神经网络设计</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/06/12/Python数据处理教程/&title=《Python数据处理教程》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/06/12/Python数据处理教程/&title=《Python数据处理教程》 — 背着翅膀流浪&source=本文主要介绍Python在数据处理中用到的库和方法。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/06/12/Python数据处理教程/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python数据处理教程》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/06/12/Python数据处理教程/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/06/12/Python数据处理教程/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/06/12/Python数据处理教程/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

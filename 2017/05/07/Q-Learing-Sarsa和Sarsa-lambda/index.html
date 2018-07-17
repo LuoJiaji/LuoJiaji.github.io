@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Q-Learing,Sarsa和Sarsa-lambda | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="RL">
+    <meta name="description" content="最近看了一些关于强化学习(Reinforcement Learning)的资料，今天来总结一下RL中一些基本的算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Q-Learing,Sarsa和Sarsa-lambda">
+<meta property="og:url" content="http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="最近看了一些关于强化学习(Reinforcement Learning)的资料，今天来总结一下RL中一些基本的算法。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-07-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-07-2.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-07-3.png">
+<meta property="og:updated_time" content="2017-06-01T01:02:30.982Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Q-Learing,Sarsa和Sarsa-lambda">
+<meta name="twitter:description" content="最近看了一些关于强化学习(Reinforcement Learning)的资料，今天来总结一下RL中一些基本的算法。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-07-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Q-Learing,Sarsa和Sarsa-lambda</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Q-Learing,Sarsa和Sarsa-lambda</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-05-07T10:47:16.000Z" itemprop="datePublished" class="page-time">
+  2017-05-07
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-Q-Learing-Sarsa和Sarsa-lambda"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Q-Learing,Sarsa和Sarsa-lambda</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年05月07日 18:47" datetime="2017-05-07T10:47:16.000Z"  itemprop="datePublished">2017-05-07</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>最近看了一些关于强化学习(Reinforcement Learning)的资料，今天来总结一下RL中一些基本的算法。<br><a id="more"></a><br>强化学习 (Reinforcement Learning) 是一个机器学习领域中的一个分支, 由于近些年来的技术突破, 和深度学习 (Deep Learning) 的整合, 使得强化学习有了进一步的运用。比如让计算机学着玩游戏, AlphaGo 挑战世界围棋高手, 都是强化学习在行的事。</p>
+<p>第一个是<strong>Q-Learning</strong><br>先看一下算法的学习过程：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-05-07-1.png" alt="Q-Learning算法更新过程" title="">
+                </div>
+                <div class="image-caption">Q-Learning算法更新过程</div>
+            </figure><br>Q-Learning在每一次循环中会计算当前的状态和要采取的动作与下一步的状态中所有动作最大值的差，如果这个误差为零，那么算法不会对状态进行更新，如果这个误差不为零(一般情况下正值代表奖励，负值代表惩罚)，则会将这个误差乘以一个固定的学习效率跟新到上一次的状态中去。<br>算法的学习过程一般会从最靠近奖励或者惩罚的地方开始，因为这些奖励和惩罚是算法跟新的依据。每次迭代过程，算法都会讲这个奖励或者惩罚向前传递，直到传递到第一步，这样算法就算是学会了相应规则下的整个动作。如果想让算法在学习到的经验的基础上探索未知，可以在动作选择的部分加上一个在相对较小的概率下随机选择动作的过程，这样就可以让算法在已有经验的基础上继续探索新的动作。<br>Q-Learning是一种off-policy的跟新过程，因为算法的跟新部分跟动作选择部分是相对独立的两个部分(虽然都是取Q表中相应的最大值，但是这两部分的计算是独立进行的，互相并不影响)。</p>
+<p>第二个是<strong>Sarsa</strong>(state-action-reward-state_-action_)<br>Sarsa中，state和action代表当前的状态和要采取的而动作，state_和action_代表的是下一次的状态的要采取的动作。<br>算法的更新过程如下图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-05-07-2.png" alt="Sarsa算法的更新过程" title="">
+                </div>
+                <div class="image-caption">Sarsa算法的更新过程</div>
+            </figure><br>相较于Q-learing来说Sarsa的跟新过程和就是算法下一个状态所采取的动作，因此Sarsa是一种on-policy的更新方法。<br>相较于Q-Learning来说，Sarsa更加谨慎小心，他会严格安装学习的过程来采取行动，但同时这样也会降低算法探索未知路径的能力，应该说两个算法的性格不相同，Q-Learning更加冒险，勇于探索未知。而Sarsa则更加保守，尽量按照已有的经验来采取行动。</p>
+<p>最后一个是<strong>Sarsa-Lambda</strong><br>算法的学习过程如下图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-05-07-3.png" alt="Sarsa-Lambda算法的更新过程" title="">
+                </div>
+                <div class="image-caption">Sarsa-Lambda算法的更新过程</div>
+            </figure><br>Q-Learning和Sarsa每一次只能向前跟新一步，而Sarsa-lambda则可以在一次更新中对多步进行跟新，在Sarsa-Lambda中除了有Q表来存储状态之外，还有一个E表，这个表格会记录算法在获得奖励之前的每一步，当计算的误差值不为零的时候，算法会将之前的每一步乘以相应的系数一起跟新在Q表中。Lambda这个参数可以改变算法跟新过程中每一步对应的权重，当Lambda为0时，算法就是Sarsa算法，当Lambda为1时，算法所走过的每一步的权重都相同，当Lambda的权重为0~1之间时，越接近奖励或惩罚的步权重越大，跟新的幅度也会越大，而距离奖励或惩罚较远的步则权重相对较小，更新的幅度也会比较小。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/25913410" target="_blank" rel="external">强化学习入门 第四讲 时间差分法（TD方法）</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-01T01:02:30.982Z" itemprop="dateUpdated">2017年6月1日 9:02</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/" target="_blank" rel="external">http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RL/">RL</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/&title=《Q-Learing,Sarsa和Sarsa-lambda》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/&title=《Q-Learing,Sarsa和Sarsa-lambda》 — 背着翅膀流浪&source=最近看了一些关于强化学习(Reinforcement Learning)的资料，今天来总结一下RL中一些基本的算法。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Q-Learing,Sarsa和Sarsa-lambda》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/05/12/基于TensorFlow的卷积神经网络设计/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">基于TensorFlow的卷积神经网络设计</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/05/05/基于TensorFlow的多层神经网络设计/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于TensorFlow的多层神经网络设计</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/&title=《Q-Learing,Sarsa和Sarsa-lambda》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/&title=《Q-Learing,Sarsa和Sarsa-lambda》 — 背着翅膀流浪&source=最近看了一些关于强化学习(Reinforcement Learning)的资料，今天来总结一下RL中一些基本的算法。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Q-Learing,Sarsa和Sarsa-lambda》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

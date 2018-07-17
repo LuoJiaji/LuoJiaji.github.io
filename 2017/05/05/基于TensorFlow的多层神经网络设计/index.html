@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>基于TensorFlow的多层神经网络设计 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="TensorFlow,Python,ML">
+    <meta name="description" content="今天利用TensorFlow来实现多层神经网络的设计，并用手写数字数据库对模型进行训练和测试。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于TensorFlow的多层神经网络设计">
+<meta property="og:url" content="http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="今天利用TensorFlow来实现多层神经网络的设计，并用手写数字数据库对模型进行训练和测试。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-05-1.PNG">
+<meta property="og:updated_time" content="2017-06-28T12:44:05.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于TensorFlow的多层神经网络设计">
+<meta name="twitter:description" content="今天利用TensorFlow来实现多层神经网络的设计，并用手写数字数据库对模型进行训练和测试。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-05-1.PNG">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于TensorFlow的多层神经网络设计</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于TensorFlow的多层神经网络设计</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-05-05T00:09:28.000Z" itemprop="datePublished" class="page-time">
+  2017-05-05
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-基于TensorFlow的多层神经网络设计"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于TensorFlow的多层神经网络设计</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年05月05日 8:09" datetime="2017-05-05T00:09:28.000Z"  itemprop="datePublished">2017-05-05</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>今天利用TensorFlow来实现多层神经网络的设计，并用手写数字数据库对模型进行训练和测试。<br><a id="more"></a><br>多层神经网络又叫多层感知机（Multi-layer Perception，MLP），多层神经网络包含输入层，输出层，隐藏层。隐藏层相当于模型的黑箱部分。理论上只要隐藏层包含的节点足够多，即使只有一个隐藏层的神经网络也可以拟合任意函数。隐藏层越多，越容易拟合复杂函数。理论研究表明，喂你喝复杂函数需要的隐藏层节点的数目，基本上随着隐藏层的数量增多成指数下降趋势。也就是说层数越多，神经网络所需要的隐含节点可以越少。</p>
+<p>今天用到的模块和版本号：<br>Python版本：3.5.3<br>Tensorflow版本：1.0.1</p>
+<p>首先导入数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</div><div class="line">mnist = input_data.read_data_sets(<span class="string">"MNIST_data/"</span>, one_hot=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<p>然后就可以建立模型了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">in_units = <span class="number">784</span></div><div class="line">h1_units = <span class="number">300</span></div><div class="line">W1 = tf.Variable(tf.truncated_normal([in_units, h1_units], stddev=<span class="number">0.1</span>))</div><div class="line">b1 = tf.Variable(tf.zeros([h1_units]))</div><div class="line">W2 = tf.Variable(tf.zeros([h1_units, <span class="number">10</span>]))</div><div class="line">b2 = tf.Variable(tf.zeros([<span class="number">10</span>]))</div><div class="line"></div><div class="line">x = tf.placeholder(tf.float32, [<span class="keyword">None</span>, in_units])</div><div class="line">y_ = tf.placeholder(tf.float32, [<span class="keyword">None</span>, <span class="number">10</span>])</div><div class="line">keep_prob = tf.placeholder(tf.float32)</div><div class="line"></div><div class="line">hidden1 = tf.nn.relu(tf.matmul(x, W1) + b1)</div><div class="line">hidden1_drop = tf.nn.dropout(hidden1, keep_prob)</div><div class="line">y = tf.nn.softmax(tf.matmul(hidden1_drop, W2) + b2)</div><div class="line"></div><div class="line"><span class="comment"># Define loss and optimizer</span></div><div class="line">cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[<span class="number">1</span>]))</div><div class="line">train_step = tf.train.AdagradOptimizer(<span class="number">0.3</span>).minimize(cross_entropy)</div></pre></td></tr></table></figure></p>
+<p>模型中，隐藏层的节点数设为300，在隐藏层中，用ReLU作为激活函数，这样可以防止多层神经网络中的梯度弥散。并在隐藏层中添加dropout层，Dropout可以用来防止过拟合。输出层用Softmax作为激活函数。</p>
+<p>模型设计完成之后，就可以对模型参数进行初始化<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sess = tf.InteractiveSession()</div><div class="line">tf.global_variables_initializer().run()</div></pre></td></tr></table></figure></p>
+<p>最后就可以对模型进行训练，并验证识别的正确率。对模型进行3000次训练，训练过程中，每训练100次用测试数据对模型进行测试并输出测试结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for i in range(3001):</div><div class="line">  batch_xs, batch_ys = mnist.train.next_batch(100)</div><div class="line">  train_step.run(&#123;x: batch_xs, y_: batch_ys, keep_prob: 0.75&#125;)</div><div class="line">  if (i) % 100 == 0:</div><div class="line">      correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))</div><div class="line">      accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))</div><div class="line">      print(int((i) / 100), &apos;:&apos;, accuracy.eval(&#123;x: mnist.test.images, y_: mnist.test.labels,keep_prob: 1.0&#125;))</div></pre></td></tr></table></figure></p>
+<p>最后得到输出图如下<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-05-05-1.PNG" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>可以看出，最终模型的正确率在98%左右，相比较之前的单层神经网络有了不小的提高。</p>
+<p>参考资料：</p>
+<ul>
+<li>《TensorFlow 实战》</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-28T12:44:05.134Z" itemprop="dateUpdated">2017年6月28日 20:44</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/05/05/基于TensorFlow的多层神经网络设计/" target="_blank" rel="external">http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/">ML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/&title=《基于TensorFlow的多层神经网络设计》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/&title=《基于TensorFlow的多层神经网络设计》 — 背着翅膀流浪&source=今天利用TensorFlow来实现多层神经网络的设计，并用手写数字数据库对模型进行训练和测试。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的多层神经网络设计》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/05/07/Q-Learing-Sarsa和Sarsa-lambda/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Q-Learing,Sarsa和Sarsa-lambda</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/05/02/新的狂想/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">新的狂想</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/&title=《基于TensorFlow的多层神经网络设计》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/&title=《基于TensorFlow的多层神经网络设计》 — 背着翅膀流浪&source=今天利用TensorFlow来实现多层神经网络的设计，并用手写数字数据库对模型进行训练和测试。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的多层神经网络设计》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/05/05/基于TensorFlow的多层神经网络设计/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

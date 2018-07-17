@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Double DQN设计与实现 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="RL,TensorFlow,Python">
+    <meta name="description" content="今天介绍Deep Q Network的一个改进版本 DoubleDQN算法的原理和实现过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Double DQN设计与实现">
+<meta property="og:url" content="http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="今天介绍Deep Q Network的一个改进版本 DoubleDQN算法的原理和实现过程。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2107-7-22-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-7-22-2.PNG">
+<meta property="og:updated_time" content="2017-08-06T02:38:00.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Double DQN设计与实现">
+<meta name="twitter:description" content="今天介绍Deep Q Network的一个改进版本 DoubleDQN算法的原理和实现过程。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2107-7-22-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Double DQN设计与实现</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Double DQN设计与实现</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-07-22T01:20:36.000Z" itemprop="datePublished" class="page-time">
+  2017-07-22
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-Double-DQN设计与实现"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Double DQN设计与实现</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年07月22日 9:20" datetime="2017-07-22T01:20:36.000Z"  itemprop="datePublished">2017-07-22</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>今天介绍Deep Q Network的一个改进版本 DoubleDQN算法的原理和实现过程。<br><a id="more"></a><br>DQN算法中在计算需要通过在目标网络中得到下一个动作的状态值，但是由于目标网络的更新有一定的滞后性，所以导致算法中存在一定的误差。而Double DQN则是在估计网络中计算下一个动作，并用目标网络得到相应的状态值，这样可以提高算法的实时性。</p>
+<p>在DQN中状态值的更新公式为：<br>$$<br>Y_t ^{DQN} = R_{t+1} + \gamma \max_a  Q(S_{t+1},a;\theta_t^-)<br>$$<br>在Double DQN中，状态值的跟新公式为：<br>$$<br>Y_t ^{DoubleDQN} = R_{t+1} + \gamma  Q(S_{t+1},arg\max_a Q(S_{t+1},a;\theta_t);\theta_t^-)<br>$$</p>
+<p>下面通过编程来实现Double DQN算法。</p>
+<p>用到的库如下：<br>Python：3.5.3<br>TensorFlow：1.0.1<br>gym：0.8.1</p>
+<p>本次依然使用<code>gym</code>中的<code>CartPole-v0</code>的环境来实现算法。<br>代码大部分跟DQN的代码相同，只是在神经网络学习的时候状态值的更新方法不同，算法的学习部分如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">if</span> self.learn_step_counter % self.replace_target_iter == <span class="number">0</span>:</div><div class="line">        self._replace_target_params()</div><div class="line">        <span class="comment"># print('\ntarget_params_replaced\n')</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> self.memory_counter &gt; self.memory_size:</div><div class="line">        sample_index = np.random.choice(self.memory_size, size=self.batch_size)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        sample_index = np.random.choice(self.memory_counter, size=self.batch_size)</div><div class="line">    batch_memory = self.memory[sample_index, :]</div><div class="line"></div><div class="line">    q_next, q_eval4next = self.sess.run(</div><div class="line">        [self.q_next, self.q_eval],</div><div class="line">        feed_dict=&#123;self.s_: batch_memory[:, -self.n_features:],    <span class="comment"># next observation</span></div><div class="line">                   self.s: batch_memory[:, -self.n_features:]&#125;)    <span class="comment"># next observation</span></div><div class="line">    q_eval = self.sess.run(self.q_eval, &#123;self.s: batch_memory[:, :self.n_features]&#125;)</div><div class="line"></div><div class="line">    q_target = q_eval.copy()</div><div class="line"></div><div class="line">    batch_index = np.arange(self.batch_size, dtype=np.int32)</div><div class="line">    eval_act_index = batch_memory[:, self.n_features].astype(int)</div><div class="line">    reward = batch_memory[:, self.n_features + <span class="number">1</span>]</div><div class="line"></div><div class="line">    <span class="keyword">if</span> self.double_q:</div><div class="line">        max_act4next = np.argmax(q_eval4next, axis=<span class="number">1</span>)        <span class="comment"># the action that brings the highest value is evaluated by q_eval</span></div><div class="line">        selected_q_next = q_next[batch_index, max_act4next]  <span class="comment"># Double DQN, select q_next depending on above actions</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        selected_q_next = np.max(q_next, axis=<span class="number">1</span>)    <span class="comment"># the natural DQN</span></div><div class="line"></div><div class="line">    q_target[batch_index, eval_act_index] = reward + self.gamma * selected_q_next</div><div class="line"></div><div class="line">    _, self.cost = self.sess.run([self._train_op, self.loss],</div><div class="line">                                 feed_dict=&#123;self.s: batch_memory[:, :self.n_features],</div><div class="line">                                            self.q_target: q_target&#125;)</div><div class="line">    self.cost_his.append(self.cost)</div><div class="line"></div><div class="line">    self.epsilon = self.epsilon + self.epsilon_increment <span class="keyword">if</span> self.epsilon &lt; self.epsilon_max <span class="keyword">else</span> self.epsilon_max</div><div class="line">    self.learn_step_counter += <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>其他的代码部分与DQN中的代码基本一致。</p>
+<p>最终程序可疑达到预期的效果，损失函数图如下：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2107-7-22-1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>Double DQN的网络结构如下：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-7-22-2.PNG" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>可以发现Double DQN的网络结构和Deep Q Network的网络结构相同。不同的是图中<code>Q_target</code>的更新方式。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/4-5-double_DQN/" target="_blank" rel="external">Double DQN (Tensorflow)</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-08-06T02:38:00.750Z" itemprop="dateUpdated">2017年8月6日 10:38</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/07/22/Double-DQN设计与实现/" target="_blank" rel="external">http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RL/">RL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/&title=《Double DQN设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/&title=《Double DQN设计与实现》 — 背着翅膀流浪&source=今天介绍Deep Q Network的一个改进版本 DoubleDQN算法的原理和实现过程。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Double DQN设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/06/Dueling-DQN设计与实现/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Dueling DQN设计与实现</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/06/29/Policy-Gradients设计与实现/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Policy Gradients设计与实现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/&title=《Double DQN设计与实现》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/&title=《Double DQN设计与实现》 — 背着翅膀流浪&source=今天介绍Deep Q Network的一个改进版本 DoubleDQN算法的原理和实现过程。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Double DQN设计与实现》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/07/22/Double-DQN设计与实现/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

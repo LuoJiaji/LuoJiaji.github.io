@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>基于TensorFlow的AutoEncoder网络设计 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="TensorFlow,Python,ML">
+    <meta name="description" content="Autoencoder是一种无监督的学习方法，通过编码过程自动提取数据的高阶特征，并用于分析与识别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于TensorFlow的AutoEncoder网络设计">
+<meta property="og:url" content="http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="Autoencoder是一种无监督的学习方法，通过编码过程自动提取数据的高阶特征，并用于分析与识别。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-27-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-27-2.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-27-3.png">
+<meta property="og:updated_time" content="2017-06-28T12:43:51.968Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于TensorFlow的AutoEncoder网络设计">
+<meta name="twitter:description" content="Autoencoder是一种无监督的学习方法，通过编码过程自动提取数据的高阶特征，并用于分析与识别。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-05-27-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于TensorFlow的AutoEncoder网络设计</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于TensorFlow的AutoEncoder网络设计</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-05-27T02:23:41.000Z" itemprop="datePublished" class="page-time">
+  2017-05-27
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-基于TensorFlow的AutoEncoder网络设计"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于TensorFlow的AutoEncoder网络设计</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年05月27日 10:23" datetime="2017-05-27T02:23:41.000Z"  itemprop="datePublished">2017-05-27</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Autoencoder是一种无监督的学习方法，通过编码过程自动提取数据的高阶特征，并用于分析与识别。<br><a id="more"></a></p>
+<p>AutoEncoder(自编码)可以对数据进行非监督学习，首先通过encoder对数据进行压缩，然后再通过decoder对压缩数据进行恢复，并通过恢复数据与原始数据之间的误差来训练神经网络，从而可以实现网络对数据的特征提取。网络提取的中间压缩数据有点类似于PCA(主成分分析)的方法，都是从数据中提取有效信息。然后训练完成之后利用encoder部分便可以对数据进行特征提取，得到的特征数据可以用于后续的数据分析与识别。</p>
+<p>AutoEncoder的过程如下图，前半部分是Encoder结构，后半部分是Decoder部分。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-05-27-1.png" alt="AutoEncoder结构图" title="">
+                </div>
+                <div class="image-caption">AutoEncoder结构图</div>
+            </figure></p>
+<p>下面用TensorFlow来实现一个AutoEncoder网络。</p>
+<p>今天用到的模块和版本号：<br>Python版本：3.5.3<br>Tensorflow版本：1.0.1</p>
+<p>首先导入模块和数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="comment"># 导入 MNIST data手写体数据库</span></div><div class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</div><div class="line">mnist = input_data.read_data_sets(<span class="string">"MNIST_data"</span>, one_hot=<span class="keyword">False</span>)</div></pre></td></tr></table></figure>
+<p>然后设置一些用到的参数的值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">learning_rate = <span class="number">0.01</span>    <span class="comment"># 学习效率</span></div><div class="line">training_epochs = <span class="number">20</span>    <span class="comment"># 训练的迭代次数</span></div><div class="line">batch_size = <span class="number">256</span>        <span class="comment"># 每一批训练的数据大小</span></div><div class="line">display_step = <span class="number">1</span>        <span class="comment"># 显示步进</span></div><div class="line">examples_to_show = <span class="number">10</span>   <span class="comment"># 测试数据显示数量</span></div><div class="line"></div><div class="line">n_input = <span class="number">784</span>  <span class="comment"># 输入数据的大小 手写体数据为28*28 = 784</span></div><div class="line"></div><div class="line"><span class="comment"># 隐藏层节点数量</span></div><div class="line">n_hidden_1 = <span class="number">128</span></div><div class="line">n_hidden_2 = <span class="number">64</span></div><div class="line">n_hidden_3 = <span class="number">10</span></div><div class="line">n_hidden_4 = <span class="number">2</span></div></pre></td></tr></table></figure></p>
+<p>AutoEncoder中设计了4个编码层和4个解码层，编码层和解码层一一对应。</p>
+<p>然后设置AutoEncoder网络的权重和偏置<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">weights = &#123;</div><div class="line">    <span class="string">'encoder_h1'</span>: tf.Variable(tf.truncated_normal([n_input, n_hidden_1],)),</div><div class="line">    <span class="string">'encoder_h2'</span>: tf.Variable(tf.truncated_normal([n_hidden_1, n_hidden_2],)),</div><div class="line">    <span class="string">'encoder_h3'</span>: tf.Variable(tf.truncated_normal([n_hidden_2, n_hidden_3],)),</div><div class="line">    <span class="string">'encoder_h4'</span>: tf.Variable(tf.truncated_normal([n_hidden_3, n_hidden_4],)),</div><div class="line"></div><div class="line">    <span class="string">'decoder_h1'</span>: tf.Variable(tf.truncated_normal([n_hidden_4, n_hidden_3],)),</div><div class="line">    <span class="string">'decoder_h2'</span>: tf.Variable(tf.truncated_normal([n_hidden_3, n_hidden_2],)),</div><div class="line">    <span class="string">'decoder_h3'</span>: tf.Variable(tf.truncated_normal([n_hidden_2, n_hidden_1],)),</div><div class="line">    <span class="string">'decoder_h4'</span>: tf.Variable(tf.truncated_normal([n_hidden_1, n_input],)),</div><div class="line">&#125;</div><div class="line">biases = &#123;</div><div class="line">    <span class="string">'encoder_b1'</span>: tf.Variable(tf.random_normal([n_hidden_1])),</div><div class="line">    <span class="string">'encoder_b2'</span>: tf.Variable(tf.random_normal([n_hidden_2])),</div><div class="line">    <span class="string">'encoder_b3'</span>: tf.Variable(tf.random_normal([n_hidden_3])),</div><div class="line">    <span class="string">'encoder_b4'</span>: tf.Variable(tf.random_normal([n_hidden_4])),</div><div class="line"></div><div class="line">    <span class="string">'decoder_b1'</span>: tf.Variable(tf.random_normal([n_hidden_3])),</div><div class="line">    <span class="string">'decoder_b2'</span>: tf.Variable(tf.random_normal([n_hidden_2])),</div><div class="line">    <span class="string">'decoder_b3'</span>: tf.Variable(tf.random_normal([n_hidden_1])),</div><div class="line">    <span class="string">'decoder_b4'</span>: tf.Variable(tf.random_normal([n_input])),</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代码中，用<code>tf.Variable()</code>来创建变量，并用<code>tf.truncated_normal()</code>截尾正态分布随机值来初始化权重，并用<code>tf.random_normal()</code>正态分布来初始化偏置。</p>
+<p>然后设计AutoEncoder的网络结构,记忆误差函数和训练函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 创建 encoder 结构</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">encoder</span><span class="params">(x)</span>:</span></div><div class="line">    layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(x, weights[<span class="string">'encoder_h1'</span>]),</div><div class="line">                                   biases[<span class="string">'encoder_b1'</span>]))</div><div class="line">    layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1, weights[<span class="string">'encoder_h2'</span>]),</div><div class="line">                                   biases[<span class="string">'encoder_b2'</span>]))</div><div class="line">    layer_3 = tf.nn.sigmoid(tf.add(tf.matmul(layer_2, weights[<span class="string">'encoder_h3'</span>]),</div><div class="line">                                   biases[<span class="string">'encoder_b3'</span>]))</div><div class="line">    layer_4 = tf.add(tf.matmul(layer_3, weights[<span class="string">'encoder_h4'</span>]),</div><div class="line">                                    biases[<span class="string">'encoder_b4'</span>])</div><div class="line">    <span class="keyword">return</span> layer_4</div><div class="line"></div><div class="line"><span class="comment"># 创建 decoder 结构</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">decoder</span><span class="params">(x)</span>:</span></div><div class="line">    layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(x, weights[<span class="string">'decoder_h1'</span>]),</div><div class="line">                                   biases[<span class="string">'decoder_b1'</span>]))</div><div class="line">    layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1, weights[<span class="string">'decoder_h2'</span>]),</div><div class="line">                                   biases[<span class="string">'decoder_b2'</span>]))</div><div class="line">    layer_3 = tf.nn.sigmoid(tf.add(tf.matmul(layer_2, weights[<span class="string">'decoder_h3'</span>]),</div><div class="line">                                biases[<span class="string">'decoder_b3'</span>]))</div><div class="line">    layer_4 = tf.nn.sigmoid(tf.add(tf.matmul(layer_3, weights[<span class="string">'decoder_h4'</span>]),</div><div class="line">                                biases[<span class="string">'decoder_b4'</span>]))</div><div class="line">    <span class="keyword">return</span> layer_4</div><div class="line"></div><div class="line"><span class="comment"># 把Encoder部分和Decoder部分组合在一起</span></div><div class="line">encoder_op = encoder(X)</div><div class="line">decoder_op = decoder(encoder_op)</div><div class="line"></div><div class="line">y_pred = decoder_op  <span class="comment"># 输出预测值</span></div><div class="line">y_true = X           <span class="comment"># 原始数据</span></div><div class="line"></div><div class="line"><span class="comment"># Define loss and optimizer, minimize the squared error</span></div><div class="line">cost = tf.reduce_mean(tf.pow(y_true - y_pred, <span class="number">2</span>))  <span class="comment"># 定义代价函数</span></div><div class="line">optimizer = tf.train.AdamOptimizer(learning_rate).minimize(cost)  <span class="comment"># 定义优化方法</span></div></pre></td></tr></table></figure></p>
+<p>代码中<code>tf.matmul()</code>用来计算数据与权值相乘的结果，<code>tf.add()</code>用来计算<code>tf.matmul()</code>得到结果加上偏置。在每个隐藏层之间加上<code>tf.nn.sigmoid()</code>作为激活函数(Activation function)</p>
+<p>网络结构定义好之后就可以对网络进行训练了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">sess = tf.Session()  </div><div class="line">init = tf.global_variables_initializer()    <span class="comment"># 定义初始化</span></div><div class="line">sess.run(init)                              <span class="comment"># 运行初始化</span></div><div class="line">total_batch = int(mnist.train.num_examples/batch_size)  <span class="comment"># 计算批数量</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(training_epochs):    <span class="comment"># 迭代循环</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(total_batch):        <span class="comment"># 批循环</span></div><div class="line">        batch_xs, batch_ys = mnist.train.next_batch(batch_size)         <span class="comment"># 得到每一批训练的数据</span></div><div class="line">        _, c = sess.run([optimizer, cost], feed_dict=&#123;X: batch_xs&#125;)     <span class="comment"># 运行优化器并且计算代价值</span></div><div class="line">    print(<span class="string">"Epoch:"</span>, <span class="string">'%02d'</span> % (epoch+<span class="number">1</span>),<span class="string">"cost="</span>, <span class="string">"&#123;:.9f&#125;"</span>.format(c))     <span class="comment"># 打印迭代次数和损失值</span></div><div class="line"></div><div class="line">print(<span class="string">"Optimization Finished!"</span>)</div></pre></td></tr></table></figure></p>
+<p>代码中，根据前面定义的参数，需要运行20次迭代来进行训练，在每次迭代过程中在将数据分批对网络参数进行优化，<code>total_batch</code>计算得到每次迭代中需要多少批数据(数据总量除以每一批需要的数据量),然后通过<code>mnist.train.next_batch()</code> 得到每一批的数据，并对网络参数进行优化。</p>
+<p>然后用10组数据来测试一下网络解码之后的数据和原始数据之间的差别，并显出出来。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">encode_decode = sess.run(y_pred, feed_dict=&#123;X: mnist.test.images[:examples_to_show]&#125;)   <span class="comment"># 运行编码和解码的程序 得到恢复的数据</span></div><div class="line"></div><div class="line">f, a = plt.subplots(<span class="number">2</span>, <span class="number">10</span>, figsize=(<span class="number">10</span>, <span class="number">2</span>))                     <span class="comment"># 将原始数据和解压之后的数据显示出来，</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(examples_to_show):</div><div class="line">    a[<span class="number">0</span>][i].imshow(np.reshape(mnist.test.images[i], (<span class="number">28</span>, <span class="number">28</span>)))  <span class="comment"># 第一行显示原始数据</span></div><div class="line">    a[<span class="number">1</span>][i].imshow(np.reshape(encode_decode[i], (<span class="number">28</span>, <span class="number">28</span>)))      <span class="comment"># 第二行显示AutoEcodoer压缩并解压之后的数据</span></div><div class="line">    a[<span class="number">0</span>][i].axis(<span class="string">'off'</span>)                                         <span class="comment"># 关闭坐标轴显示</span></div><div class="line">    a[<span class="number">1</span>][i].axis(<span class="string">'off'</span>)</div><div class="line">plt.show()    <span class="comment"># 显示图像</span></div></pre></td></tr></table></figure></p>
+<p>结果如下图，第一行是原始数据，第二行是Decoder解压缩之后的数据。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-05-27-2.png" alt="Decoder部分得到数据与原始数据对比" title="">
+                </div>
+                <div class="image-caption">Decoder部分得到数据与原始数据对比</div>
+            </figure></p>
+<p>可以看出AutoEncoder解码得到的数据和原始数据的差别并不大。</p>
+<p>然后只用AutoEncoder中的encoder部分来对测试数据进行计算，得到输出的二维数据并用散点图的方式显示在二维平面上。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">encoder_result = sess.run(encoder_op, feed_dict=&#123;X: mnist.test.images&#125;)       <span class="comment"># 运行encoder部分，得到压缩数据</span></div><div class="line">plt.scatter(encoder_result[:, <span class="number">0</span>], encoder_result[:, <span class="number">1</span>], c=mnist.test.labels)  <span class="comment"># 绘制散点图</span></div><div class="line">plt.colorbar()      <span class="comment"># 显示颜色指示条</span></div><div class="line">plt.show()          <span class="comment"># 显示图像</span></div></pre></td></tr></table></figure>
+<p>代码中<code>plt.scatter()</code>用来显示散点图，其中前两个参数表示数据的横坐标和纵坐标，第三个参数用来设置散点图的颜色。</p>
+<p>结果如下图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-05-27-3.png" alt="压缩之后的数据分布" title="">
+                </div>
+                <div class="image-caption">压缩之后的数据分布</div>
+            </figure></p>
+<p>可以看出把数据压缩成二维之后可以提取数据中的部分有效信息。</p>
+<p>后续也可以在得到的二位数据后使用普通神经网络或者其他分类方法对手写体数据进行分类。</p>
+<p>参考资料：</p>
+<ul>
+<li>《TensorFlow实战》</li>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/tensorflow/5-11-autoencoder/" target="_blank" rel="external">自编码 Autoencoder (非监督学习)</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-28T12:43:51.968Z" itemprop="dateUpdated">2017年6月28日 20:43</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/05/27/基于TensorFlow的AutoEncoder网络设计/" target="_blank" rel="external">http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/">ML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/&title=《基于TensorFlow的AutoEncoder网络设计》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/&title=《基于TensorFlow的AutoEncoder网络设计》 — 背着翅膀流浪&source=Autoencoder是一种无监督的学习方法，通过编码过程自动提取数据的高阶特征，并用于分析与识别。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的AutoEncoder网络设计》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/06/08/基于TensorFlow的循环神经网络设计/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">基于TensorFlow的循环神经网络设计</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/05/26/Policy-Gradients/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Policy Gradients</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/&title=《基于TensorFlow的AutoEncoder网络设计》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/&title=《基于TensorFlow的AutoEncoder网络设计》 — 背着翅膀流浪&source=Autoencoder是一种无监督的学习方法，通过编码过程自动提取数据的高阶特征，并用于分析与识别。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的AutoEncoder网络设计》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/05/27/基于TensorFlow的AutoEncoder网络设计/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

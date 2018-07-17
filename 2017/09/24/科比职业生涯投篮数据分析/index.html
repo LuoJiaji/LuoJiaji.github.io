@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>科比职业生涯投篮数据分析 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Python,Data Analysis">
+    <meta name="description" content="今天这篇文章主要是通过Python对科比职业生涯的投篮数据进行分析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="科比职业生涯投篮数据分析">
+<meta property="og:url" content="http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="今天这篇文章主要是通过Python对科比职业生涯的投篮数据进行分析。">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-2.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-3.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-4.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-5.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-6.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-7.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-8.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-9.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-10.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-11.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-12.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-13.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-14.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-15.png">
+<meta property="og:updated_time" content="2017-09-24T12:15:31.905Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="科比职业生涯投篮数据分析">
+<meta name="twitter:description" content="今天这篇文章主要是通过Python对科比职业生涯的投篮数据进行分析。">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-24-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">科比职业生涯投篮数据分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">科比职业生涯投篮数据分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-09-24T11:44:34.000Z" itemprop="datePublished" class="page-time">
+  2017-09-24
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-科比职业生涯投篮数据分析"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">科比职业生涯投篮数据分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年09月24日 19:44" datetime="2017-09-24T11:44:34.000Z"  itemprop="datePublished">2017-09-24</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>今天这篇文章主要是通过Python对科比职业生涯的投篮数据进行分析。<br><a id="more"></a><br><a href="https://www.kaggle.com/selfishgene/psychology-of-a-professional-athlete" target="_blank" rel="external">原文</a><br><a href="https://www.kaggle.com/c/kobe-bryant-shot-selection" target="_blank" rel="external">数据</a></p>
+<p>本文将探索科比职业生涯的出手数据，并观察是否有热手效应。</p>
+<p>首先导入需要用到的库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">from</span> matplotlib.patches <span class="keyword">import</span> Circle, Rectangle, Arc, Ellipse</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> mixture</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> ensemble</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> model_selection</div><div class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score <span class="keyword">as</span> accuracy</div><div class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> log_loss</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">import</span> itertools</div><div class="line"><span class="keyword">import</span> operator</div></pre></td></tr></table></figure>
+<p>然后导入数据并创建一些有效的字段。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">allData = pd.read_csv(<span class="string">'data.csv'</span>)</div><div class="line">data = allData[allData[<span class="string">'shot_made_flag'</span>].notnull()].reset_index()</div><div class="line"></div><div class="line"><span class="comment">#%% add some temporal columns to the data</span></div><div class="line">data[<span class="string">'game_date_DT'</span>] = pd.to_datetime(data[<span class="string">'game_date'</span>])</div><div class="line">data[<span class="string">'dayOfWeek'</span>]    = data[<span class="string">'game_date_DT'</span>].dt.dayofweek</div><div class="line">data[<span class="string">'dayOfYear'</span>]    = data[<span class="string">'game_date_DT'</span>].dt.dayofyear</div><div class="line"></div><div class="line">data[<span class="string">'secondsFromPeriodEnd'</span>]   = <span class="number">60</span>*data[<span class="string">'minutes_remaining'</span>]+data[<span class="string">'seconds_remaining'</span>]</div><div class="line">data[<span class="string">'secondsFromPeriodStart'</span>] = <span class="number">60</span>*(<span class="number">11</span>-data[<span class="string">'minutes_remaining'</span>])+(<span class="number">60</span>-data[<span class="string">'seconds_remaining'</span>])</div><div class="line">data[<span class="string">'secondsFromGameStart'</span>]   = (data[<span class="string">'period'</span>] &lt;= <span class="number">4</span>).astype(int)*(data[<span class="string">'period'</span>]<span class="number">-1</span>)*<span class="number">12</span>*<span class="number">60</span> + (data[<span class="string">'period'</span>] &gt; <span class="number">4</span>).astype(int)*((data[<span class="string">'period'</span>]<span class="number">-4</span>)*<span class="number">5</span>*<span class="number">60</span> + <span class="number">3</span>*<span class="number">12</span>*<span class="number">60</span>) + data[<span class="string">'secondsFromPeriodStart'</span>]</div><div class="line"></div><div class="line"><span class="comment"># look at first couple of rows and verify that everything is good</span></div><div class="line">print(data.loc[:<span class="number">10</span>,[<span class="string">'period'</span>,<span class="string">'minutes_remaining'</span>,<span class="string">'seconds_remaining'</span>,<span class="string">'secondsFromGameStart'</span>]])</div></pre></td></tr></table></figure>
+<p>上面的代码主要计算了一下剩余比赛的时间以及开始时间。<br><code>allData[&#39;shot_made_flag&#39;].notnull()</code>去除<code>shot_made_flag</code>这一列数据的非空数据。</p>
+<p>下面绘制根据比赛时间的出手次数的图。时间间隔分别是24秒，12秒，6秒。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">16</span>, <span class="number">16</span>)</div><div class="line">plt.rcParams[<span class="string">'font.size'</span>] = <span class="number">8</span></div><div class="line"></div><div class="line">binsSizes = [<span class="number">24</span>, <span class="number">12</span>, <span class="number">6</span>]</div><div class="line"></div><div class="line">plt.figure()</div><div class="line"><span class="keyword">for</span> k, binSizeInSeconds <span class="keyword">in</span> enumerate(binsSizes):</div><div class="line">    timeBins = np.arange(<span class="number">0</span>, <span class="number">60</span> * (<span class="number">4</span> * <span class="number">12</span> + <span class="number">3</span> * <span class="number">5</span>), binSizeInSeconds) + <span class="number">0.01</span></div><div class="line">    attemptsAsFunctionOfTime, b = np.histogram(data[<span class="string">'secondsFromGameStart'</span>], bins=timeBins)</div><div class="line"></div><div class="line">    maxHeight = max(attemptsAsFunctionOfTime) + <span class="number">30</span></div><div class="line">    barWidth = <span class="number">0.999</span> * (timeBins[<span class="number">1</span>] - timeBins[<span class="number">0</span>])</div><div class="line">    plt.subplot(len(binsSizes), <span class="number">1</span>, k + <span class="number">1</span>);</div><div class="line">    plt.bar(timeBins[:<span class="number">-1</span>], attemptsAsFunctionOfTime, align=<span class="string">'edge'</span>, width=barWidth)</div><div class="line">    plt.title(str(binSizeInSeconds) + <span class="string">' second time bins'</span>)</div><div class="line">    plt.vlines(x=[<span class="number">0</span>, <span class="number">12</span> * <span class="number">60</span>, <span class="number">2</span> * <span class="number">12</span> * <span class="number">60</span>, <span class="number">3</span> * <span class="number">12</span> * <span class="number">60</span>, <span class="number">4</span> * <span class="number">12</span> * <span class="number">60</span>, <span class="number">4</span> * <span class="number">12</span> * <span class="number">60</span> + <span class="number">5</span> * <span class="number">60</span>, <span class="number">4</span> * <span class="number">12</span> * <span class="number">60</span> + <span class="number">2</span> * <span class="number">5</span> * <span class="number">60</span>,<span class="number">4</span> * <span class="number">12</span> * <span class="number">60</span> + <span class="number">3</span> * <span class="number">5</span> * <span class="number">60</span>], ymin=<span class="number">0</span>, ymax=maxHeight, colors=<span class="string">'r'</span>)</div><div class="line">    plt.xlim((<span class="number">-20</span>, <span class="number">3200</span>))</div><div class="line">    plt.ylim((<span class="number">0</span>, maxHeight))</div><div class="line">    plt.ylabel(<span class="string">'attempts'</span>)</div><div class="line">plt.xlabel(<span class="string">'time [seconds from start of game]'</span>)</div><div class="line">plt.show()</div></pre></td></tr></table></figure>
+<p>其中<code>np.histogram(data[&#39;secondsFromGameStart&#39;], bins=timeBins)</code>以<code>timeBins</code>为间隔统计<code>secondsFromGameStart</code>这一列的直方图。</p>
+<p>得到结果如下：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>然后根据比赛时间计算并绘制投篮命中率的图，时间间隔为20s：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% plot the accuracy as a function of time</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">15</span>, <span class="number">10</span>)</div><div class="line">plt.rcParams[<span class="string">'font.size'</span>] = <span class="number">16</span></div><div class="line"></div><div class="line">binSizeInSeconds = <span class="number">20</span></div><div class="line">timeBins = np.arange(<span class="number">0</span>,<span class="number">60</span>*(<span class="number">4</span>*<span class="number">12</span>+<span class="number">3</span>*<span class="number">5</span>),binSizeInSeconds)+<span class="number">0.01</span></div><div class="line">attemptsAsFunctionOfTime,     b = np.histogram(data[<span class="string">'secondsFromGameStart'</span>], bins=timeBins)</div><div class="line">madeAttemptsAsFunctionOfTime, b = np.histogram(data.loc[data[<span class="string">'shot_made_flag'</span>]==<span class="number">1</span>,<span class="string">'secondsFromGameStart'</span>], bins=timeBins)</div><div class="line">attemptsAsFunctionOfTime[attemptsAsFunctionOfTime &lt; <span class="number">1</span>] = <span class="number">1</span></div><div class="line">accuracyAsFunctionOfTime = madeAttemptsAsFunctionOfTime.astype(float)/attemptsAsFunctionOfTime</div><div class="line">accuracyAsFunctionOfTime[attemptsAsFunctionOfTime &lt;= <span class="number">50</span>] = <span class="number">0</span> <span class="comment"># zero accuracy in bins that don't have enough samples</span></div><div class="line"></div><div class="line">maxHeight = max(attemptsAsFunctionOfTime) + <span class="number">30</span></div><div class="line">barWidth = <span class="number">0.999</span>*(timeBins[<span class="number">1</span>]-timeBins[<span class="number">0</span>])</div><div class="line"></div><div class="line">plt.figure()</div><div class="line">plt.subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>); plt.bar(timeBins[:<span class="number">-1</span>],attemptsAsFunctionOfTime, align=<span class="string">'edge'</span>, width=barWidth)</div><div class="line">plt.xlim((<span class="number">-20</span>,<span class="number">3200</span>)); plt.ylim((<span class="number">0</span>,maxHeight)); plt.ylabel(<span class="string">'attempts'</span>); plt.title(str(binSizeInSeconds) + <span class="string">' second time bins'</span>)</div><div class="line">plt.vlines(x=[<span class="number">0</span>,<span class="number">12</span>*<span class="number">60</span>,<span class="number">2</span>*<span class="number">12</span>*<span class="number">60</span>,<span class="number">3</span>*<span class="number">12</span>*<span class="number">60</span>,<span class="number">4</span>*<span class="number">12</span>*<span class="number">60</span>,<span class="number">4</span>*<span class="number">12</span>*<span class="number">60</span>+<span class="number">5</span>*<span class="number">60</span>,<span class="number">4</span>*<span class="number">12</span>*<span class="number">60</span>+<span class="number">2</span>*<span class="number">5</span>*<span class="number">60</span>,<span class="number">4</span>*<span class="number">12</span>*<span class="number">60</span>+<span class="number">3</span>*<span class="number">5</span>*<span class="number">60</span>], ymin=<span class="number">0</span>,ymax=maxHeight, colors=<span class="string">'r'</span>)</div><div class="line">plt.subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>); plt.bar(timeBins[:<span class="number">-1</span>],accuracyAsFunctionOfTime, align=<span class="string">'edge'</span>, width=barWidth)</div><div class="line">plt.xlim((<span class="number">-20</span>,<span class="number">3200</span>)); plt.ylabel(<span class="string">'accuracy'</span>); plt.xlabel(<span class="string">'time [seconds from start of game]'</span>)</div><div class="line">plt.vlines(x=[<span class="number">0</span>,<span class="number">12</span>*<span class="number">60</span>,<span class="number">2</span>*<span class="number">12</span>*<span class="number">60</span>,<span class="number">3</span>*<span class="number">12</span>*<span class="number">60</span>,<span class="number">4</span>*<span class="number">12</span>*<span class="number">60</span>,<span class="number">4</span>*<span class="number">12</span>*<span class="number">60</span>+<span class="number">5</span>*<span class="number">60</span>,<span class="number">4</span>*<span class="number">12</span>*<span class="number">60</span>+<span class="number">2</span>*<span class="number">5</span>*<span class="number">60</span>,<span class="number">4</span>*<span class="number">12</span>*<span class="number">60</span>+<span class="number">3</span>*<span class="number">5</span>*<span class="number">60</span>], ymin=<span class="number">0.0</span>,ymax=<span class="number">0.7</span>, colors=<span class="string">'r'</span>)</div><div class="line"></div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<p>代码的第7,8行分别计算根据比赛时间的投篮次数和命中次数的直方图。并根据这两个数据计算命中率并绘图。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后探索位置对科比投篮的影响。<br>首先建立一个高斯混合模型（GMM）来总结科比的投篮区域分布。将投篮区域分为13个区域。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% cluster the shot attempts of kobe using GMM on their location</span></div><div class="line">numGaussians = <span class="number">13</span></div><div class="line">gaussianMixtureModel = mixture.GaussianMixture(n_components=numGaussians,covariance_type=<span class="string">'full'</span>,</div><div class="line">                                               init_params=<span class="string">'kmeans'</span>, n_init=<span class="number">50</span>,verbose=<span class="number">0</span>, random_state=<span class="number">5</span>)</div><div class="line">gaussianMixtureModel.fit(data.loc[:,[<span class="string">'loc_x'</span>,<span class="string">'loc_y'</span>]])</div><div class="line"></div><div class="line"><span class="comment"># add the GMM cluster as a field in the dataset</span></div><div class="line">data[<span class="string">'shotLocationCluster'</span>] = gaussianMixtureModel.predict(data.loc[:,[<span class="string">'loc_x'</span>,<span class="string">'loc_y'</span>]])</div></pre></td></tr></table></figure>
+<p>然后定义两个函数，一个用来绘制篮球场，一个用来绘制高斯数据。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% cluster the shot attempts of kobe using GMM on their location</span></div><div class="line">numGaussians = <span class="number">13</span></div><div class="line">gaussianMixtureModel = mixture.GaussianMixture(n_components=numGaussians, covariance_type=<span class="string">'full'</span>,</div><div class="line">                                               init_params=<span class="string">'kmeans'</span>, n_init=<span class="number">50</span>,</div><div class="line">                                               verbose=<span class="number">0</span>, random_state=<span class="number">5</span>)</div><div class="line">gaussianMixtureModel.fit(data.loc[:,[<span class="string">'loc_x'</span>,<span class="string">'loc_y'</span>]])</div><div class="line"></div><div class="line"><span class="comment"># add the GMM cluster as a field in the dataset</span></div><div class="line">data[<span class="string">'shotLocationCluster'</span>] = gaussianMixtureModel.predict(data.loc[:,[<span class="string">'loc_x'</span>,<span class="string">'loc_y'</span>]])</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># %% define draw functions (stealing shamelessly the draw_court() function from MichaelKrueger's excelent script)</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_court</span><span class="params">(ax=None, color=<span class="string">'black'</span>, lw=<span class="number">2</span>, outer_lines=False)</span>:</span></div><div class="line">    <span class="comment"># If an axes object isn't provided to plot onto, just get current one</span></div><div class="line">    <span class="keyword">if</span> ax <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        ax = plt.gca()</div><div class="line"></div><div class="line">    <span class="comment"># Create the various parts of an NBA basketball court</span></div><div class="line"></div><div class="line">    <span class="comment"># Create the basketball hoop</span></div><div class="line">    <span class="comment"># Diameter of a hoop is 18" so it has a radius of 9", which is a value</span></div><div class="line">    <span class="comment"># 7.5 in our coordinate system</span></div><div class="line">    hoop = Circle((<span class="number">0</span>, <span class="number">0</span>), radius=<span class="number">7.5</span>, linewidth=lw, color=color, fill=<span class="keyword">False</span>)</div><div class="line"></div><div class="line">    <span class="comment"># Create backboard</span></div><div class="line">    backboard = Rectangle((<span class="number">-30</span>, <span class="number">-7.5</span>), <span class="number">60</span>, <span class="number">-1</span>, linewidth=lw, color=color)</div><div class="line"></div><div class="line">    <span class="comment"># The paint</span></div><div class="line">    <span class="comment"># Create the outer box 0f the paint, width=16ft, height=19ft</span></div><div class="line">    outer_box = Rectangle((<span class="number">-80</span>, <span class="number">-47.5</span>), <span class="number">160</span>, <span class="number">190</span>, linewidth=lw, color=color,</div><div class="line">                          fill=<span class="keyword">False</span>)</div><div class="line">    <span class="comment"># Create the inner box of the paint, widt=12ft, height=19ft</span></div><div class="line">    inner_box = Rectangle((<span class="number">-60</span>, <span class="number">-47.5</span>), <span class="number">120</span>, <span class="number">190</span>, linewidth=lw, color=color,</div><div class="line">                          fill=<span class="keyword">False</span>)</div><div class="line"></div><div class="line">    <span class="comment"># Create free throw top arc</span></div><div class="line">    top_free_throw = Arc((<span class="number">0</span>, <span class="number">142.5</span>), <span class="number">120</span>, <span class="number">120</span>, theta1=<span class="number">0</span>, theta2=<span class="number">180</span>,</div><div class="line">                         linewidth=lw, color=color, fill=<span class="keyword">False</span>)</div><div class="line">    <span class="comment"># Create free throw bottom arc</span></div><div class="line">    bottom_free_throw = Arc((<span class="number">0</span>, <span class="number">142.5</span>), <span class="number">120</span>, <span class="number">120</span>, theta1=<span class="number">180</span>, theta2=<span class="number">0</span>,</div><div class="line">                            linewidth=lw, color=color, linestyle=<span class="string">'dashed'</span>)</div><div class="line">    <span class="comment"># Restricted Zone, it is an arc with 4ft radius from center of the hoop</span></div><div class="line">    restricted = Arc((<span class="number">0</span>, <span class="number">0</span>), <span class="number">80</span>, <span class="number">80</span>, theta1=<span class="number">0</span>, theta2=<span class="number">180</span>, linewidth=lw,</div><div class="line">                     color=color)</div><div class="line"></div><div class="line">    <span class="comment"># Three point line</span></div><div class="line">    <span class="comment"># Create the side 3pt lines, they are 14ft long before they begin to arc</span></div><div class="line">    corner_three_a = Rectangle((<span class="number">-220</span>, <span class="number">-47.5</span>), <span class="number">0</span>, <span class="number">140</span>, linewidth=lw, color=color)</div><div class="line"></div><div class="line">    corner_three_b = Rectangle((<span class="number">220</span>, <span class="number">-47.5</span>), <span class="number">0</span>, <span class="number">140</span>, linewidth=lw, color=color)</div><div class="line">    <span class="comment"># 3pt arc - center of arc will be the hoop, arc is 23'9" away from hoop</span></div><div class="line">    <span class="comment"># I just played around with the theta values until they lined up with the</span></div><div class="line">    <span class="comment"># threes</span></div><div class="line">    three_arc = Arc((<span class="number">0</span>, <span class="number">0</span>), <span class="number">475</span>, <span class="number">475</span>, theta1=<span class="number">22</span>, theta2=<span class="number">158</span>, linewidth=lw,</div><div class="line">                    color=color)</div><div class="line"></div><div class="line">    <span class="comment"># Center Court</span></div><div class="line">    center_outer_arc = Arc((<span class="number">0</span>, <span class="number">422.5</span>), <span class="number">120</span>, <span class="number">120</span>, theta1=<span class="number">180</span>, theta2=<span class="number">0</span>,</div><div class="line">                           linewidth=lw, color=color)</div><div class="line">    center_inner_arc = Arc((<span class="number">0</span>, <span class="number">422.5</span>), <span class="number">40</span>, <span class="number">40</span>, theta1=<span class="number">180</span>, theta2=<span class="number">0</span>,</div><div class="line">                           linewidth=lw, color=color)</div><div class="line"></div><div class="line">    <span class="comment"># List of the court elements to be plotted onto the axes</span></div><div class="line">    court_elements = [hoop, backboard, outer_box, inner_box, top_free_throw,</div><div class="line">                      bottom_free_throw, restricted, corner_three_a,</div><div class="line">                      corner_three_b, three_arc, center_outer_arc,</div><div class="line">                      center_inner_arc]</div><div class="line"></div><div class="line">    <span class="keyword">if</span> outer_lines:</div><div class="line">        <span class="comment"># Draw the half court line, baseline and side out bound lines</span></div><div class="line">        outer_lines = Rectangle((<span class="number">-250</span>, <span class="number">-47.5</span>), <span class="number">500</span>, <span class="number">470</span>, linewidth=lw,</div><div class="line">                                color=color, fill=<span class="keyword">False</span>)</div><div class="line">        court_elements.append(outer_lines)</div><div class="line"></div><div class="line">    <span class="comment"># Add the court elements onto the axes</span></div><div class="line">    <span class="keyword">for</span> element <span class="keyword">in</span> court_elements:</div><div class="line">        ax.add_patch(element)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> ax</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">Draw2DGaussians</span><span class="params">(gaussianMixtureModel, ellipseColors, ellipseTextMessages)</span>:</span></div><div class="line">    fig, h = plt.subplots()</div><div class="line">    <span class="comment"># fig = plt.figure(0)</span></div><div class="line">    <span class="comment"># h = fig.add_subplot(111, aspect='equal') # 这两句跟上面那个等效</span></div><div class="line">    <span class="keyword">for</span> i, (mean, covarianceMatrix) <span class="keyword">in</span> enumerate(zip(gaussianMixtureModel.means_, gaussianMixtureModel.covariances_)):</div><div class="line">        <span class="comment"># get the eigen vectors and eigen values of the covariance matrix</span></div><div class="line">        v, w = np.linalg.eigh(covarianceMatrix)</div><div class="line">        v = <span class="number">2.5</span> * np.sqrt(v)  <span class="comment"># go to units of standard deviation instead of variance</span></div><div class="line"></div><div class="line">        <span class="comment"># calculate the ellipse angle and two axis length and draw it</span></div><div class="line">        u = w[<span class="number">0</span>] / np.linalg.norm(w[<span class="number">0</span>])</div><div class="line">        angle = np.arctan(u[<span class="number">1</span>] / u[<span class="number">0</span>])</div><div class="line">        angle = <span class="number">180</span> * angle / np.pi  <span class="comment"># convert to degrees</span></div><div class="line">        currEllipse = Ellipse(mean, v[<span class="number">0</span>], v[<span class="number">1</span>], <span class="number">180</span> + angle, color=ellipseColors[i])</div><div class="line">        currEllipse.set_alpha(<span class="number">0.5</span>)</div><div class="line">        h.add_artist(currEllipse)</div><div class="line">        h.text(mean[<span class="number">0</span>] + <span class="number">7</span>, mean[<span class="number">1</span>] - <span class="number">1</span>, ellipseTextMessages[i], fontsize=<span class="number">13</span>, color=<span class="string">'blue'</span>)</div></pre></td></tr></table></figure></p>
+<p>代码中<code>np.linalg.norm()</code>用来计算矩阵或向量的范数，默认为计算2范数。<code>np.linalg.eigh()</code>用来计算埃尔米特矩阵或对称矩阵的特征值和特征向量。</p>
+<p>然后绘制2D高斯投篮图，图中的数字代表该区域投篮数的比重。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% show gaussian mixture elipses of shot attempts</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">10</span>)</div><div class="line">plt.rcParams[<span class="string">'font.size'</span>] = <span class="number">15</span></div><div class="line"></div><div class="line">ellipseTextMessages = [str(<span class="number">100</span>*gaussianMixtureModel.weights_[x])[:<span class="number">5</span>]+<span class="string">'%'</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(numGaussians)]</div><div class="line">ellipseColors = [<span class="string">'red'</span>,<span class="string">'green'</span>,<span class="string">'purple'</span>,<span class="string">'cyan'</span>,<span class="string">'magenta'</span>,<span class="string">'yellow'</span>,<span class="string">'blue'</span>,<span class="string">'orange'</span>,<span class="string">'silver'</span>,<span class="string">'maroon'</span>,<span class="string">'lime'</span>,<span class="string">'olive'</span>,<span class="string">'brown'</span>,<span class="string">'darkblue'</span>]</div><div class="line">Draw2DGaussians(gaussianMixtureModel, ellipseColors, ellipseTextMessages)</div><div class="line">draw_court(outer_lines=<span class="keyword">True</span>)</div><div class="line">plt.ylim(<span class="number">-60</span>,<span class="number">440</span>)</div><div class="line">plt.xlim(<span class="number">270</span>,<span class="number">-270</span>)</div><div class="line">plt.title(<span class="string">'shot attempts'</span>)</div><div class="line"></div><div class="line">plt.show()</div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>从图中可以看出，科比的投篮出手更多地在球场的左侧（从他的视角则为右侧），可能是因为他是一名右手球员。<br>并且比例最大为16.8%，直接来自篮下，并且还有5.05%来自靠近篮筐的区域。</p>
+<p>下面画出投篮的散点图来验证上面的高斯混合模型的正确性。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% just to make sure the gaussian model actually captures something, show the scatter and cluster assignment</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">10</span>)</div><div class="line">plt.rcParams[<span class="string">'font.size'</span>] = <span class="number">15</span></div><div class="line"></div><div class="line">plt.figure(); draw_court(outer_lines=<span class="keyword">True</span>)</div><div class="line">plt.ylim(<span class="number">-60</span>,<span class="number">440</span>)</div><div class="line">plt.xlim(<span class="number">270</span>,<span class="number">-270</span>)</div><div class="line">plt.title(<span class="string">'cluser assignment'</span>)</div><div class="line">plt.scatter(x=data[<span class="string">'loc_x'</span>],y=data[<span class="string">'loc_y'</span>],c=data[<span class="string">'shotLocationCluster'</span>],s=<span class="number">40</span>,cmap=<span class="string">'hsv'</span>,alpha=<span class="number">0.1</span>)</div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-4.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后计算每个区域的命中率。图中的数字代表该区域的命中率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">10</span>)</div><div class="line">plt.rcParams[<span class="string">'font.size'</span>] = <span class="number">15</span></div><div class="line"></div><div class="line">variableCategories = data[<span class="string">'shotLocationCluster'</span>].value_counts().index.tolist()</div><div class="line"></div><div class="line">clusterAccuracy = &#123;&#125;</div><div class="line"><span class="keyword">for</span> category <span class="keyword">in</span> variableCategories:</div><div class="line">    shotsAttempted = np.array(data[<span class="string">'shotLocationCluster'</span>] == category).sum()</div><div class="line">    shotsMade = np.array(data.loc[data[<span class="string">'shotLocationCluster'</span>] == category,<span class="string">'shot_made_flag'</span>] == <span class="number">1</span>).sum()</div><div class="line">    clusterAccuracy[category] = float(shotsMade)/shotsAttempted</div><div class="line"></div><div class="line">ellipseTextMessages = [str(<span class="number">100</span>*clusterAccuracy[x])[:<span class="number">4</span>]+<span class="string">'%'</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(numGaussians)]</div><div class="line">Draw2DGaussians(gaussianMixtureModel, ellipseColors, ellipseTextMessages)</div><div class="line">draw_court(outer_lines=<span class="keyword">True</span>)</div><div class="line">plt.ylim(<span class="number">-60</span>,<span class="number">440</span>)</div><div class="line">plt.xlim(<span class="number">270</span>,<span class="number">-270</span>)</div><div class="line">plt.title(<span class="string">'shot accuracy'</span>)</div><div class="line">plt.show()</div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-5.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>从图中可以发现，科比不仅在右侧（他的视角）出手次数比较多，而且命中率也相对比较高。</p>
+<p>接下来，将会根据投篮的性质来评估投篮难度（比如投篮方式或者投篮距离）。</p>
+<p>首先构造一个投篮难度模型的列表<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">FactorizeCategoricalVariable</span><span class="params">(inputDB, categoricalVarName)</span>:</span></div><div class="line">    opponentCategories = inputDB[categoricalVarName].value_counts().index.tolist()</div><div class="line"></div><div class="line">    outputDB = pd.DataFrame()</div><div class="line">    <span class="keyword">for</span> category <span class="keyword">in</span> opponentCategories:</div><div class="line">        featureName = categoricalVarName + <span class="string">': '</span> + str(category)</div><div class="line">        outputDB[featureName] = (inputDB[categoricalVarName] == category).astype(int)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> outputDB</div><div class="line"></div><div class="line"></div><div class="line">featuresDB = pd.DataFrame()</div><div class="line">featuresDB[<span class="string">'homeGame'</span>] = data[<span class="string">'matchup'</span>].apply(<span class="keyword">lambda</span> x: <span class="number">1</span> <span class="keyword">if</span> (x.find(<span class="string">'@'</span>) &lt; <span class="number">0</span>) <span class="keyword">else</span> <span class="number">0</span>)</div><div class="line">featuresDB = pd.concat([featuresDB, FactorizeCategoricalVariable(data, <span class="string">'opponent'</span>)], axis=<span class="number">1</span>)</div><div class="line">featuresDB = pd.concat([featuresDB, FactorizeCategoricalVariable(data, <span class="string">'action_type'</span>)], axis=<span class="number">1</span>)</div><div class="line">featuresDB = pd.concat([featuresDB, FactorizeCategoricalVariable(data, <span class="string">'shot_type'</span>)], axis=<span class="number">1</span>)</div><div class="line">featuresDB = pd.concat([featuresDB, FactorizeCategoricalVariable(data, <span class="string">'combined_shot_type'</span>)], axis=<span class="number">1</span>)</div><div class="line">featuresDB = pd.concat([featuresDB, FactorizeCategoricalVariable(data, <span class="string">'shot_zone_basic'</span>)], axis=<span class="number">1</span>)</div><div class="line">featuresDB = pd.concat([featuresDB, FactorizeCategoricalVariable(data, <span class="string">'shot_zone_area'</span>)], axis=<span class="number">1</span>)</div><div class="line">featuresDB = pd.concat([featuresDB, FactorizeCategoricalVariable(data, <span class="string">'shot_zone_range'</span>)], axis=<span class="number">1</span>)</div><div class="line">featuresDB = pd.concat([featuresDB, FactorizeCategoricalVariable(data, <span class="string">'shotLocationCluster'</span>)], axis=<span class="number">1</span>)</div><div class="line"></div><div class="line">featuresDB[<span class="string">'playoffGame'</span>] = data[<span class="string">'playoffs'</span>]</div><div class="line">featuresDB[<span class="string">'locX'</span>] = data[<span class="string">'loc_x'</span>]</div><div class="line">featuresDB[<span class="string">'locY'</span>] = data[<span class="string">'loc_y'</span>]</div><div class="line">featuresDB[<span class="string">'distanceFromBasket'</span>] = data[<span class="string">'shot_distance'</span>]</div><div class="line">featuresDB[<span class="string">'secondsFromPeriodEnd'</span>] = data[<span class="string">'secondsFromPeriodEnd'</span>]</div><div class="line"></div><div class="line">featuresDB[<span class="string">'dayOfWeek_cycX'</span>] = np.sin(<span class="number">2</span> * np.pi * (data[<span class="string">'dayOfWeek'</span>] / <span class="number">7</span>))</div><div class="line">featuresDB[<span class="string">'dayOfWeek_cycY'</span>] = np.cos(<span class="number">2</span> * np.pi * (data[<span class="string">'dayOfWeek'</span>] / <span class="number">7</span>))</div><div class="line">featuresDB[<span class="string">'timeOfYear_cycX'</span>] = np.sin(<span class="number">2</span> * np.pi * (data[<span class="string">'dayOfYear'</span>] / <span class="number">365</span>))</div><div class="line">featuresDB[<span class="string">'timeOfYear_cycY'</span>] = np.cos(<span class="number">2</span> * np.pi * (data[<span class="string">'dayOfYear'</span>] / <span class="number">365</span>))</div><div class="line"></div><div class="line">labelsDB = data[<span class="string">'shot_made_flag'</span>]</div></pre></td></tr></table></figure></p>
+<p>代码中<code>.tolist()</code>方法可以将数组转化为列表。<code>value_counts()</code>用来计算列表中某一数据的数量。</p>
+<p>建立一个基于featuresDB的模型，并确保模型没有过拟合（测试误差和训练误差一致）。<br>用<code>ExtraTreesClassifier</code>模型来检验。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># %% build a simple model and make sure it doesnt overfit</span></div><div class="line">randomSeed = <span class="number">1</span></div><div class="line">numFolds = <span class="number">4</span></div><div class="line"></div><div class="line">stratifiedCV = model_selection.StratifiedKFold(n_splits=numFolds, shuffle=<span class="keyword">True</span>, random_state=randomSeed)</div><div class="line"></div><div class="line">mainLearner = ensemble.ExtraTreesClassifier(n_estimators=<span class="number">500</span>, max_depth=<span class="number">5</span>,</div><div class="line">                                            min_samples_leaf=<span class="number">120</span>, max_features=<span class="number">120</span>,</div><div class="line">                                            criterion=<span class="string">'entropy'</span>, bootstrap=<span class="keyword">False</span>,</div><div class="line">                                            n_jobs=<span class="number">-1</span>, random_state=randomSeed)</div><div class="line"></div><div class="line">startTime = time.time()</div><div class="line">trainAccuracy = []</div><div class="line">validAccuracy = []</div><div class="line">trainLogLosses = []</div><div class="line">validLogLosses = []</div><div class="line"><span class="keyword">for</span> trainInds, validInds <span class="keyword">in</span> stratifiedCV.split(featuresDB, labelsDB):</div><div class="line">    <span class="comment"># split to train and valid sets</span></div><div class="line">    X_train_CV = featuresDB.iloc[trainInds, :]</div><div class="line">    y_train_CV = labelsDB.iloc[trainInds]</div><div class="line">    X_valid_CV = featuresDB.iloc[validInds, :]</div><div class="line">    y_valid_CV = labelsDB.iloc[validInds]</div><div class="line"></div><div class="line">    <span class="comment"># train learner</span></div><div class="line">    mainLearner.fit(X_train_CV, y_train_CV)</div><div class="line"></div><div class="line">    <span class="comment"># make predictions</span></div><div class="line">    y_train_hat_mainLearner = mainLearner.predict_proba(X_train_CV)[:, <span class="number">1</span>]</div><div class="line">    y_valid_hat_mainLearner = mainLearner.predict_proba(X_valid_CV)[:, <span class="number">1</span>]</div><div class="line"></div><div class="line">    <span class="comment"># store results</span></div><div class="line">    trainAccuracy.append(accuracy(y_train_CV, y_train_hat_mainLearner &gt; <span class="number">0.5</span>))</div><div class="line">    validAccuracy.append(accuracy(y_valid_CV, y_valid_hat_mainLearner &gt; <span class="number">0.5</span>))</div><div class="line">    trainLogLosses.append(log_loss(y_train_CV, y_train_hat_mainLearner))</div><div class="line">    validLogLosses.append(log_loss(y_valid_CV, y_valid_hat_mainLearner))</div><div class="line"></div><div class="line">print(<span class="string">"-----------------------------------------------------"</span>)</div><div class="line">print(<span class="string">"total (train,valid) Accuracy = (%.5f,%.5f). took %.2f minutes"</span> % (</div><div class="line">np.mean(trainAccuracy), np.mean(validAccuracy), (time.time() - startTime) / <span class="number">60</span>))</div><div class="line">print(<span class="string">"total (train,valid) Log Loss = (%.5f,%.5f). took %.2f minutes"</span> % (</div><div class="line">np.mean(trainLogLosses), np.mean(validLogLosses), (time.time() - startTime) / <span class="number">60</span>))</div><div class="line">print(<span class="string">"-----------------------------------------------------"</span>)</div></pre></td></tr></table></figure></p>
+<p>得到结果如下：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-6.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>给模型的原始条目添加’shotDifficulty’<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mainLearner.fit(featuresDB, labelsDB)</div><div class="line">data[<span class="string">'shotDifficulty'</span>] = mainLearner.predict_proba(featuresDB)[:,<span class="number">1</span>]</div></pre></td></tr></table></figure></p>
+<p>根据ET分类器观察特征的重要程度：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># just to get a feel for what determins shot difficulty, look at feature importances</span></div><div class="line">featureInds = mainLearner.feature_importances_.argsort()[::<span class="number">-1</span>]</div><div class="line">featureImportance = pd.DataFrame(np.concatenate((featuresDB.columns[featureInds,<span class="keyword">None</span>], mainLearner.feature_importances_[featureInds,<span class="keyword">None</span>]), axis=<span class="number">1</span>),</div><div class="line">                                  columns=[<span class="string">'featureName'</span>, <span class="string">'importanceET'</span>])</div><div class="line"></div><div class="line">featureImportance.iloc[:<span class="number">30</span>,:]</div></pre></td></tr></table></figure>
+<p>对此，我们将分析两组不同的投篮并分析他们之间的不同。</p>
+<ol>
+<li>在投篮命中之后的投篮</li>
+<li>在投篮失败之后的投篮</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment"># %% collect data given that kobe made or missed last shot</span></div><div class="line">timeBetweenShotsDict = &#123;&#125;</div><div class="line">timeBetweenShotsDict[<span class="string">'madeLast'</span>] = []</div><div class="line">timeBetweenShotsDict[<span class="string">'missedLast'</span>] = []</div><div class="line"></div><div class="line">changeInDistFromBasketDict = &#123;&#125;</div><div class="line">changeInDistFromBasketDict[<span class="string">'madeLast'</span>] = []</div><div class="line">changeInDistFromBasketDict[<span class="string">'missedLast'</span>] = []</div><div class="line"></div><div class="line">changeInShotDifficultyDict = &#123;&#125;</div><div class="line">changeInShotDifficultyDict[<span class="string">'madeLast'</span>] = []</div><div class="line">changeInShotDifficultyDict[<span class="string">'missedLast'</span>] = []</div><div class="line"></div><div class="line">afterMadeShotsList = []</div><div class="line">afterMissedShotsList = []</div><div class="line"></div><div class="line"><span class="keyword">for</span> shot <span class="keyword">in</span> range(<span class="number">1</span>, data.shape[<span class="number">0</span>]):</div><div class="line"></div><div class="line">    <span class="comment"># make sure the current shot and last shot were all in the same period of the same game</span></div><div class="line">    sameGame = data.loc[shot, <span class="string">'game_date'</span>] == data.loc[shot - <span class="number">1</span>, <span class="string">'game_date'</span>]</div><div class="line">    samePeriod = data.loc[shot, <span class="string">'period'</span>] == data.loc[shot - <span class="number">1</span>, <span class="string">'period'</span>]</div><div class="line"></div><div class="line">    <span class="keyword">if</span> samePeriod <span class="keyword">and</span> sameGame:</div><div class="line">        madeLastShot = data.loc[shot - <span class="number">1</span>, <span class="string">'shot_made_flag'</span>] == <span class="number">1</span></div><div class="line">        missedLastShot = data.loc[shot - <span class="number">1</span>, <span class="string">'shot_made_flag'</span>] == <span class="number">0</span></div><div class="line"></div><div class="line">        timeDifferenceFromLastShot = data.loc[shot, <span class="string">'secondsFromGameStart'</span>] - data.loc[shot - <span class="number">1</span>, <span class="string">'secondsFromGameStart'</span>]</div><div class="line">        distDifferenceFromLastShot = data.loc[shot, <span class="string">'shot_distance'</span>] - data.loc[shot - <span class="number">1</span>, <span class="string">'shot_distance'</span>]</div><div class="line">        shotDifficultyDifferenceFromLastShot = data.loc[shot, <span class="string">'shotDifficulty'</span>] - data.loc[shot - <span class="number">1</span>, <span class="string">'shotDifficulty'</span>]</div><div class="line"></div><div class="line">        <span class="comment"># check for currupt data points (assuming all samples should have been chronologically ordered)</span></div><div class="line">        <span class="keyword">if</span> timeDifferenceFromLastShot &lt; <span class="number">0</span>:</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> madeLastShot:</div><div class="line">            timeBetweenShotsDict[<span class="string">'madeLast'</span>].append(timeDifferenceFromLastShot)</div><div class="line">            changeInDistFromBasketDict[<span class="string">'madeLast'</span>].append(distDifferenceFromLastShot)</div><div class="line">            changeInShotDifficultyDict[<span class="string">'madeLast'</span>].append(shotDifficultyDifferenceFromLastShot)</div><div class="line">            afterMadeShotsList.append(shot)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> missedLastShot:</div><div class="line">            timeBetweenShotsDict[<span class="string">'missedLast'</span>].append(timeDifferenceFromLastShot)</div><div class="line">            changeInDistFromBasketDict[<span class="string">'missedLast'</span>].append(distDifferenceFromLastShot)</div><div class="line">            changeInShotDifficultyDict[<span class="string">'missedLast'</span>].append(shotDifficultyDifferenceFromLastShot)</div><div class="line">            afterMissedShotsList.append(shot)</div><div class="line"></div><div class="line">afterMissedData = data.iloc[afterMissedShotsList, :]</div><div class="line">afterMadeData = data.iloc[afterMadeShotsList, :]</div><div class="line"></div><div class="line">shotChancesListAfterMade = afterMadeData[<span class="string">'shotDifficulty'</span>].tolist()</div><div class="line">totalAttemptsAfterMade = afterMadeData.shape[<span class="number">0</span>]</div><div class="line">totalMadeAfterMade = np.array(afterMadeData[<span class="string">'shot_made_flag'</span>] == <span class="number">1</span>).sum()</div><div class="line"></div><div class="line">shotChancesListAfterMissed = afterMissedData[<span class="string">'shotDifficulty'</span>].tolist()</div><div class="line">totalAttemptsAfterMissed = afterMissedData.shape[<span class="number">0</span>]</div><div class="line">totalMadeAfterMissed = np.array(afterMissedData[<span class="string">'shot_made_flag'</span>] == <span class="number">1</span>).sum()</div></pre></td></tr></table></figure>
+<p>对上面两组数据绘制柱形图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% after making a shot, kobe wants more</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">10</span>)</div><div class="line"></div><div class="line">jointHist, timeBins = np.histogram(timeBetweenShotsDict[<span class="string">'madeLast'</span>]+timeBetweenShotsDict[<span class="string">'missedLast'</span>],bins=<span class="number">200</span>)</div><div class="line">barWidth = <span class="number">0.999</span>*(timeBins[<span class="number">1</span>]-timeBins[<span class="number">0</span>])</div><div class="line"></div><div class="line">timeDiffHist_GivenMadeLastShot, b = np.histogram(timeBetweenShotsDict[<span class="string">'madeLast'</span>],bins=timeBins)</div><div class="line">timeDiffHist_GivenMissedLastShot, b = np.histogram(timeBetweenShotsDict[<span class="string">'missedLast'</span>],bins=timeBins)</div><div class="line">maxHeight = max(max(timeDiffHist_GivenMadeLastShot),max(timeDiffHist_GivenMissedLastShot)) + <span class="number">30</span></div><div class="line"></div><div class="line">plt.figure();</div><div class="line">plt.subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>); plt.bar(timeBins[:<span class="number">-1</span>], timeDiffHist_GivenMadeLastShot, width=barWidth); plt.xlim((<span class="number">0</span>,<span class="number">500</span>)); plt.ylim((<span class="number">0</span>,maxHeight))</div><div class="line">plt.title(<span class="string">'made last shot'</span>); plt.ylabel(<span class="string">'counts'</span>)</div><div class="line">plt.subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>); plt.bar(timeBins[:<span class="number">-1</span>], timeDiffHist_GivenMissedLastShot, width=barWidth); plt.xlim((<span class="number">0</span>,<span class="number">500</span>)); plt.ylim((<span class="number">0</span>,maxHeight))</div><div class="line">plt.title(<span class="string">'missed last shot'</span>); plt.xlabel(<span class="string">'time since last shot'</span>); plt.ylabel(<span class="string">'counts'</span>)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-7.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>可以发现，当科比投篮命中之后，更加渴望下一次投篮。</p>
+<p>图像前面有一段沉默的区域是因为当投篮命中之后，球在对方手上，并且一段时间之后才会再一次 得到球。</p>
+<p>绘制累计直方图，来更好地可视化两个直方图之间的差异。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% to make the difference clearer, show the cumulative histogram</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">6</span>)</div><div class="line"></div><div class="line">timeDiffCumHist_GivenMadeLastShot = np.cumsum(timeDiffHist_GivenMadeLastShot).astype(float)</div><div class="line">timeDiffCumHist_GivenMadeLastShot = timeDiffCumHist_GivenMadeLastShot/max(timeDiffCumHist_GivenMadeLastShot)</div><div class="line">timeDiffCumHist_GivenMissedLastShot = np.cumsum(timeDiffHist_GivenMissedLastShot).astype(float)</div><div class="line">timeDiffCumHist_GivenMissedLastShot = timeDiffCumHist_GivenMissedLastShot/max(timeDiffCumHist_GivenMissedLastShot)</div><div class="line"></div><div class="line">maxHeight = max(timeDiffCumHist_GivenMadeLastShot[<span class="number">-1</span>],timeDiffCumHist_GivenMissedLastShot[<span class="number">-1</span>])</div><div class="line"></div><div class="line">plt.figure()</div><div class="line">madePrev = plt.plot(timeBins[:<span class="number">-1</span>], timeDiffCumHist_GivenMadeLastShot, label=<span class="string">'made Prev'</span>); plt.xlim((<span class="number">0</span>,<span class="number">500</span>))</div><div class="line">missedPrev = plt.plot(timeBins[:<span class="number">-1</span>], timeDiffCumHist_GivenMissedLastShot, label=<span class="string">'missed Prev'</span>); plt.xlim((<span class="number">0</span>,<span class="number">500</span>)); plt.ylim((<span class="number">0</span>,<span class="number">1</span>))</div><div class="line">plt.title(<span class="string">'cumulative density function - CDF'</span>); plt.xlabel(<span class="string">'time since last shot'</span>); plt.legend(loc=<span class="string">'lower right'</span>)</div></pre></td></tr></table></figure></p>
+<p>代码中<code>np.cumsum()</code>用来计算数据中的累计值。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-8.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>绘制两组数据的’当前投篮距离-前一次投篮距离’的直方图。<br>如果科比先近距离投篮然后远距离投篮，那么计算结果为正值，反之亦然，如果科比先远距离投篮，然后在近距离投篮，计算结果为负值。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">10</span>)</div><div class="line"></div><div class="line">jointHist, distDiffBins = np.histogram(changeInDistFromBasketDict[<span class="string">'madeLast'</span>]+changeInDistFromBasketDict[<span class="string">'missedLast'</span>],bins=<span class="number">100</span>,density=<span class="keyword">False</span>)</div><div class="line">barWidth = <span class="number">0.999</span>*(distDiffBins[<span class="number">1</span>]-distDiffBins[<span class="number">0</span>])</div><div class="line"></div><div class="line">distDiffHist_GivenMadeLastShot,   b = np.histogram(changeInDistFromBasketDict[<span class="string">'madeLast'</span>],bins=distDiffBins)</div><div class="line">distDiffHist_GivenMissedLastShot, b = np.histogram(changeInDistFromBasketDict[<span class="string">'missedLast'</span>],bins=distDiffBins)</div><div class="line">maxHeight = max(max(distDiffHist_GivenMadeLastShot),max(distDiffHist_GivenMissedLastShot)) + <span class="number">30</span></div><div class="line"></div><div class="line">plt.figure()</div><div class="line">plt.subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>); plt.bar(distDiffBins[:<span class="number">-1</span>], distDiffHist_GivenMadeLastShot, width=barWidth); plt.xlim((<span class="number">-40</span>,<span class="number">40</span>)); plt.ylim((<span class="number">0</span>,maxHeight))</div><div class="line">plt.title(<span class="string">'made last shot'</span>); plt.ylabel(<span class="string">'counts'</span>)</div><div class="line">plt.subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>); plt.bar(distDiffBins[:<span class="number">-1</span>], distDiffHist_GivenMissedLastShot, width=barWidth); plt.xlim((<span class="number">-40</span>,<span class="number">40</span>)); plt.ylim((<span class="number">0</span>,maxHeight))</div><div class="line">plt.title(<span class="string">'missed last shot'</span>); plt.xlabel(<span class="string">'curr shot distance - prev shot distance'</span>); plt.ylabel(<span class="string">'counts'</span>)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-9.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>图中可以清楚地看到投篮命中的图更加倾向于右侧。<br>因此，可以发现，科比投篮命中之后会更加自信，并因此会冒更大的风险在更远的地方投篮。</p>
+<p>这比之前的图更加明显，但绘制累计直方图会更加明显。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% to make the difference clearer, show the cumulative histogram</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">6</span>)</div><div class="line"></div><div class="line">distDiffCumHist_GivenMadeLastShot = np.cumsum(distDiffHist_GivenMadeLastShot).astype(float)</div><div class="line">distDiffCumHist_GivenMadeLastShot = distDiffCumHist_GivenMadeLastShot/max(distDiffCumHist_GivenMadeLastShot)</div><div class="line">distDiffCumHist_GivenMissedLastShot = np.cumsum(distDiffHist_GivenMissedLastShot).astype(float)</div><div class="line">distDiffCumHist_GivenMissedLastShot = distDiffCumHist_GivenMissedLastShot/max(distDiffCumHist_GivenMissedLastShot)</div><div class="line"></div><div class="line">maxHeight = max(distDiffCumHist_GivenMadeLastShot[<span class="number">-1</span>],distDiffCumHist_GivenMissedLastShot[<span class="number">-1</span>])</div><div class="line"></div><div class="line">plt.figure()</div><div class="line">madePrev = plt.plot(distDiffBins[:<span class="number">-1</span>], distDiffCumHist_GivenMadeLastShot, label=<span class="string">'made Prev'</span>); plt.xlim((<span class="number">-40</span>,<span class="number">40</span>))</div><div class="line">missedPrev = plt.plot(distDiffBins[:<span class="number">-1</span>], distDiffCumHist_GivenMissedLastShot, label=<span class="string">'missed Prev'</span>); plt.xlim((<span class="number">-40</span>,<span class="number">40</span>)); plt.ylim((<span class="number">0</span>,<span class="number">1</span>))</div><div class="line">plt.title(<span class="string">'cumulative density function - CDF'</span>); plt.xlabel(<span class="string">'curr shot distance - prev shot distance'</span>); plt.legend(loc=<span class="string">'lower right'</span>)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-10.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>最后，绘制两组数据投篮难度变化。<br>这里负值代表科比冒更大的风险，正值表示科比采取比较保险的投篮。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% after making a shot, kobe is a more confident and makes much more difficult shots generally</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">10</span>)</div><div class="line"></div><div class="line">jointHist, difficultyDiffBins = np.histogram(changeInShotDifficultyDict[<span class="string">'madeLast'</span>]+changeInShotDifficultyDict[<span class="string">'missedLast'</span>],bins=<span class="number">100</span>)</div><div class="line">barWidth = <span class="number">0.999</span>*(difficultyDiffBins[<span class="number">1</span>]-difficultyDiffBins[<span class="number">0</span>])</div><div class="line"></div><div class="line">shotDifficultyDiffHist_GivenMadeLastShot,   b = np.histogram(changeInShotDifficultyDict[<span class="string">'madeLast'</span>],bins=difficultyDiffBins)</div><div class="line">shotDifficultyDiffHist_GivenMissedLastShot, b = np.histogram(changeInShotDifficultyDict[<span class="string">'missedLast'</span>],bins=difficultyDiffBins)</div><div class="line">maxHeight = max(max(shotDifficultyDiffHist_GivenMadeLastShot),max(shotDifficultyDiffHist_GivenMissedLastShot)) + <span class="number">30</span></div><div class="line"></div><div class="line">plt.figure()</div><div class="line">plt.subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>); plt.bar(difficultyDiffBins[:<span class="number">-1</span>], shotDifficultyDiffHist_GivenMadeLastShot, width=barWidth); plt.xlim((<span class="number">-1</span>,<span class="number">1</span>)); plt.ylim((<span class="number">0</span>,maxHeight))</div><div class="line">plt.title(<span class="string">'made last shot'</span>); plt.ylabel(<span class="string">'counts'</span>)</div><div class="line">plt.subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>); plt.bar(difficultyDiffBins[:<span class="number">-1</span>], shotDifficultyDiffHist_GivenMissedLastShot, width=barWidth); plt.xlim((<span class="number">-1</span>,<span class="number">1</span>)); plt.ylim((<span class="number">0</span>,maxHeight))</div><div class="line">plt.title(<span class="string">'missed last shot'</span>); plt.xlabel(<span class="string">'chance to make curr shot - chance to make prev shot'</span>); plt.ylabel(<span class="string">'counts'</span>)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-11.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>从图中可以发现，命中的投篮更加倾向于左侧。<br>说明科比命中之后会就更加自信，并允许自己尝试更加困难的投篮。</p>
+<p>或许你会好奇是否仅仅是简单地对均值的回归。</p>
+<p>这种想法是合理的，因为所有命中的投篮都明显地偏向于比较容易的投篮，如果使用相对测量，比如“投篮难度”，肯定会得到这个回归均值的效果，所以需要确保是否是这样。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% is this regression to the mean?</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">12</span>, <span class="number">10</span>)</div><div class="line"></div><div class="line">accuracyAllShots    = data[<span class="string">'shot_made_flag'</span>].mean()</div><div class="line">accuracyAfterMade   = afterMadeData[<span class="string">'shot_made_flag'</span>].mean()</div><div class="line">accuracyAfterMissed = afterMissedData[<span class="string">'shot_made_flag'</span>].mean()</div><div class="line"></div><div class="line">standardErrorAllShots    = np.sqrt(accuracyAllShots*(<span class="number">1</span>-accuracyAllShots)/data.shape[<span class="number">0</span>])</div><div class="line">standardErrorAfterMade   = np.sqrt(accuracyAfterMade*(<span class="number">1</span>-accuracyAfterMade)/afterMadeData.shape[<span class="number">0</span>])</div><div class="line">standardErrorAfterMissed = np.sqrt(accuracyAfterMissed*(<span class="number">1</span>-accuracyAfterMissed)/afterMissedData.shape[<span class="number">0</span>])</div><div class="line"></div><div class="line">accuracyVec = np.array([accuracyAfterMade,accuracyAllShots,accuracyAfterMissed])</div><div class="line">errorVec    = np.array([standardErrorAfterMade,standardErrorAllShots,standardErrorAfterMissed])</div><div class="line"></div><div class="line">barWidth = <span class="number">0.7</span></div><div class="line">xLocs = np.arange(len(accuracyVec)) + <span class="number">0.5</span></div><div class="line"></div><div class="line">fig, h = plt.subplots(); h.bar(xLocs, accuracyVec, barWidth, color=<span class="string">'b'</span>, yerr=errorVec)</div><div class="line">h.set_xticks(xLocs); h.set_xticklabels((<span class="string">'after made'</span>, <span class="string">'all shots'</span>, <span class="string">'after missed'</span>))</div><div class="line">plt.ylim([<span class="number">0.41</span>,<span class="number">0.47</span>]); plt.xlim([<span class="number">-0.3</span>,<span class="number">3.3</span>]); plt.title(<span class="string">'not regression to the mean'</span>)</div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-12.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>现在可以确定不是简单地均值回归，实际上两种不同的投篮数据组有非常不同的命中率。那么有一个问题出现了</p>
+<p>科比手热的感觉是否正确？<br>获取科比真的感觉到自己的投篮区，并更多地尝试更加困难的投篮。</p>
+<p>可以通过创建的投篮困难的模型看出，命中率几乎一致，并没有包含手热的特性。</p>
+<p>这个结果表明科比并没有手热的效应。</p>
+<p>下面尝试可视化。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% let's try and visualize this - show scatter plot of after made and after missed shots</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">16</span>, <span class="number">8</span>)</div><div class="line"></div><div class="line">afterMissedData = data.iloc[afterMissedShotsList,:]</div><div class="line">afterMadeData = data.iloc[afterMadeShotsList,:]</div><div class="line"></div><div class="line">plt.figure();</div><div class="line">plt.subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>); plt.title(<span class="string">'shots after made'</span>)</div><div class="line">plt.scatter(x=afterMadeData[<span class="string">'loc_x'</span>],y=afterMadeData[<span class="string">'loc_y'</span>],c=afterMadeData[<span class="string">'shotLocationCluster'</span>],s=<span class="number">50</span>,cmap=<span class="string">'hsv'</span>,alpha=<span class="number">0.06</span>)</div><div class="line">draw_court(outer_lines=<span class="keyword">True</span>); plt.ylim(<span class="number">-60</span>,<span class="number">440</span>); plt.xlim(<span class="number">270</span>,<span class="number">-270</span>);</div><div class="line"></div><div class="line">plt.subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>); plt.title(<span class="string">'shots after missed'</span>);</div><div class="line">plt.scatter(x=afterMissedData[<span class="string">'loc_x'</span>],y=afterMissedData[<span class="string">'loc_y'</span>],c=afterMissedData[<span class="string">'shotLocationCluster'</span>],s=<span class="number">50</span>,cmap=<span class="string">'hsv'</span>,alpha=<span class="number">0.06</span>)</div><div class="line">draw_court(outer_lines=<span class="keyword">True</span>); plt.ylim(<span class="number">-60</span>,<span class="number">440</span>); plt.xlim(<span class="number">270</span>,<span class="number">-270</span>);</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-13.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>明锐的眼睛或许可以发现这里密度的不同，但是不太明显，因此用高斯格式来显示这些数据。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#%% show shot attempts of after made and after missed shots</span></div><div class="line">plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">13</span>, <span class="number">10</span>)</div><div class="line"></div><div class="line">variableCategories = afterMadeData[<span class="string">'shotLocationCluster'</span>].value_counts().index.tolist()</div><div class="line">clusterFrequency = &#123;&#125;</div><div class="line"><span class="keyword">for</span> category <span class="keyword">in</span> variableCategories:</div><div class="line">    shotsAttempted = np.array(afterMadeData[<span class="string">'shotLocationCluster'</span>] == category).sum()</div><div class="line">    clusterFrequency[category] = float(shotsAttempted)/afterMadeData.shape[<span class="number">0</span>]</div><div class="line"></div><div class="line">ellipseTextMessages = [str(<span class="number">100</span>*clusterFrequency[x])[:<span class="number">4</span>]+<span class="string">'%'</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(numGaussians)]</div><div class="line">Draw2DGaussians(gaussianMixtureModel, ellipseColors, ellipseTextMessages)</div><div class="line">draw_court(outer_lines=<span class="keyword">True</span>); plt.ylim(<span class="number">-60</span>,<span class="number">440</span>); plt.xlim(<span class="number">270</span>,<span class="number">-270</span>); plt.title(<span class="string">'after made shots'</span>)</div><div class="line"></div><div class="line">variableCategories = afterMissedData[<span class="string">'shotLocationCluster'</span>].value_counts().index.tolist()</div><div class="line">clusterFrequency = &#123;&#125;</div><div class="line"><span class="keyword">for</span> category <span class="keyword">in</span> variableCategories:</div><div class="line">    shotsAttempted = np.array(afterMissedData[<span class="string">'shotLocationCluster'</span>] == category).sum()</div><div class="line">    clusterFrequency[category] = float(shotsAttempted)/afterMissedData.shape[<span class="number">0</span>]</div><div class="line"></div><div class="line">ellipseTextMessages = [str(<span class="number">100</span>*clusterFrequency[x])[:<span class="number">4</span>]+<span class="string">'%'</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(numGaussians)]</div><div class="line">Draw2DGaussians(gaussianMixtureModel, ellipseColors, ellipseTextMessages)</div><div class="line">draw_court(outer_lines=<span class="keyword">True</span>); plt.ylim(<span class="number">-60</span>,<span class="number">440</span>); plt.xlim(<span class="number">270</span>,<span class="number">-270</span>); plt.title(<span class="string">'after missed shots'</span>)</div></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-14.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-24-15.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>现在可以清晰地发现，当科比投丢一个球的时候，会更加倾向于直接从篮下来得分（投丢上一个球之后后27%的概率，命中前一个球后有18%的概率）</p>
+<p>同样可以明显地看到，当科比命中一个球后接下来更加倾向于投三分。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-09-24T12:15:31.905Z" itemprop="dateUpdated">2017年9月24日 20:15</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/09/24/科比职业生涯投篮数据分析/" target="_blank" rel="external">http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Analysis/">Data Analysis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/&title=《科比职业生涯投篮数据分析》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/&title=《科比职业生涯投篮数据分析》 — 背着翅膀流浪&source=今天这篇文章主要是通过Python对科比职业生涯的投篮数据进行分析。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《科比职业生涯投篮数据分析》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/28/Python实现GAN对抗网络/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Python实现GAN对抗网络</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/09/17/TensorBoard-Embeddings-可视化/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">TensorBoard Embeddings 可视化</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<div class="comments" id="comments">
+    <div class="ds-thread" data-thread-key="科比职业生涯投篮数据分析" data-title="科比职业生涯投篮数据分析" data-url="http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/"></div>
+</div>
+<script>
+lazyScripts.push('//cdn.bootcss.com/marked/0.3.6/marked.min.js');
+
+var duoshuoQuery = {short_name:'ysblog', theme: 'none'};
+lazyScripts.push('//unpkg.com/hexo-theme-material-indigo@1.5.2/js/embed.min.js');
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/&title=《科比职业生涯投篮数据分析》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/&title=《科比职业生涯投篮数据分析》 — 背着翅膀流浪&source=今天这篇文章主要是通过Python对科比职业生涯的投篮数据进行分析。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《科比职业生涯投篮数据分析》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/09/24/科比职业生涯投篮数据分析/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

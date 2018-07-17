@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>TensorBoard Embeddings 可视化 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="TensorFlow,Python">
+    <meta name="description" content="今天的文章主要介绍TensorFlow中TensorBoard Embeddings的使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorBoard Embeddings 可视化">
+<meta property="og:url" content="http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="今天的文章主要介绍TensorFlow中TensorBoard Embeddings的使用">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-17-1.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-17-2.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-17-3.png">
+<meta property="og:updated_time" content="2017-09-17T03:22:08.896Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorBoard Embeddings 可视化">
+<meta name="twitter:description" content="今天的文章主要介绍TensorFlow中TensorBoard Embeddings的使用">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-09-17-1.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">TensorBoard Embeddings 可视化</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">TensorBoard Embeddings 可视化</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-09-17T03:13:13.000Z" itemprop="datePublished" class="page-time">
+  2017-09-17
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#导入数据"><span class="post-toc-number">1.</span> <span class="post-toc-text">导入数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建embeddings"><span class="post-toc-number">2.</span> <span class="post-toc-text">创建embeddings</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#保存数据"><span class="post-toc-number">3.</span> <span class="post-toc-text">保存数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#保存sprite图像"><span class="post-toc-number">4.</span> <span class="post-toc-text">保存sprite图像</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#保存metadata文件"><span class="post-toc-number">5.</span> <span class="post-toc-text">保存metadata文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#运行"><span class="post-toc-number">6.</span> <span class="post-toc-text">运行</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-TensorBoard-Embeddings-可视化"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">TensorBoard Embeddings 可视化</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年09月17日 11:13" datetime="2017-09-17T03:13:13.000Z"  itemprop="datePublished">2017-09-17</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>今天的文章主要介绍TensorFlow中TensorBoard Embeddings的使用<br><a id="more"></a></p>
+<h2 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> os</div><div class="line"></div><div class="line"><span class="keyword">from</span> tensorflow.contrib.tensorboard.plugins <span class="keyword">import</span> projector</div><div class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</div><div class="line"></div><div class="line">LOG_DIR = <span class="string">'minimalsample'</span></div><div class="line">NAME_TO_VISUALISE_VARIABLE = <span class="string">"mnistembedding"</span></div><div class="line">TO_EMBED_COUNT = <span class="number">500</span></div><div class="line"></div><div class="line"></div><div class="line">path_for_mnist_sprites =  os.path.join(LOG_DIR,<span class="string">'mnistdigits.png'</span>)</div><div class="line">path_for_mnist_metadata =  os.path.join(LOG_DIR,<span class="string">'metadata.tsv'</span>)</div><div class="line"></div><div class="line">mnist = input_data.read_data_sets(<span class="string">"MNIST_data/"</span>, one_hot=<span class="keyword">False</span>)</div><div class="line">batch_xs, batch_ys = mnist.train.next_batch(TO_EMBED_COUNT)</div></pre></td></tr></table></figure>
+<p>得到如下结果：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Extracting MNIST_data/train-images-idx3-ubyte.gz</div><div class="line">Extracting MNIST_data/train-labels-idx1-ubyte.gz</div><div class="line">Extracting MNIST_data/t10k-images-idx3-ubyte.gz</div><div class="line">Extracting MNIST_data/t10k-labels-idx1-ubyte.gz</div></pre></td></tr></table></figure></p>
+<h2 id="创建embeddings"><a href="#创建embeddings" class="headerlink" title="创建embeddings"></a>创建embeddings</h2><p>在这个例子中，就是训练数据的值。但是要知道想要可视化的变量的名称。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">embedding_var = tf.Variable(batch_xs, name=NAME_TO_VISUALISE_VARIABLE)</div><div class="line">summary_writer = tf.summary.FileWriter(LOG_DIR)</div></pre></td></tr></table></figure></p>
+<p>创建embeddings projector<br>这是嵌入可视化比较重要的一步，需要指定映射的变量，metadata文件的路径，以及sprits文件的路径。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">config = projector.ProjectorConfig()</div><div class="line">embedding = config.embeddings.add()</div><div class="line">embedding.tensor_name = embedding_var.name</div><div class="line"></div><div class="line"><span class="comment"># Specify where you find the metadata</span></div><div class="line">embedding.metadata_path = path_for_mnist_metadata <span class="comment">#'metadata.tsv'</span></div><div class="line"></div><div class="line"><span class="comment"># Specify where you find the sprite (we will create this later)</span></div><div class="line">embedding.sprite.image_path = path_for_mnist_sprites <span class="comment">#'mnistdigits.png'</span></div><div class="line">embedding.sprite.single_image_dim.extend([<span class="number">28</span>,<span class="number">28</span>])</div><div class="line"></div><div class="line"><span class="comment"># Say that you want to visualise the embeddings</span></div><div class="line">projector.visualize_embeddings(summary_writer, config)</div></pre></td></tr></table></figure></p>
+<h2 id="保存数据"><a href="#保存数据" class="headerlink" title="保存数据"></a>保存数据</h2><p>TensorBoard从保存的图形中导入保存的变量。初始化会话和变量，并保存在日志路径中。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sess = tf.InteractiveSession()</div><div class="line">sess.run(tf.global_variables_initializer())</div><div class="line">saver = tf.train.Saver()</div><div class="line">saver.save(sess, os.path.join(LOG_DIR, <span class="string">"model.ckpt"</span>), <span class="number">1</span>)</div></pre></td></tr></table></figure></p>
+<h2 id="保存sprite图像"><a href="#保存sprite图像" class="headerlink" title="保存sprite图像"></a>保存sprite图像</h2><p>有三个比较重要的可视化的函数：</p>
+<ul>
+<li><code>create_sprite_imagecreate_sprite_image</code>：将sprit整齐的排列在方形的图片上。</li>
+<li><code>vector_to_matrix_mnist</code>：MNIST特征导入的是向量而不是图像，这个函数可以将他们转化为图像。</li>
+<li><code>invert_grayscale</code>：matplotlib中将0视为黑色，1视为白色。但是在TensorBoard中白色的背景看上去效果会更好，所以将他们进行翻转处理<br>处理之后将sprite图像保存，将向量转化为图像，翻转灰度值，创建并保存图像：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_sprite_image</span><span class="params">(images)</span>:</span></div><div class="line">    <span class="string">"""Returns a sprite image consisting of images passed as argument. Images should be count x width x height"""</span></div><div class="line">    <span class="keyword">if</span> isinstance(images, list):</div><div class="line">        images = np.array(images)</div><div class="line">    img_h = images.shape[<span class="number">1</span>]</div><div class="line">    img_w = images.shape[<span class="number">2</span>]</div><div class="line">    n_plots = int(np.ceil(np.sqrt(images.shape[<span class="number">0</span>])))</div><div class="line">    </div><div class="line">    </div><div class="line">    spriteimage = np.ones((img_h * n_plots ,img_w * n_plots ))</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n_plots):</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n_plots):</div><div class="line">            this_filter = i * n_plots + j</div><div class="line">            <span class="keyword">if</span> this_filter &lt; images.shape[<span class="number">0</span>]:</div><div class="line">                this_img = images[this_filter]</div><div class="line">                spriteimage[i * img_h:(i + <span class="number">1</span>) * img_h,</div><div class="line">                  j * img_w:(j + <span class="number">1</span>) * img_w] = this_img</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> spriteimage</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">vector_to_matrix_mnist</span><span class="params">(mnist_digits)</span>:</span></div><div class="line">    <span class="string">"""Reshapes normal mnist digit (batch,28*28) to matrix (batch,28,28)"""</span></div><div class="line">    <span class="keyword">return</span> np.reshape(mnist_digits,(<span class="number">-1</span>,<span class="number">28</span>,<span class="number">28</span>))</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">invert_grayscale</span><span class="params">(mnist_digits)</span>:</span></div><div class="line">    <span class="string">""" Makes black white, and white black """</span></div><div class="line">    <span class="keyword">return</span> <span class="number">1</span>-mnist_digits</div><div class="line">to_visualise = batch_xs</div><div class="line">to_visualise = vector_to_matrix_mnist(to_visualise)</div><div class="line">to_visualise = invert_grayscale(to_visualise)</div><div class="line"></div><div class="line">sprite_image = create_sprite_image(to_visualise)</div><div class="line"></div><div class="line">plt.imsave(path_for_mnist_sprites,sprite_image,cmap=<span class="string">'gray'</span>)</div><div class="line">plt.imshow(sprite_image,cmap=<span class="string">'gray'</span>)</div></pre></td></tr></table></figure>
+<h2 id="保存metadata文件"><a href="#保存metadata文件" class="headerlink" title="保存metadata文件"></a>保存metadata文件</h2><p>为了给mnist数据添加颜色，潜入可视化工具需要知道每一张图片的标签。这些信息保存在<code>.tsv</code>文件中。<br>文件中每一行包含：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;Index&quot; , &quot;Label&quot;</div></pre></td></tr></table></figure></p>
+<p>Index是嵌入矩阵的索引，Label是MNIST特征的标签。</p>
+<p>将数据写入metadata文件的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">with</span> open(path_for_mnist_metadata,<span class="string">'w'</span>) <span class="keyword">as</span> f:</div><div class="line">    f.write(<span class="string">"Index\tLabel\n"</span>)</div><div class="line">    <span class="keyword">for</span> index,label <span class="keyword">in</span> enumerate(batch_ys):</div><div class="line">        f.write(<span class="string">"%d\t%d\n"</span> % (index,label))</div></pre></td></tr></table></figure>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>已经获得了MNIST的特征，现在就进行可视化。如果没有改变上面的任何变量，可以执行线面的命令进行可视化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tensorboard –logdir=minimalsample</div></pre></td></tr></table></figure>
+<p>用浏览器打开<a href="http://127.0.0.1:6006/" target="_blank" rel="external">http://127.0.0.1:6006</a>（注意：可能会根据自己的电脑设施修改），将会在Embeddings标签中看到下图（老版本的TensorFlow没有Embeddings标签，需要对TensorFlow升级）：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-17-1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>可以在Embeddings标签中看到MNIST数据集的PCA，点击左侧的“color by”选择器并选择Label，将会看到更加漂亮的分组。（0互相靠近，6互相靠近，等等）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-17-2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>也可以尝试T-SNE来观察当数据样本试图形成群体时，数字会移动。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-09-17-3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>如果TensorBoard有问题无法显示，可以尝试改变<code>LOG_DIR</code>。可以将metadata和sprite文件的相对路径改为绝对路径。<code>LOG_DIR = os.getcwd()+&#39;/minimalsample&#39;</code></p>
+<p><strong>参考资料</strong></p>
+<ul>
+<li><a href="https://www.pinchofintelligence.com/simple-introduction-to-tensorboard-embedding-visualisation/" target="_blank" rel="external">Simple Introduction to Tensorboard Embedding Visualisation</a></li>
+<li><a href="http://colah.github.io/posts/2014-10-Visualizing-MNIST/" target="_blank" rel="external">Visualizing MNIST: An Exploration of Dimensionality Reduction</a></li>
+<li><a href="https://www.tensorflow.org/programmers_guide/embedding" target="_blank" rel="external">Embeddings</a></li>
+<li><a href="http://projector.tensorflow.org/" target="_blank" rel="external">http://projector.tensorflow.org/</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-09-17T03:22:08.896Z" itemprop="dateUpdated">2017年9月17日 11:22</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/09/17/TensorBoard-Embeddings-可视化/" target="_blank" rel="external">http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/&title=《TensorBoard Embeddings 可视化》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/&title=《TensorBoard Embeddings 可视化》 — 背着翅膀流浪&source=今天的文章主要介绍TensorFlow中TensorBoard Embeddings的使用" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《TensorBoard Embeddings 可视化》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/09/24/科比职业生涯投篮数据分析/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">科比职业生涯投篮数据分析</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/09/09/通过DQN来玩FlappyBird/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">通过DQN来玩FlappyBird</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<div class="comments" id="comments">
+    <div class="ds-thread" data-thread-key="TensorBoard-Embeddings-可视化" data-title="TensorBoard Embeddings 可视化" data-url="http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/"></div>
+</div>
+<script>
+lazyScripts.push('//cdn.bootcss.com/marked/0.3.6/marked.min.js');
+
+var duoshuoQuery = {short_name:'ysblog', theme: 'none'};
+lazyScripts.push('//unpkg.com/hexo-theme-material-indigo@1.5.2/js/embed.min.js');
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/&title=《TensorBoard Embeddings 可视化》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/&title=《TensorBoard Embeddings 可视化》 — 背着翅膀流浪&source=今天的文章主要介绍TensorFlow中TensorBoard Embeddings的使用" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《TensorBoard Embeddings 可视化》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/09/17/TensorBoard-Embeddings-可视化/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

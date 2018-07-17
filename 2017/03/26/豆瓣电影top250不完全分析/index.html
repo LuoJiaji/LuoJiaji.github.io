@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>豆瓣电影top250不完全分析 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Data Analysis">
+    <meta name="description" content="数据来源：截止到2017-3-24的豆瓣电影top250排行榜">
+<meta property="og:type" content="article">
+<meta property="og:title" content="豆瓣电影top250不完全分析">
+<meta property="og:url" content="http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="数据来源：截止到2017-3-24的豆瓣电影top250排行榜">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/%E8%AF%84%E5%88%86.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/%E5%B9%B4%E4%BB%A3.png">
+<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/%E5%9B%BD%E5%AE%B6.png">
+<meta property="og:updated_time" content="2017-04-12T11:04:59.088Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="豆瓣电影top250不完全分析">
+<meta name="twitter:description" content="数据来源：截止到2017-3-24的豆瓣电影top250排行榜">
+<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/%E8%AF%84%E5%88%86.png">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">豆瓣电影top250不完全分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">豆瓣电影top250不完全分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-03-26T10:45:01.000Z" itemprop="datePublished" class="page-time">
+  2017-03-26
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-豆瓣电影top250不完全分析"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">豆瓣电影top250不完全分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年03月26日 18:45" datetime="2017-03-26T10:45:01.000Z"  itemprop="datePublished">2017-03-26</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>数据来源：截止到2017-3-24的豆瓣电影top250排行榜<br><a id="more"></a><br>第1名:<a href="https://movie.douban.com/subject/1292052/" target="_blank" rel="external">肖申克的救赎</a><br>第2名:<a href="https://movie.douban.com/subject/1295644/" target="_blank" rel="external">这个杀手不太冷</a><br>第3名:<a href="https://movie.douban.com/subject/1291546/" target="_blank" rel="external">霸王别姬</a><br>第250名:<a href="https://movie.douban.com/subject/1291824/" target="_blank" rel="external">黑鹰坠落</a></p>
+<p>从评价来看<br>最高分9.6 共有两部:<a href="https://movie.douban.com/subject/1292052/" target="_blank" rel="external">肖申克的救赎</a>、<a href="https://movie.douban.com/subject/1296141/" target="_blank" rel="external">控方证人</a><br>评分最低为8.1，只有一部:<a href="https://movie.douban.com/subject/1308817/" target="_blank" rel="external">两小无猜</a><br>平均评分:8.75分</p>
+<p>评分包含电影最多的是8.7分，一共47部电影<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/%E8%AF%84%E5%88%86.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>按照评论人数来看<br>评论人数最多的是:<a href="https://movie.douban.com/subject/1292052/" target="_blank" rel="external">肖申克的救赎</a>-803167人评价<br>评论人数最少的是:<a href="https://movie.douban.com/subject/1293908/" target="_blank" rel="external">城市之光</a>-36978人评论<br>平均评论人数:227831</p>
+<p>按照导演来排序，其中不止一部作品上榜的有31位导演<br><a href="https://movie.douban.com/celebrity/1054439/" target="_blank" rel="external">宫崎骏</a>和<a href="https://movie.douban.com/celebrity/1054524/" target="_blank" rel="external">克里斯托弗·诺兰</a>以7部电影上榜并列第一位<br>具体排名如下:</p>
+<table>
+<thead>
+<tr>
+<th>排名</th>
+<th>导演</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>宫崎骏HayaoMiyazaki</td>
+<td>7</td>
+</tr>
+<tr>
+<td>2</td>
+<td>克里斯托弗·诺兰ChristopherNolan</td>
+<td>7</td>
+</tr>
+<tr>
+<td>3</td>
+<td>史蒂文·斯皮尔伯格StevenSpielberg</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4</td>
+<td>詹姆斯·卡梅隆JamesCameron</td>
+<td>5</td>
+</tr>
+<tr>
+<td>5</td>
+<td>大卫·芬奇DavidFincher</td>
+<td>4</td>
+</tr>
+<tr>
+<td>6</td>
+<td>王家卫KarWaiWong</td>
+<td>4</td>
+</tr>
+<tr>
+<td>7</td>
+<td>朱塞佩·托纳多雷GiuseppeTornatore</td>
+<td>3</td>
+</tr>
+<tr>
+<td>8</td>
+<td>刘镇伟JeffreyLau</td>
+<td>3</td>
+</tr>
+<tr>
+<td>9</td>
+<td>弗朗西斯·福特·科波拉FrancisFordCoppola</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10</td>
+<td>彼得·杰克逊PeterJackson</td>
+<td>3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>李安AngLee</td>
+<td>3</td>
+</tr>
+<tr>
+<td>12</td>
+<td>姜文WenJiang</td>
+<td>3</td>
+</tr>
+<tr>
+<td>13</td>
+<td>理查德·林克莱特RichardLinklater</td>
+<td>3</td>
+</tr>
+<tr>
+<td>14</td>
+<td>理查德·柯蒂斯RichardCurtis</td>
+<td>3</td>
+</tr>
+<tr>
+<td>15</td>
+<td>吴宇森JohnWoo</td>
+<td>3</td>
+</tr>
+<tr>
+<td>16</td>
+<td>彼得·威尔PeterWeir</td>
+<td>2</td>
+</tr>
+<tr>
+<td>17</td>
+<td>罗伯·莱纳RobReiner</td>
+<td>2</td>
+</tr>
+<tr>
+<td>18</td>
+<td>岩井俊二ShunjiIwai</td>
+<td>2</td>
+</tr>
+<tr>
+<td>19</td>
+<td>SergioLeone</td>
+<td>2</td>
+</tr>
+<tr>
+<td>20</td>
+<td>中岛哲也TetsuyaNakashima</td>
+<td>2</td>
+</tr>
+<tr>
+<td>21</td>
+<td>TimBurton</td>
+<td>2</td>
+</tr>
+<tr>
+<td>22</td>
+<td>昆汀·塔伦蒂诺QuentinTarantino</td>
+<td>2</td>
+</tr>
+<tr>
+<td>23</td>
+<td>雅克·贝汉JacquesPerrin/雅克·克鲁奥德JacquesCluzaud</td>
+<td>2</td>
+</tr>
+<tr>
+<td>24</td>
+<td>保罗·格林格拉斯PaulGreengrass</td>
+<td>2</td>
+</tr>
+<tr>
+<td>25</td>
+<td>黑泽明AkiraKurosawa</td>
+<td>2</td>
+</tr>
+<tr>
+<td>26</td>
+<td>今敏SatoshiKon</td>
+<td>2</td>
+</tr>
+<tr>
+<td>27</td>
+<td>森淳一JunichiMori</td>
+<td>2</td>
+</tr>
+<tr>
+<td>28</td>
+<td>安德鲁·尼科尔AndrewNiccol</td>
+<td>2</td>
+</tr>
+<tr>
+<td>29</td>
+<td>约翰·卡尼JohnCarney</td>
+<td>2</td>
+</tr>
+<tr>
+<td>30</td>
+<td>雷德利·斯科特RidleyScott</td>
+<td>2</td>
+</tr>
+<tr>
+<td>31</td>
+<td>邓肯·琼斯DuncanJones</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>其中纪录片有四部</p>
+<table>
+<thead>
+<tr>
+<th>排名</th>
+<th>电影名</th>
+<th>评分</th>
+<th>评论人数</th>
+<th>导演</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>41</td>
+<td>海豚湾</td>
+<td>9.3</td>
+<td>173367</td>
+<td>LouiePsihoyos</td>
+</tr>
+<tr>
+<td>175</td>
+<td>迁徙的鸟</td>
+<td>9.1</td>
+<td>48550</td>
+<td>雅克·贝汉JacquesPerrin/雅克·克鲁奥德JacquesCluzaud</td>
+</tr>
+<tr>
+<td>106</td>
+<td>海洋</td>
+<td>9</td>
+<td>93788</td>
+<td>雅克·贝汉JacquesPerrin/雅克·克鲁奥德JacquesCluzaud</td>
+</tr>
+<tr>
+<td>244</td>
+<td>寿司之神</td>
+<td>8.8</td>
+<td>72254</td>
+<td>大卫·贾柏DavidGelb</td>
+</tr>
+</tbody>
+</table>
+<p>按照年代分<br>2000到2009年包含的电影最多 一共96部<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/%E5%B9%B4%E4%BB%A3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>最新上榜的是<a href="https://movie.douban.com/subject/25662329/" target="_blank" rel="external">疯狂动物城</a>(大话西游大圣娶亲2017年重上映不算在内)<br>最老的电影是卓别林的<a href="https://movie.douban.com/subject/1293908/" target="_blank" rel="external">城市之光</a>(1931)</p>
+<p>按照国家来看，因为有些电影不止一个国家，这里暂时用第一国家来对待，电影数量最多的国家是美国，一共123部，第二是中国大陆以及香港台湾地区，一共35部(大陆10部，香港20部，台湾5部)， 第三是日本，一共20部<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://onaxllwtn.bkt.clouddn.com/%E5%9B%BD%E5%AE%B6.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>国语电影榜单如下</p>
+<p>大陆:</p>
+<table>
+<thead>
+<tr>
+<th>排名</th>
+<th>电影名</th>
+<th>评分</th>
+<th>评论人数</th>
+<th>导演</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>霸王别姬</td>
+<td>9.5</td>
+<td>567648</td>
+<td>陈凯歌KaigeChen</td>
+</tr>
+<tr>
+<td>33</td>
+<td>鬼子来了</td>
+<td>9.1</td>
+<td>210345</td>
+<td>姜文WenJiang</td>
+</tr>
+<tr>
+<td>40</td>
+<td>活着</td>
+<td>9</td>
+<td>242527</td>
+<td>张艺谋YimouZhang</td>
+</tr>
+<tr>
+<td>78</td>
+<td>阳光灿烂的日子</td>
+<td>8.7</td>
+<td>249280</td>
+<td>姜文WenJiang</td>
+</tr>
+<tr>
+<td>79</td>
+<td>让子弹飞</td>
+<td>8.7</td>
+<td>583572</td>
+<td>姜文WenJiang</td>
+</tr>
+<tr>
+<td>83</td>
+<td>大闹天宫</td>
+<td>9.2</td>
+<td>88018</td>
+<td>万籁鸣LaimingWan/唐澄ChengTang</td>
+</tr>
+<tr>
+<td>165</td>
+<td>可可西里</td>
+<td>8.6</td>
+<td>117203</td>
+<td>陆川ChuanLu</td>
+</tr>
+<tr>
+<td>168</td>
+<td>心迷宫</td>
+<td>8.6</td>
+<td>133245</td>
+<td>忻钰坤YukunXin</td>
+</tr>
+<tr>
+<td>204</td>
+<td>哪吒闹海</td>
+<td>8.8</td>
+<td>70254</td>
+<td>严定宪DingxianYan/王树忱ShuchenWang</td>
+</tr>
+<tr>
+<td>241</td>
+<td>疯狂的石头</td>
+<td>8.2</td>
+<td>275105</td>
+<td>宁浩HaoNing</td>
+</tr>
+</tbody>
+</table>
+<p>香港:</p>
+<table>
+<thead>
+<tr>
+<th>排名</th>
+<th>电影名</th>
+<th>评分</th>
+<th>评论人数</th>
+<th>导演</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15</td>
+<td>大话西游之大圣娶亲</td>
+<td>9.1</td>
+<td>431249</td>
+<td>刘镇伟JeffreyLau</td>
+</tr>
+<tr>
+<td>26</td>
+<td>无间道</td>
+<td>9</td>
+<td>369527</td>
+<td>刘伟强/麦兆辉</td>
+</tr>
+<tr>
+<td>32</td>
+<td>大话西游之月光宝盒</td>
+<td>8.9</td>
+<td>367557</td>
+<td>刘镇伟JeffreyLau</td>
+</tr>
+<tr>
+<td>81</td>
+<td>春光乍泄</td>
+<td>8.7</td>
+<td>219426</td>
+<td>王家卫</td>
+</tr>
+<tr>
+<td>82</td>
+<td>射雕英雄传之东成西就</td>
+<td>8.7</td>
+<td>253540</td>
+<td>刘镇伟JeffreyLau</td>
+</tr>
+<tr>
+<td>85</td>
+<td>重庆森林</td>
+<td>8.6</td>
+<td>296304</td>
+<td>王家卫KarWaiWong</td>
+</tr>
+<tr>
+<td>88</td>
+<td>甜蜜蜜</td>
+<td>8.7</td>
+<td>214003</td>
+<td>陈可辛PeterChan</td>
+</tr>
+<tr>
+<td>119</td>
+<td>倩女幽魂</td>
+<td>8.6</td>
+<td>222921</td>
+<td>程小东Siu-TungChing</td>
+</tr>
+<tr>
+<td>120</td>
+<td>岁月神偷</td>
+<td>8.6</td>
+<td>284516</td>
+<td>罗启锐AlexLaw</td>
+</tr>
+<tr>
+<td>127</td>
+<td>东邪西毒</td>
+<td>8.6</td>
+<td>229740</td>
+<td>王家卫KarWaiWong</td>
+</tr>
+<tr>
+<td>139</td>
+<td>英雄本色</td>
+<td>8.7</td>
+<td>132531</td>
+<td>吴宇森JohnWoo</td>
+</tr>
+<tr>
+<td>146</td>
+<td>纵横四海</td>
+<td>8.7</td>
+<td>126714</td>
+<td>吴宇森JohnWoo</td>
+</tr>
+<tr>
+<td>149</td>
+<td>喜剧之王</td>
+<td>8.4</td>
+<td>271401</td>
+<td>周星驰StephenChow/李力持Lik-ChiLee</td>
+</tr>
+<tr>
+<td>160</td>
+<td>花样年华</td>
+<td>8.4</td>
+<td>218309</td>
+<td>王家卫KarWaiWong</td>
+</tr>
+<tr>
+<td>169</td>
+<td>唐伯虎点秋香</td>
+<td>8.3</td>
+<td>281209</td>
+<td>李力持Lik-ChiLee</td>
+</tr>
+<tr>
+<td>178</td>
+<td>阿飞正传</td>
+<td>8.5</td>
+<td>158106</td>
+<td>王家卫KarWaiWong</td>
+</tr>
+<tr>
+<td>210</td>
+<td>青蛇</td>
+<td>8.4</td>
+<td>194277</td>
+<td>徐克HarkTsui</td>
+</tr>
+<tr>
+<td>212</td>
+<td>新龙门客栈</td>
+<td>8.4</td>
+<td>163691</td>
+<td>李惠民RaymondLee</td>
+</tr>
+<tr>
+<td>222</td>
+<td>麦兜故事</td>
+<td>8.5</td>
+<td>116777</td>
+<td>袁建滔ToeYuen</td>
+</tr>
+<tr>
+<td>242</td>
+<td>枪火</td>
+<td>8.6</td>
+<td>86252</td>
+<td>杜琪峰JohnnieTo</td>
+</tr>
+</tbody>
+</table>
+<p>台湾:</p>
+<table>
+<thead>
+<tr>
+<th>排名</th>
+<th>电影名</th>
+<th>评分</th>
+<th>评论人数</th>
+<th>导演</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>63</td>
+<td>饮食男女</td>
+<td>9</td>
+<td>170861</td>
+<td>李安AngLee</td>
+</tr>
+<tr>
+<td>91</td>
+<td>一一</td>
+<td>8.9</td>
+<td>140332</td>
+<td>杨德昌</td>
+</tr>
+<tr>
+<td>138</td>
+<td>喜宴</td>
+<td>8.8</td>
+<td>121439</td>
+<td>李安</td>
+</tr>
+<tr>
+<td>201</td>
+<td>牯岭街少年杀人事件</td>
+<td>8.7</td>
+<td>90814</td>
+<td>杨德昌EdwardYang</td>
+</tr>
+<tr>
+<td>221</td>
+<td>蓝色大门</td>
+<td>8.2</td>
+<td>252424</td>
+<td>易智言Chih-yenYee</td>
+</tr>
+</tbody>
+</table>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-04-12T11:04:59.088Z" itemprop="dateUpdated">2017年4月12日 19:04</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/03/26/豆瓣电影top250不完全分析/" target="_blank" rel="external">http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Analysis/">Data Analysis</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/&title=《豆瓣电影top250不完全分析》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/&title=《豆瓣电影top250不完全分析》 — 背着翅膀流浪&source=数据来源：截止到2017-3-24的豆瓣电影top250排行榜" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《豆瓣电影top250不完全分析》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/03/31/爬虫抓取LOFTER上年度热门摄影作品/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">爬虫抓取LOFTER上年度热门摄影作品</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/03/24/爬虫抓取豆瓣top250电影信息/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">爬虫抓取豆瓣top250电影信息</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/&title=《豆瓣电影top250不完全分析》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/&title=《豆瓣电影top250不完全分析》 — 背着翅膀流浪&source=数据来源：截止到2017-3-24的豆瓣电影top250排行榜" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《豆瓣电影top250不完全分析》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/03/26/豆瓣电影top250不完全分析/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

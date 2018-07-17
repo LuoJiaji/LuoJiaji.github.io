@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>基于TensorFlow的循环神经网络设计 | 背着翅膀流浪 | 我祈祷拥有一颗透明的心灵和会流泪的眼睛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="TensorFlow,Python,ML">
+    <meta name="description" content="循环神经网络(RNN)是区别于卷积神经网络的一种网络结构。适用于自然语言处理，文本分析，机器翻译等领域。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于TensorFlow的循环神经网络设计">
+<meta property="og:url" content="http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/index.html">
+<meta property="og:site_name" content="背着翅膀流浪">
+<meta property="og:description" content="循环神经网络(RNN)是区别于卷积神经网络的一种网络结构。适用于自然语言处理，文本分析，机器翻译等领域。">
+<meta property="og:updated_time" content="2017-06-28T12:44:53.250Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于TensorFlow的循环神经网络设计">
+<meta name="twitter:description" content="循环神经网络(RNN)是区别于卷积神经网络的一种网络结构。适用于自然语言处理，文本分析，机器翻译等领域。">
+    
+        <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/img/icon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@1.5.2/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/头像.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">背着翅膀流浪</h5>
+          <a href="mailto:lt920@126.com" title="lt920@126.com" class="mail">lt920@126.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/About"  >
+                <i class="icon icon-lg icon-user-circle"></i>
+                About Me
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于TensorFlow的循环神经网络设计</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于TensorFlow的循环神经网络设计</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-08T09:38:54.000Z" itemprop="datePublished" class="page-time">
+  2017-06-08
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+<article id="post-基于TensorFlow的循环神经网络设计"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于TensorFlow的循环神经网络设计</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年06月08日 17:38" datetime="2017-06-08T09:38:54.000Z"  itemprop="datePublished">2017-06-08</time>
+
+            
+
+
+            
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>循环神经网络(RNN)是区别于卷积神经网络的一种网络结构。适用于自然语言处理，文本分析，机器翻译等领域。<br><a id="more"></a><br>循环神经网络出现于20世纪80年代，但是早期应用有限，随着神经网络结构的进步和硬件的支持，RNN变得越来越流行。<br>循环神经网络对时间序列数据比较有效，<br>今天用TensorFlow实现一个循环神经网络，数据依旧使用手写体数据。</p>
+<p>今天用到的模块和版本号：<br>Python版本：3.5.3<br>Tensorflow版本：1.0.1</p>
+<p>第一步，导入数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</div><div class="line">mnist = input_data.read_data_sets(<span class="string">'MNIST_data'</span>, one_hot=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<p>然后定义一些参数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 超参数</span></div><div class="line">lr = <span class="number">0.001</span>                  <span class="comment"># 学习率</span></div><div class="line">training_iters = <span class="number">1000</span>       <span class="comment"># 迭代次数</span></div><div class="line">batch_size = <span class="number">128</span>            <span class="comment"># 批大小</span></div><div class="line"></div><div class="line">n_inputs = <span class="number">28</span>   <span class="comment"># 输入数据大小</span></div><div class="line">n_steps = <span class="number">28</span>    <span class="comment"># 步长</span></div><div class="line">n_hidden_units = <span class="number">128</span>   <span class="comment"># 隐藏层节点数</span></div><div class="line">n_classes = <span class="number">10</span>      <span class="comment"># 分类数量</span></div></pre></td></tr></table></figure></p>
+<p>然后定义神经网络中的权重和偏置<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">weights = &#123;</div><div class="line">    <span class="comment"># (28, 128)</span></div><div class="line">    <span class="string">'in'</span>: tf.Variable(tf.random_normal([n_inputs, n_hidden_units])),</div><div class="line">    <span class="comment"># (128, 10)</span></div><div class="line">    <span class="string">'out'</span>: tf.Variable(tf.random_normal([n_hidden_units, n_classes]))</div><div class="line">&#125;</div><div class="line">biases = &#123;</div><div class="line">    <span class="comment"># (128, )</span></div><div class="line">    <span class="string">'in'</span>: tf.Variable(tf.constant(<span class="number">0.1</span>, shape=[n_hidden_units, ])),</div><div class="line">    <span class="comment"># (10, )</span></div><div class="line">    <span class="string">'out'</span>: tf.Variable(tf.constant(<span class="number">0.1</span>, shape=[n_classes, ]))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代码中权重初始化为服从正态分布的随机数，偏置初始化为常数0.1</p>
+<p>然后定义神经网络的输入和输出<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x = tf.placeholder(tf.float32, [<span class="keyword">None</span>, n_steps, n_inputs])</div><div class="line">y = tf.placeholder(tf.float32, [<span class="keyword">None</span>, n_classes])</div></pre></td></tr></table></figure></p>
+<p>用占位符定义循环神经网络的输入和标签输出，这个输出并不是神经网络的输出值，而是数据的标签值，计算结果直接由神经网络输出。</p>
+<p>然后就到了关键部分，定义循环神经网络：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">RNN</span><span class="params">(X, weights, biases)</span>:</span></div><div class="line">    <span class="comment"># hidden layer for input to cell</span></div><div class="line"></div><div class="line">    <span class="comment"># transpose the inputs shape from</span></div><div class="line">    <span class="comment"># X ==&gt; (128 batch * 28 steps, 28 inputs)</span></div><div class="line">    X = tf.reshape(X, [<span class="number">-1</span>, n_inputs])</div><div class="line"></div><div class="line">    <span class="comment"># into hidden</span></div><div class="line">    <span class="comment"># X_in = (128 batch * 28 steps, 128 hidden)</span></div><div class="line">    X_in = tf.matmul(X, weights[<span class="string">'in'</span>]) + biases[<span class="string">'in'</span>]</div><div class="line">    <span class="comment"># X_in ==&gt; (128 batch, 28 steps, 128 hidden)</span></div><div class="line">    X_in = tf.reshape(X_in, [<span class="number">-1</span>, n_steps, n_hidden_units])</div><div class="line"></div><div class="line">    <span class="comment"># basic LSTM Cell.</span></div><div class="line">    lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden_units)</div><div class="line">    init_state = lstm_cell.zero_state(batch_size, dtype=tf.float32)</div><div class="line"></div><div class="line">    outputs, final_state = tf.nn.dynamic_rnn(lstm_cell, X_in, initial_state=init_state, time_major=<span class="keyword">False</span>)</div><div class="line"></div><div class="line">    outputs = tf.unstack(tf.transpose(outputs, [<span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>]))</div><div class="line">    results = tf.matmul(outputs[<span class="number">-1</span>], weights[<span class="string">'out'</span>]) + biases[<span class="string">'out'</span>]    <span class="comment"># shape = (128, 10)</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> results</div></pre></td></tr></table></figure></p>
+<p>代码中<code>tf.reshape()</code>用来改变数据的维度，将(128,28,28)的三维向量改为(128*28,28)的二维向量。然后经过输入层之后再将数据转换三维的。<code>tf.contrib.rnn.BasicLSTMCell()</code>调用LSTM循环神经网络单元。然后用<code>tf.nn.dynamic_rnn()</code>创建一个由循环神经网络单元组成的循环神经网络。<code>tf.transpose()</code>用来对矩阵进行转换。<code>tf.unstack()</code>用来将张量数据解开。最后用<code>tf.matmul()</code>计算输出层的结果。</p>
+<p>然后调用设计好的神经网络并计算损失函数和优化方法，然后计算预测输出和准确率：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">pred = RNN(x, weights, biases)</div><div class="line">cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))</div><div class="line">train_op = tf.train.AdamOptimizer(lr).minimize(cost)</div><div class="line"></div><div class="line">correct_pred = tf.equal(tf.argmax(pred, <span class="number">1</span>), tf.argmax(y, <span class="number">1</span>))</div><div class="line">accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))</div></pre></td></tr></table></figure></p>
+<p>最后对模型进行训练，每隔20步计算并打印模型的识别效率。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    <span class="comment"># tf.initialize_all_variables() no long valid from</span></div><div class="line">    <span class="comment"># 2017-03-02 if using tensorflow &gt;= 0.12</span></div><div class="line"></div><div class="line">    init = tf.global_variables_initializer()</div><div class="line">    sess.run(init)</div><div class="line">    step = <span class="number">0</span></div><div class="line">    <span class="keyword">while</span> step  &lt; training_iters:</div><div class="line">        batch_xs, batch_ys = mnist.train.next_batch(batch_size)</div><div class="line">        batch_xs = batch_xs.reshape([batch_size, n_steps, n_inputs])</div><div class="line">        sess.run([train_op], feed_dict=&#123;</div><div class="line">            x: batch_xs,</div><div class="line">            y: batch_ys,</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">if</span> step % <span class="number">20</span> == <span class="number">0</span>:</div><div class="line">            print(step,sess.run(accuracy, feed_dict=&#123;</div><div class="line">            x: batch_xs,</div><div class="line">            y: batch_ys,</div><div class="line">        &#125;))</div><div class="line">        step += <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>最终模型的识别率可以达到97%左右。</p>
+<p>参考资料：</p>
+<ul>
+<li>《TensorFlow实战》</li>
+<li><a href="http://blog.csdn.net/heyongluoyao8/article/details/48636251" target="_blank" rel="external">循环神经网络(RNN, Recurrent Neural Networks)介绍</a> </li>
+<li><a href="https://morvanzhou.github.io/tutorials/machine-learning/tensorflow/5-08-RNN2/" target="_blank" rel="external">RNN LSTM 循环神经网络 (分类例子)</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-28T12:44:53.250Z" itemprop="dateUpdated">2017年6月28日 20:44</time>
+</span><br>
+
+
+        转载请注明：<a href="/2017/06/08/基于TensorFlow的循环神经网络设计/" target="_blank" rel="external">http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/</a>
+    </div>
+    <footer>
+        <a href="http://luojiaji.github.io">
+            <img src="/img/头像.png" alt="背着翅膀流浪">
+            背着翅膀流浪
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/">ML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/&title=《基于TensorFlow的循环神经网络设计》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/&title=《基于TensorFlow的循环神经网络设计》 — 背着翅膀流浪&source=循环神经网络(RNN)是区别于卷积神经网络的一种网络结构。适用于自然语言处理，文本分析，机器翻译等领域。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的循环神经网络设计》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/06/12/Python数据处理教程/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Python数据处理教程</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/05/27/基于TensorFlow的AutoEncoder网络设计/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于TensorFlow的AutoEncoder网络设计</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        金钱乃第一生产力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>背着翅膀流浪 &copy; 2017 - 2018</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/&title=《基于TensorFlow的循环神经网络设计》 — 背着翅膀流浪&pic=http://luojiaji.github.io/img/头像.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/&title=《基于TensorFlow的循环神经网络设计》 — 背着翅膀流浪&source=循环神经网络(RNN)是区别于卷积神经网络的一种网络结构。适用于自然语言处理，文本分析，机器翻译等领域。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于TensorFlow的循环神经网络设计》 — 背着翅膀流浪&url=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/&via=http://luojiaji.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://luojiaji.github.io/2017/06/08/基于TensorFlow的循环神经网络设计/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@1.5.2/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
