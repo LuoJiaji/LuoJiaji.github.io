@@ -26,13 +26,13 @@
 <meta property="og:url" content="http://luojiaji.github.io/2017/10/28/Python实现GAN对抗网络/index.html">
 <meta property="og:site_name" content="背着翅膀流浪">
 <meta property="og:description" content="GAN（对抗生成网络：Generative Adversarial Networks）是一类无监督学习的神经网络模型。">
-<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-10-28-01.jpg">
-<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-10-28-02.gif">
-<meta property="og:updated_time" content="2017-10-28T11:42:03.496Z">
+<meta property="og:image" content="http://luojiaji.github.io/images/2017-10-28/2017-10-28-01.jpg">
+<meta property="og:image" content="http://luojiaji.github.io/images/2017-10-28/2017-10-28-02.gif">
+<meta property="og:updated_time" content="2018-12-23T04:06:53.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python实现GAN对抗网络">
 <meta name="twitter:description" content="GAN（对抗生成网络：Generative Adversarial Networks）是一类无监督学习的神经网络模型。">
-<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-10-28-01.jpg">
+<meta name="twitter:image" content="http://luojiaji.github.io/images/2017-10-28/2017-10-28-01.jpg">
     
         <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
     
@@ -168,7 +168,7 @@
 <p>然后声明GAN的训练过程。论文中的训练算法如下：<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-10-28-01.jpg" alt="" title="">
+                    <img src="/images/2017-10-28/2017-10-28-01.jpg" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure><br>代码实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">G_sample = generator(Z)</div><div class="line">D_real, D_logit_real = discriminator(X)</div><div class="line">D_fake, D_logit_fake = discriminator(G_sample)</div><div class="line"></div><div class="line">D_loss = -tf.reduce_mean(tf.log(D_real) + tf.log(<span class="number">1.</span> - D_fake))</div><div class="line">G_loss = -tf.reduce_mean(tf.log(D_fake))</div></pre></td></tr></table></figure></p>
@@ -177,7 +177,7 @@
 <p>最后得到结果：<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-10-28-02.gif" alt="GAN training" title="">
+                    <img src="/images/2017-10-28/2017-10-28-02.gif" alt="GAN training" title="">
                 </div>
                 <div class="image-caption">GAN training</div>
             </figure></p>
@@ -192,7 +192,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2017-10-28T11:42:03.496Z" itemprop="dateUpdated">2017年10月28日 19:42</time>
+    最后更新时间：<time datetime="2018-12-23T04:06:53.670Z" itemprop="dateUpdated">2018年12月23日 12:06</time>
 </span><br>
 
 
