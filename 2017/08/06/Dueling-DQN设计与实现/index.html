@@ -26,15 +26,15 @@
 <meta property="og:url" content="http://luojiaji.github.io/2017/08/06/Dueling-DQN设计与实现/index.html">
 <meta property="og:site_name" content="背着翅膀流浪">
 <meta property="og:description" content="本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：">
-<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-1.png">
-<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-2.png">
-<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-3.png">
-<meta property="og:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-4.png">
-<meta property="og:updated_time" content="2017-08-06T03:18:09.328Z">
+<meta property="og:image" content="http://luojiaji.github.io/images/2017-8-6/2017-8-6-1.png">
+<meta property="og:image" content="http://luojiaji.github.io/images/2017-8-6/2017-8-6-2.png">
+<meta property="og:image" content="http://luojiaji.github.io/images/2017-8-6/2017-8-6-3.png">
+<meta property="og:image" content="http://luojiaji.github.io/images/2017-8-6/2017-8-6-4.png">
+<meta property="og:updated_time" content="2018-12-24T00:06:25.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dueling DQN设计与实现">
 <meta name="twitter:description" content="本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：">
-<meta name="twitter:image" content="http://onaxllwtn.bkt.clouddn.com/2017-8-6-1.png">
+<meta name="twitter:image" content="http://luojiaji.github.io/images/2017-8-6/2017-8-6-1.png">
     
         <link rel="alternative" href="/atom.xml" title="背着翅膀流浪" type="application/atom+xml">
     
@@ -165,7 +165,7 @@
             <p>本文介绍Deep Q Network的一种改进形式dueling DQN的设计与实现过程：<br><a id="more"></a><br>Dueling DQN将DQN中神经网络的中间层拆分成两个网络，一个为<code>Value</code>，一个为<code>Advantage</code>，然后将两个网络的值相加得到最终的网络的输出。<br>网络结构如下图所示：<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-6-1.png" alt="" title="">
+                    <img src="/images/2017-8-6/2017-8-6-1.png" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure><br>在Dueling DQN中，神经网络的输出由下面的公式确定：<br>$$<br>Q(s,a;\theta,\alpha,\beta) = V(s;\theta,\beta)+A(s,a;\theta,\alpha)<br>$$</p>
@@ -178,7 +178,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-6-2.png" alt="" title="">
+                    <img src="/images/2017-8-6/2017-8-6-2.png" alt="" title="">
                 </div>
                 <div class="image-caption"></div>
             </figure>
@@ -186,14 +186,14 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-6-3.png" alt="Dueling DQN网络结构" title="">
+                    <img src="/images/2017-8-6/2017-8-6-3.png" alt="Dueling DQN网络结构" title="">
                 </div>
                 <div class="image-caption">Dueling DQN网络结构</div>
             </figure>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="http://onaxllwtn.bkt.clouddn.com/2017-8-6-4.png" alt="DQN网络结构" title="">
+                    <img src="/images/2017-8-6/2017-8-6-4.png" alt="DQN网络结构" title="">
                 </div>
                 <div class="image-caption">DQN网络结构</div>
             </figure>
@@ -209,7 +209,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2017-08-06T03:18:09.328Z" itemprop="dateUpdated">2017年8月6日 11:18</time>
+    最后更新时间：<time datetime="2018-12-24T00:06:25.334Z" itemprop="dateUpdated">2018年12月24日 8:06</time>
 </span><br>
 
 
